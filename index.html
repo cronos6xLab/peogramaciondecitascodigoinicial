@@ -102,6 +102,7 @@ ul{list-style:none;margin:0;padding:0;}
 
 /* =========================================================
    iOS — evita el zoom automático en inputs de texto
+   (font-size mínimo 16px en todos los campos)
    ========================================================= */
 input[type="text"],
 input[type="email"],
@@ -613,7 +614,6 @@ select{
   color:var(--color-slate);
   min-height:18px;
 }
-.form-note.error{color:#b13333;}
 
 /* =========================================================
    BOTONES
@@ -634,7 +634,6 @@ select{
   touch-action:manipulation;
 }
 .btn:active{transform:translateY(1px);}
-.btn:disabled{opacity:.6;cursor:not-allowed;}
 
 .btn-pill{
   width:100%;
@@ -642,7 +641,7 @@ select{
   color:#fff;
   border-color:var(--color-mint-pulse);
 }
-.btn-pill:hover:not(:disabled){filter:brightness(0.95);}
+.btn-pill:hover{filter:brightness(0.95);}
 
 .btn-ghost{
   background:transparent;
@@ -963,22 +962,6 @@ select{
 }
 
 /* =========================================================
-   BOOT / LOADING
-   ========================================================= */
-.boot{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  background:var(--color-bone);color:var(--color-slate);z-index:200;
-  font-family:var(--font-tight);font-size:15px;
-}
-.boot.is-hidden{display:none;}
-.boot-spin{
-  width:18px;height:18px;border:2px solid var(--color-mist);
-  border-top-color:var(--color-deep-teal);border-radius:50%;
-  margin-right:10px;animation:spin .8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* =========================================================
    RESPONSIVE
    ========================================================= */
 @media (max-width:1024px){
@@ -1028,23 +1011,19 @@ select{
 </head>
 <body>
 
-<!-- BOOT (mientras carga la configuración) -->
-<div class="boot" id="boot">
-  <span class="boot-spin"></span>
-  Cargando…
-</div>
-
 <!-- =========================================================
      ANNOUNCEMENT BAR
      ========================================================= -->
-<div class="announce" id="announceBar">Cargando…</div>
+<div class="announce">
+  <strong>Envío gratis</strong> en pedidos +$1,500 · <strong>Agenda hoy</strong> y recibe tu diagnóstico de piel sin costo
+</div>
 
 <!-- =========================================================
      HEADER
      ========================================================= -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="#top" class="wordmark" id="wordmark">Aevi <span>Wellness</span></a>
+    <a href="#top" class="wordmark">Aevi <span>Wellness</span></a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#agenda">Agenda</a>
       <a href="#servicios">Servicios</a>
@@ -1060,9 +1039,9 @@ select{
        ========================================================= -->
   <section class="hero" aria-label="Presentación">
     <div class="hero-dark">
-      <p class="eyebrow" id="heroEyebrow">Reservas · Aevi Wellness</p>
+      <p class="eyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
-      <p class="lead" id="heroLead">
+      <p class="lead">
         Elige el día, el horario y el servicio. Confirmamos tu cita al instante
         y te enviamos los detalles por correo.
       </p>
@@ -1151,7 +1130,7 @@ select{
                 <input type="tel" id="fPhone" placeholder="+52 55 0000 0000" autocomplete="tel" inputmode="tel">
               </label>
 
-              <button class="btn btn-pill" type="submit" id="submitBtn">Confirmar reserva</button>
+              <button class="btn btn-pill" type="submit">Confirmar reserva</button>
               <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
             </form>
           </div>
@@ -1189,15 +1168,13 @@ select{
 
       <a
         class="map-card"
-        id="mapCard"
-        href="#"
+        href="https://www.google.com/maps/dir/?api=1&destination=Calle%20Ejemplo%20123%2C%20Centro%2C%20CDMX"
         target="_blank"
         rel="noopener"
         aria-label="Abrir navegación hacia la tienda">
 
         <iframe
-          id="mapIframe"
-          src="about:blank"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950"
           title="Mapa de ubicación de la tienda"
           loading="lazy"></iframe>
 
@@ -1207,15 +1184,15 @@ select{
       <dl class="location-meta">
         <div>
           <dt>Dirección</dt>
-          <dd id="locDireccion">—</dd>
+          <dd>Calle Ejemplo 123<br>Col. Centro, CDMX</dd>
         </div>
         <div>
           <dt>Horario</dt>
-          <dd id="locHorario">—</dd>
+          <dd>Lun – Vie · 09:00 – 19:00<br>Sáb · 09:00 – 14:00</dd>
         </div>
         <div>
           <dt>Estacionamiento</dt>
-          <dd id="locEstacionamiento">—</dd>
+          <dd>Valet disponible<br>a partir de las 10:00</dd>
         </div>
       </dl>
     </div>
@@ -1230,30 +1207,30 @@ select{
   <div class="container">
     <div class="footer-grid">
       <div>
-        <p class="footer-title" id="footerBrand">Aevi Wellness</p>
+        <p class="footer-title">Aevi Wellness</p>
         <ul class="footer-list">
-          <li id="footerAddr">—</li>
-          <li id="footerCity"></li>
+          <li>Calle Ejemplo 123, Col. Centro</li>
+          <li>Ciudad de México</li>
         </ul>
       </div>
       <div>
         <p class="footer-title">Contacto</p>
         <ul class="footer-list">
-          <li><a id="footerPhone" href="#">—</a></li>
-          <li><a id="footerEmail" href="#">—</a></li>
-          <li><a id="footerWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+          <li><a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></li>
+          <li><a href="https://wa.me/525512345678" target="_blank" rel="noopener">WhatsApp</a></li>
         </ul>
       </div>
       <div>
         <p class="footer-title">Redes</p>
         <ul class="footer-list">
-          <li><a id="footerInstagram" href="#" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a id="footerFacebook" href="#" target="_blank" rel="noopener">Facebook</a></li>
-          <li><a id="footerTiktok" href="#" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
         </ul>
       </div>
     </div>
-    <p class="footer-bottom">© <span id="year">2025</span> <span id="footerBrand2">Aevi Wellness</span>. Todos los derechos reservados.</p>
+    <p class="footer-bottom">© <span id="year">2025</span> Aevi Wellness. Todos los derechos reservados.</p>
   </div>
 </footer>
 
@@ -1283,30 +1260,32 @@ select{
 
     <div class="contact-row">
       <span>Teléfono</span>
-      <a id="suppPhone" href="#">—</a>
+      <a href="tel:+525512345678">+52 55 1234 5678</a>
     </div>
     <div class="contact-row">
       <span>WhatsApp</span>
-      <a id="suppWhatsapp" href="#" target="_blank" rel="noopener">Escribir mensaje</a>
+      <a href="https://wa.me/525512345678" target="_blank" rel="noopener">Escribir mensaje</a>
     </div>
     <div class="contact-row">
       <span>Correo</span>
-      <a id="suppEmail" href="#">—</a>
+      <a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a>
     </div>
     <div class="contact-row">
       <span>Instagram</span>
-      <a id="suppInstagram" href="#" target="_blank" rel="noopener">—</a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener">@aeviwellness</a>
     </div>
     <div class="contact-row">
       <span>Facebook</span>
-      <a id="suppFacebook" href="#" target="_blank" rel="noopener">—</a>
+      <a href="https://facebook.com/" target="_blank" rel="noopener">/aeviwellness</a>
     </div>
     <div class="contact-row">
       <span>TikTok</span>
-      <a id="suppTiktok" href="#" target="_blank" rel="noopener">—</a>
+      <a href="https://tiktok.com/" target="_blank" rel="noopener">@aeviwellness</a>
     </div>
 
-    <p class="modal-footnote" id="suppHours">Horario de atención: —</p>
+    <p class="modal-footnote">
+      Horario de atención: lunes a viernes de 09:00 a 19:00 · sábados de 09:00 a 14:00.
+    </p>
   </div>
 </div>
 
@@ -1315,198 +1294,126 @@ select{
   'use strict';
 
   /* =========================================================
-     1. ESTADO
+     1. DATOS EDITABLES
      ========================================================= */
-  const state = {
-    config: null,
-    currency: 'MXN',
-    view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    date: null,
-    time: null,
-    service: null,
-    slotsCache: {},          // 'yyyy-MM-dd' → ['09:00', ...]  (disponibilidad real)
-    submitting: false
-  };
 
-  /* =========================================================
-     2. UTILIDADES
-     ========================================================= */
-  const $ = (sel) => document.querySelector(sel);
+  const SERVICES = [
+    { id:'diagnostico', name:'Consulta de diagnóstico', desc:'Análisis de piel y rutina personalizada.', duration:30, price:450 },
+    { id:'facial',      name:'Ritual facial nórdico',   desc:'Limpieza profunda, hidratación y masaje.', duration:60, price:950 },
+    { id:'masaje',      name:'Masaje con piedras frías',desc:'Drenaje linfático y descanso profundo.', duration:75, price:1200 },
+    { id:'cuerpo',      name:'Envoltura mineral',       desc:'Exfoliación y nutrición corporal.',        duration:90, price:1450 },
+    { id:'rutina',      name:'Asesoría de rutina',      desc:'Armado de rutina de 3 pasos en tienda.',   duration:45, price:600 }
+  ];
+
+  // Horarios por día de la semana (0 = domingo … 6 = sábado)
+  const SLOTS_BY_WEEKDAY = {
+    0: [],
+    1: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    2: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    3: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    4: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    5: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    6: ['09:00','10:00','11:00','12:00','13:00']
+  };
 
   const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const DOW_LABELS = ['L','M','M','J','V','S','D'];
 
-  const money = (n) => {
-    try {
-      return new Intl.NumberFormat('es-MX', {
-        style: 'currency', currency: state.currency || 'MXN', maximumFractionDigits: 0
-      }).format(n || 0);
-    } catch (e) { return '$' + (n || 0); }
-  };
+  /* =========================================================
+     2. UTILIDADES
+     ========================================================= */
+
+  const $ = (sel) => document.querySelector(sel);
+
+  const money = (n) =>
+    new Intl.NumberFormat('es-MX', { style:'currency', currency:'MXN', maximumFractionDigits:0 }).format(n);
 
   const sameDay = (a, b) =>
     a && b && a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
-  const toISO = (d) =>
-    d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
-
   const formatDate = (d) =>
     `${WEEKDAYS[d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()]}`;
 
-  const escapeHtml = (str) => String(str == null ? '' : str).replace(/[&<>"']/g, (c) => (
+  const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => (
     { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
   ));
 
-  const telHref = (raw) => 'tel:' + String(raw || '').replace(/[^\d+]/g, '');
-  const waHref  = (raw) => 'https://wa.me/' + String(raw || '').replace(/[^\d]/g, '');
+  const slotsFor = (date) => SLOTS_BY_WEEKDAY[date.getDay()] || [];
+  const isClosedDay = (date) => slotsFor(date).length === 0;
 
-  /* =========================================================
-     3. COMUNICACIÓN CON EL BACKEND (google.script.run)
-     ========================================================= */
-  function runFn(fnName /*, args... */) {
-    const args = Array.prototype.slice.call(arguments, 1);
-    return new Promise((resolve, reject) => {
-      google.script.run
-        .withSuccessHandler(resolve)
-        .withFailureHandler((err) => reject(err || new Error('Error de conexión')))
-        [fnName].apply(null, args);
-    });
+  // Disponibilidad simulada y determinista (reemplazar por datos del backend)
+  function isSlotTaken(date, time) {
+    const list = slotsFor(date);
+    const index = list.indexOf(time);
+    if (index < 0) return true;
+    const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+    return ((seed + index * 7) % 5) === 0;
   }
 
-  const api = {
-    getConfig: () => runFn('getPublicConfig'),
-    getSlots:  (fecha) => runFn('getSlotsDisponibles', fecha),
-    book:      (cita)   => runFn('crearCita', cita)
+  function isPastTime(time, now) {
+    const [h, m] = time.split(':').map(Number);
+    return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
+  }
+
+  /* =========================================================
+     3. ESTADO
+     ========================================================= */
+
+  const state = {
+    view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    date: null,
+    time: null,
+    service: null
   };
 
   /* =========================================================
-     4. APLICAR CONFIG AL DOM
+     4. REFERENCIAS DOM
      ========================================================= */
-  function applyConfigToUI() {
-    const cfg = state.config;
-    if (!cfg) return;
 
-    // Negocio
-    const neg = cfg.negocio || {};
-    const bizName = neg.nombre || 'Aevi Wellness';
-    state.currency = neg.moneda || 'MXN';
-
-    // Wordmark (parte en dos si tiene espacio)
-    const wm = $('#wordmark');
-    const sp = bizName.indexOf(' ');
-    if (sp > 0) {
-      wm.innerHTML = escapeHtml(bizName.slice(0, sp)) + ' <span>' + escapeHtml(bizName.slice(sp + 1)) + '</span>';
-    } else {
-      wm.innerHTML = '<span>' + escapeHtml(bizName) + '</span>';
-    }
-    $('#footerBrand').textContent  = bizName;
-    $('#footerBrand2').textContent = bizName;
-
-    // Anuncio
-    const anuncio = $('#announceBar');
-    if (neg.anuncio) anuncio.innerHTML = escapeHtml(neg.anuncio);
-    else anuncio.style.display = 'none';
-
-    // Hero
-    $('#heroEyebrow').textContent = 'Reservas · ' + bizName;
-    if (neg.heroTexto) $('#heroLead').textContent = neg.heroTexto;
-
-    // Colores del tema (si los personalizaron en el dashboard)
-    if (neg.colorPrimario) {
-      document.documentElement.style.setProperty('--color-deep-teal', neg.colorPrimario);
-    }
-    if (neg.colorAcento) {
-      document.documentElement.style.setProperty('--color-mint-pulse', neg.colorAcento);
-    }
-
-    // Contacto
-    const con = cfg.contacto || {};
-    $('#footerPhone').textContent = con.telefono || '—';
-    $('#footerPhone').href = telHref(con.telefono);
-    $('#footerEmail').textContent = con.email || '—';
-    $('#footerEmail').href = 'mailto:' + (con.email || '');
-    $('#footerWhatsapp').href = waHref(con.whatsapp);
-    $('#footerAddr').innerHTML = escapeHtml(con.direccion || '').replace(/, /g, '<br>');
-    $('#footerInstagram').href = con.instagram || '#';
-    $('#footerFacebook').href = con.facebook || '#';
-    $('#footerTiktok').href = con.tiktok || '#';
-
-    // Soporte modal
-    $('#suppPhone').textContent = con.telefono || '—';
-    $('#suppPhone').href = telHref(con.telefono);
-    $('#suppWhatsapp').href = waHref(con.whatsapp);
-    $('#suppEmail').textContent = con.email || '—';
-    $('#suppEmail').href = 'mailto:' + (con.email || '');
-    $('#suppInstagram').href = con.instagram || '#';
-    $('#suppFacebook').href = con.facebook || '#';
-    $('#suppTiktok').href = con.tiktok || '#';
-    if (con.horarioTexto) {
-      $('#suppHours').textContent = 'Horario de atención: ' + con.horarioTexto;
-    }
-
-    // Ubicación
-    const ubi = cfg.ubicacion || {};
-    const mapCard = $('#mapCard');
-    if (ubi.mapLink) mapCard.setAttribute('href', ubi.mapLink);
-    const mapIframe = $('#mapIframe');
-    if (ubi.mapEmbed) mapIframe.setAttribute('src', ubi.mapEmbed);
-
-    $('#locDireccion').textContent = con.direccion || '—';
-    $('#locHorario').textContent = con.horarioTexto || '—';
-    $('#locEstacionamiento').textContent = con.estacionamiento || '—';
-
-    // Año
-    $('#year').textContent = new Date().getFullYear();
-  }
+  const monthLabel   = $('#monthLabel');
+  const calGrid      = $('#calGrid');
+  const prevBtn      = $('#prevMonth');
+  const nextBtn      = $('#nextMonth');
+  const slotsEl      = $('#slots');
+  const slotsDate    = $('#slotsDate');
+  const serviceList  = $('#serviceList');
+  const sumService   = $('#sumService');
+  const sumDate      = $('#sumDate');
+  const sumTime      = $('#sumTime');
+  const sumPrice     = $('#sumPrice');
+  const form         = $('#bookingForm');
+  const formNote     = $('#formNote');
+  const summaryPanel = $('#summaryPanel');
 
   /* =========================================================
      5. CALENDARIO
      ========================================================= */
-  // Devuelve true si el día no tiene horario semanal, está en diasCerrados
-  // o tiene un bloqueo "todo el día".
-  function isClosedDay(date) {
-    const cfg = state.config;
-    if (!cfg) return true;
-
-    const horarios = cfg.horarios || {};
-    const weekday = String(date.getDay());
-    const slots = horarios[weekday] || horarios[String(weekday)] || [];
-    if (!slots.length) return true;
-
-    const disp = cfg.disponibilidad || {};
-    const iso = toISO(date);
-
-    if ((disp.diasCerrados || []).indexOf(iso) !== -1) return true;
-
-    const bloqueos = disp.bloqueos || [];
-    return bloqueos.some(b => b.fecha === iso && !b.hora);
-  }
 
   function renderCalendar() {
     const year  = state.view.getFullYear();
     const month = state.view.getMonth();
 
-    $('#monthLabel').textContent = `${MONTHS[month]} ${year}`;
+    monthLabel.textContent = `${MONTHS[month]} ${year}`;
 
     const now = new Date();
-    $('#prevMonth').disabled = (year === now.getFullYear() && month === now.getMonth());
+    prevBtn.disabled = (year === now.getFullYear() && month === now.getMonth());
 
-    const grid = $('#calGrid');
-    grid.innerHTML = '';
+    calGrid.innerHTML = '';
 
     DOW_LABELS.forEach((label) => {
       const cell = document.createElement('div');
       cell.className = 'cal-dow';
       cell.textContent = label;
-      grid.appendChild(cell);
+      calGrid.appendChild(cell);
     });
 
+    // Celdas vacías antes del día 1 (semana inicia en lunes)
     const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
-    for (let i = 0; i < firstWeekday; i++) grid.appendChild(document.createElement('span'));
+    for (let i = 0; i < firstWeekday; i++) {
+      calGrid.appendChild(document.createElement('span'));
+    }
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const today = new Date();
@@ -1521,7 +1428,11 @@ select{
       btn.setAttribute('aria-label', formatDate(date));
 
       const unavailable = date < today || isClosedDay(date);
-      if (unavailable) { btn.classList.add('is-off'); btn.disabled = true; }
+
+      if (unavailable) {
+        btn.classList.add('is-off');
+        btn.disabled = true;
+      }
       if (sameDay(date, today)) btn.classList.add('is-today');
       if (sameDay(date, state.date)) {
         btn.classList.add('is-selected');
@@ -1531,34 +1442,31 @@ select{
       btn.addEventListener('click', () => {
         state.date = date;
         state.time = null;
-        // Invalidar caché por si cambió disponibilidad
-        delete state.slotsCache[toISO(date)];
         renderCalendar();
         renderSlots();
         renderSummary();
         formNote.textContent = '';
-        formNote.classList.remove('error');
       });
 
-      grid.appendChild(btn);
+      calGrid.appendChild(btn);
     }
   }
 
-  $('#prevMonth').addEventListener('click', () => {
+  prevBtn.addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() - 1, 1);
     renderCalendar();
   });
-  $('#nextMonth').addEventListener('click', () => {
+
+  nextBtn.addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() + 1, 1);
     renderCalendar();
   });
 
   /* =========================================================
-     6. HORARIOS (disponibilidad real desde el backend)
+     6. HORARIOS
      ========================================================= */
-  async function renderSlots() {
-    const slotsEl = $('#slots');
-    const slotsDate = $('#slotsDate');
+
+  function renderSlots() {
     slotsEl.innerHTML = '';
 
     if (!state.date) {
@@ -1570,67 +1478,41 @@ select{
 
     slotsDate.textContent = formatDate(state.date);
     slotsDate.classList.remove('empty');
-    slotsEl.innerHTML = '<p class="lead" style="font-size:14px;">Cargando horarios…</p>';
 
-    const iso = toISO(state.date);
-    let disponibles = state.slotsCache[iso];
-    if (!disponibles) {
-      try {
-        disponibles = await api.getSlots(iso);
-        state.slotsCache[iso] = disponibles || [];
-      } catch (e) {
-        slotsEl.innerHTML = '<p class="lead" style="font-size:14px;">No se pudo cargar la disponibilidad. Intenta de nuevo.</p>';
-        return;
-      }
-    }
-    disponibles = disponibles || [];
-
-    if (!disponibles.length) {
+    const list = slotsFor(state.date);
+    if (list.length === 0) {
       slotsEl.innerHTML = '<p class="lead" style="font-size:14px;">Sin horarios disponibles este día.</p>';
       return;
     }
 
-    slotsEl.innerHTML = '';
-    disponibles.forEach((time) => {
+    const now = new Date();
+    const isToday = sameDay(state.date, now);
+
+    list.forEach((time) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot';
       btn.textContent = time;
+
+      const taken = isSlotTaken(state.date, time) || (isToday && isPastTime(time, now));
+
+      if (taken) {
+        btn.classList.add('is-taken');
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+      }
       if (state.time === time) {
         btn.classList.add('is-selected');
         btn.setAttribute('aria-pressed', 'true');
       }
-      btn.addEventListener('click', () => {
-        state.time = time;
-        renderSlotsLocal();
-        renderSummary();
-        formNote.textContent = '';
-        formNote.classList.remove('error');
-      });
-      slotsEl.appendChild(btn);
-    });
-  }
 
-  // Re-render sin volver a pedir al backend (usa el caché)
-  function renderSlotsLocal() {
-    if (!state.date) return;
-    const iso = toISO(state.date);
-    const disponibles = state.slotsCache[iso] || [];
-    const slotsEl = $('#slots');
-    slotsEl.innerHTML = '';
-    disponibles.forEach((time) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'slot' + (state.time === time ? ' is-selected' : '');
-      btn.textContent = time;
-      if (state.time === time) btn.setAttribute('aria-pressed', 'true');
       btn.addEventListener('click', () => {
         state.time = time;
-        renderSlotsLocal();
+        renderSlots();
         renderSummary();
         formNote.textContent = '';
-        formNote.classList.remove('error');
       });
+
       slotsEl.appendChild(btn);
     });
   }
@@ -1638,29 +1520,24 @@ select{
   /* =========================================================
      7. RESUMEN
      ========================================================= */
+
   function renderSummary() {
-    $('#sumService').textContent = state.service ? (state.service.nombre || state.service.name) : '—';
-    $('#sumDate').textContent    = state.date ? formatDate(state.date) : '—';
-    $('#sumTime').textContent    = state.time || '—';
-    $('#sumPrice').textContent   = state.service ? money(state.service.precio || state.service.price) : '—';
+    sumService.textContent = state.service ? state.service.name : '—';
+    sumDate.textContent    = state.date ? formatDate(state.date) : '—';
+    sumTime.textContent    = state.time || '—';
+    sumPrice.textContent   = state.service ? money(state.service.price) : '—';
   }
 
   /* =========================================================
      8. SERVICIOS
      ========================================================= */
+
   const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
 
   function renderServices() {
-    const list = $('#serviceList');
-    list.innerHTML = '';
-    const servicios = (state.config && state.config.servicios) || [];
+    serviceList.innerHTML = '';
 
-    if (!servicios.length) {
-      list.innerHTML = '<li class="service-item" style="padding:24px 16px;"><p class="lead" style="font-size:14px;">No hay servicios disponibles en este momento.</p></li>';
-      return;
-    }
-
-    servicios.forEach((service) => {
+    SERVICES.forEach((service) => {
       const li = document.createElement('li');
       li.className = 'service-item';
 
@@ -1670,18 +1547,13 @@ select{
       btn.className = 'service' + (selected ? ' is-selected' : '');
       btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
-      const nombre = service.nombre || service.name || 'Servicio';
-      const desc   = service.descripcion || service.desc || '';
-      const dur    = service.duracion || service.duration || 0;
-      const precio = service.precio || service.price || 0;
-
       btn.innerHTML =
         '<span class="service-main">' +
-          '<span class="service-name">' + escapeHtml(nombre) + '</span>' +
-          '<span class="service-desc">' + escapeHtml(desc) + '</span>' +
+          '<span class="service-name">' + escapeHtml(service.name) + '</span>' +
+          '<span class="service-desc">' + escapeHtml(service.desc) + '</span>' +
         '</span>' +
-        '<span class="service-dur">' + dur + ' min</span>' +
-        '<span class="service-price">' + money(precio) + '</span>' +
+        '<span class="service-dur">' + service.duration + ' min</span>' +
+        '<span class="service-price">' + money(service.price) + '</span>' +
         '<span class="service-check" aria-hidden="true">' + CHECK_SVG + '</span>';
 
       btn.addEventListener('click', () => {
@@ -1689,92 +1561,46 @@ select{
         renderServices();
         renderSummary();
         formNote.textContent = '';
-        formNote.classList.remove('error');
       });
 
       li.appendChild(btn);
-      list.appendChild(li);
+      serviceList.appendChild(li);
     });
   }
 
   /* =========================================================
-     9. CONFIRMACIÓN DE RESERVA (guarda en backend)
+     9. CONFIRMACIÓN DE RESERVA
      ========================================================= */
-  const form     = $('#bookingForm');
-  const formNote = $('#formNote');
-  const submitBtn = $('#submitBtn');
 
-  form.addEventListener('submit', async (event) => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (state.submitting) return;
 
     const name  = $('#fName').value.trim();
     const email = $('#fEmail').value.trim();
-    const phone = $('#fPhone').value.trim();
 
     if (!state.service || !state.date || !state.time) {
       formNote.textContent = 'Selecciona un servicio, un día y un horario para continuar.';
-      formNote.classList.add('error');
       return;
     }
     if (!name || !email) {
       formNote.textContent = 'Escribe tu nombre y correo para confirmar.';
-      formNote.classList.add('error');
       return;
     }
 
-    state.submitting = true;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Confirmando…';
-    formNote.textContent = '';
-    formNote.classList.remove('error');
-
-    try {
-      const result = await api.book({
-        fecha:      toISO(state.date),
-        hora:       state.time,
-        nombre:     name,
-        email:      email,
-        telefono:   phone,
-        servicioId: state.service.id
-      });
-
-      if (!result.ok) {
-        formNote.textContent = result.error || 'No se pudo confirmar la reserva.';
-        formNote.classList.add('error');
-        // Invalidar caché del día por si cambió disponibilidad
-        delete state.slotsCache[toISO(state.date)];
-        renderSlots();
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Confirmar reserva';
-        state.submitting = false;
-        return;
-      }
-
-      renderConfirmation(name, email, result.cita);
-    } catch (e) {
-      formNote.textContent = e.message || 'Error de conexión. Intenta de nuevo.';
-      formNote.classList.add('error');
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Confirmar reserva';
-      state.submitting = false;
-    }
+    // 👉 Aquí conectarías tu backend / API de reservas
+    renderConfirmation(name, email);
   });
 
-  function renderConfirmation(name, email, cita) {
-    const precio = (cita && cita.precio) || (state.service ? (state.service.precio || state.service.price) : 0);
-    const servicioNombre = (cita && cita.servicio) || (state.service ? (state.service.nombre || state.service.name) : '');
-
-    $('#summaryPanel').innerHTML =
+  function renderConfirmation(name, email) {
+    summaryPanel.innerHTML =
       '<p class="card-label">Reserva confirmada</p>' +
       '<h3 class="heading" style="margin-bottom:12px;">Gracias, ' + escapeHtml(name) + '.</h3>' +
       '<p class="lead" style="margin-bottom:24px;font-size:15px;">Te enviamos los detalles a ' + escapeHtml(email) + '.</p>' +
       '<dl class="summary">' +
-        '<div><dt>Servicio</dt><dd>' + escapeHtml(servicioNombre) + '</dd></div>' +
+        '<div><dt>Servicio</dt><dd>' + escapeHtml(state.service.name) + '</dd></div>' +
         '<div><dt>Día</dt><dd>' + formatDate(state.date) + '</dd></div>' +
         '<div><dt>Hora</dt><dd>' + state.time + '</dd></div>' +
-        '<div><dt>Total</dt><dd>' + money(precio) + '</dd></div>' +
-        '<div><dt>Estado</dt><dd>Pendiente de confirmación</dd></div>' +
+        '<div><dt>Total</dt><dd>' + money(state.service.price) + '</dd></div>' +
       '</dl>' +
       '<button class="btn btn-ghost" type="button" id="resetBtn" style="width:100%;">Hacer otra reserva</button>';
 
@@ -1784,6 +1610,7 @@ select{
   /* =========================================================
      10. MODAL DE SOPORTE
      ========================================================= */
+
   const supportModal = $('#supportModal');
   const supportBtn   = $('#supportBtn');
   const supportClose = $('#supportClose');
@@ -1809,6 +1636,7 @@ select{
   /* =========================================================
      11. INICIALIZACIÓN
      ========================================================= */
+
   function findNextOpenDay() {
     const cursor = new Date();
     cursor.setHours(0, 0, 0, 0);
@@ -1819,18 +1647,7 @@ select{
     return null;
   }
 
-  async function init() {
-    try {
-      state.config = await api.getConfig();
-    } catch (e) {
-      // Si el backend falla, al menos dejamos la página usable con datos por defecto
-      console.error('No se pudo cargar la configuración:', e);
-      $('#boot').innerHTML = '<span style="color:#b13333;">No se pudo cargar. Recarga la página.</span>';
-      return;
-    }
-
-    applyConfigToUI();
-
+  function init() {
     const firstOpen = findNextOpenDay();
     if (firstOpen) {
       state.date = firstOpen;
@@ -1838,11 +1655,11 @@ select{
     }
 
     renderCalendar();
+    renderSlots();
     renderServices();
     renderSummary();
-    renderSlots();   // dispara la primera carga de horarios reales
 
-    $('#boot').classList.add('is-hidden');
+    $('#year').textContent = new Date().getFullYear();
   }
 
   init();
