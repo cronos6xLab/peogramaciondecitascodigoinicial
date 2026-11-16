@@ -471,6 +471,61 @@ select{
 }
 
 /* =========================================================
+   SELECTOR DE MONEDA
+   ========================================================= */
+.currency-bar{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:var(--spacing-12);
+  margin-top:var(--spacing-16);
+  padding:var(--spacing-12) var(--spacing-16);
+  background:var(--color-bone);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-pill);
+}
+.currency-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.09em;
+  text-transform:uppercase;
+  color:var(--color-slate);
+}
+.currency-options{
+  display:inline-flex;
+  gap:4px;
+  padding:3px;
+  background:var(--color-paper);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-pill);
+}
+.currency-btn{
+  padding:6px 14px;
+  font-family:var(--font-tight);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  color:var(--color-slate);
+  background:transparent;
+  border:0;
+  border-radius:var(--radius-pill);
+  transition:background .15s ease, color .15s ease, box-shadow .15s ease;
+  touch-action:manipulation;
+  min-height:30px;
+}
+.currency-btn:hover:not(.is-active){color:var(--color-deep-teal);}
+.currency-btn.is-active{
+  background:var(--color-deep-teal);
+  color:#fff;
+  box-shadow:0 1px 4px rgba(36,77,84,.25);
+}
+.currency-note{
+  font-size:11px;
+  line-height:1.4;
+  color:var(--color-slate);
+}
+
+/* =========================================================
    CARDS
    ========================================================= */
 .card{
@@ -1332,6 +1387,7 @@ select{
 .cal-nav:focus-visible,
 .specialist:focus-visible,
 .step-btn:focus-visible,
+.currency-btn:focus-visible,
 .support-fab:focus-visible{
   outline-offset:3px;
 }
@@ -1392,6 +1448,8 @@ select{
   .history-head{flex-direction:column;gap:var(--spacing-8);}
   .history-meta{grid-template-columns:1fr;}
   .history-actions{text-align:center;}
+  .currency-bar{padding:var(--spacing-12);}
+  .currency-btn{padding:6px 11px;font-size:11px;}
 }
 </style>
 </head>
@@ -1534,6 +1592,17 @@ select{
             <h3 class="heading">Carta de servicios</h3>
             <p class="lead">Selecciona uno o más tratamientos. Puedes combinarlos en la misma visita.</p>
             <p class="panel-hint" id="servicesHint" aria-live="polite">Puedes elegir más de un servicio.</p>
+
+            <!-- Selector de moneda -->
+            <div class="currency-bar">
+              <span class="currency-label" id="currencyLabel">Moneda</span>
+              <div class="currency-options" id="currencyOptions" role="group" aria-labelledby="currencyLabel">
+                <button type="button" class="currency-btn is-active" data-currency="MXN" aria-pressed="true">MXN</button>
+                <button type="button" class="currency-btn" data-currency="USD" aria-pressed="false">USD</button>
+                <button type="button" class="currency-btn" data-currency="EUR" aria-pressed="false">EUR</button>
+              </div>
+              <span class="currency-note">MXN predeterminado</span>
+            </div>
           </div>
 
           <ul class="service-list" id="serviceList"></ul>
@@ -1837,6 +1906,15 @@ select{
     6: ['09:00','10:00','11:00','12:00','13:00']
   };
 
+  // Monedas disponibles. `mxnPerUnit` = cuántos MXN equivalen a 1 unidad.
+  // Los precios base de SERVICES están en MXN. Ajusta los tipos de cambio aquí.
+  const CURRENCIES = {
+    MXN: { code:'MXN', mxnPerUnit:1,     decimals:0 },
+    USD: { code:'USD', mxnPerUnit:17.5,  decimals:2 },
+    EUR: { code:'EUR', mxnPerUnit:19.2,  decimals:2 }
+  };
+  const DEFAULT_CURRENCY = 'MXN';
+
   const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
@@ -1850,8 +1928,17 @@ select{
 
   const $ = (sel) => document.querySelector(sel);
 
-  const money = (n) =>
-    new Intl.NumberFormat('es-MX', { style:'currency', currency:'MXN', maximumFractionDigits:0 }).format(n);
+  function money(mxnAmount, currencyCode) {
+    const code = currencyCode || state.currency || DEFAULT_CURRENCY;
+    const cur  = CURRENCIES[code] || CURRENCIES[DEFAULT_CURRENCY];
+    const value = Number(mxnAmount) / cur.mxnPerUnit;
+    return new Intl.NumberFormat('es-MX', {
+      style:'currency',
+      currency: code,
+      minimumFractionDigits: cur.decimals,
+      maximumFractionDigits: cur.decimals
+    }).format(value);
+  }
 
   const sameDay = (a, b) =>
     a && b && a.getFullYear() === b.getFullYear() &&
@@ -1906,6 +1993,7 @@ select{
     time: null,
     services: [],
     specialist: null,
+    currency: DEFAULT_CURRENCY,
     step: 1
   };
 
@@ -1940,6 +2028,8 @@ select{
   const emailInput     = $('#fEmail');
   const phoneInput     = $('#fPhone');
 
+  const currencyButtons = Array.prototype.slice.call(document.querySelectorAll('.currency-btn'));
+
   const historyList    = $('#historyList');
   const clearHistoryBtn = $('#clearHistoryBtn');
 
@@ -1969,7 +2059,31 @@ select{
   }
 
   /* =========================================================
-     6. CALENDARIO
+     6. SELECTOR DE MONEDA
+     ========================================================= */
+
+  function applyCurrency(code) {
+    if (!CURRENCIES[code]) return;
+    state.currency = code;
+    currencyButtons.forEach((b) => {
+      const active = b.dataset.currency === code;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    // Re-renderiza los precios visibles
+    renderServices();
+    renderSummary();
+  }
+
+  currencyButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (state.currency === btn.dataset.currency) return;
+      applyCurrency(btn.dataset.currency);
+    });
+  });
+
+  /* =========================================================
+     7. CALENDARIO
      ========================================================= */
 
   function renderCalendar() {
@@ -2053,7 +2167,7 @@ select{
   });
 
   /* =========================================================
-     7. HORARIOS
+     8. HORARIOS
      ========================================================= */
 
   function renderSlots() {
@@ -2110,7 +2224,7 @@ select{
   }
 
   /* =========================================================
-     8. SERVICIOS (selección múltiple)
+     9. SERVICIOS (selección múltiple)
      ========================================================= */
 
   const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
@@ -2162,7 +2276,7 @@ select{
   }
 
   /* =========================================================
-     9. ESPECIALISTAS
+     10. ESPECIALISTAS
      ========================================================= */
 
   function renderSpecialists() {
@@ -2204,7 +2318,7 @@ select{
   }
 
   /* =========================================================
-     10. RESUMEN
+     11. RESUMEN
      ========================================================= */
 
   function renderSummary() {
@@ -2223,7 +2337,7 @@ select{
   }
 
   /* =========================================================
-     11. VALIDACIÓN DEL FORMULARIO
+     12. VALIDACIÓN DEL FORMULARIO
      ========================================================= */
 
   function isNameOk()  { return nameInput.value.trim().length >= 2; }
@@ -2294,7 +2408,7 @@ select{
   });
 
   /* =========================================================
-     12. VALIDACIÓN DE PASOS
+     13. VALIDACIÓN DE PASOS
      ========================================================= */
 
   function isStepComplete(step) {
@@ -2330,7 +2444,7 @@ select{
   }
 
   /* =========================================================
-     13. NAVEGACIÓN ENTRE PASOS
+     14. NAVEGACIÓN ENTRE PASOS
      ========================================================= */
 
   function goToStep(n, opts) {
@@ -2371,7 +2485,7 @@ select{
   });
 
   /* =========================================================
-     14. FORMULARIO + CONFIRMACIÓN
+     15. FORMULARIO + CONFIRMACIÓN
      ========================================================= */
 
   form.addEventListener('submit', (event) => {
@@ -2399,19 +2513,22 @@ select{
   const summaryRow = (label, value) =>
     '<div><dt>' + label + '</dt><dd>' + escapeHtml(value) + '</dd></div>';
 
-  function servicesListHtml() {
+  function servicesListHtml(currencyCode) {
     return state.services.map((s) => escapeHtml(s.name)).join('<br>');
   }
 
   function openConfirmModal() {
+    const currency = state.currency;
+
     confirmBody.innerHTML =
       '<dl class="summary">' +
-        '<div><dt>Servicios</dt><dd>' + servicesListHtml() + '</dd></div>' +
+        '<div><dt>Servicios</dt><dd>' + servicesListHtml(currency) + '</dd></div>' +
         summaryRow('Especialista', state.specialist.name) +
         summaryRow('Día', formatDate(state.date)) +
         summaryRow('Hora', state.time) +
         summaryRow('Duración total', totalDuration() + ' min') +
-        summaryRow('Total', money(totalPrice())) +
+        summaryRow('Total', money(totalPrice(), currency)) +
+        summaryRow('Moneda', currency) +
         summaryRow('A nombre de', nameInput.value.trim()) +
         summaryRow('Correo', emailInput.value.trim()) +
         (phoneInput.value.trim() ? summaryRow('Teléfono', phoneInput.value.trim()) : '') +
@@ -2441,8 +2558,10 @@ select{
       time: state.time,
       services: state.services.map((s) => ({ id:s.id, name:s.name, duration:s.duration, price:s.price })),
       specialist: { id: state.specialist.id, name: state.specialist.name },
+      // Precio total guardado en MXN (base); la moneda elegida se usa sólo para mostrar
       total: totalPrice(),
-      duration: totalDuration()
+      duration: totalDuration(),
+      currency: state.currency
     };
 
     saveBooking(booking);
@@ -2457,7 +2576,7 @@ select{
   });
 
   /* =========================================================
-     15. HISTORIAL (localStorage)
+     16. HISTORIAL (localStorage)
      ========================================================= */
 
   function loadHistory() {
@@ -2495,10 +2614,12 @@ select{
     }
 
     historyList.innerHTML = list.map((b) => {
+      const cur = b.currency && CURRENCIES[b.currency] ? b.currency : DEFAULT_CURRENCY;
+
       const servicesHtml = (b.services || []).map((s) =>
         '<li>' +
           '<span>' + escapeHtml(s.name) + '</span>' +
-          '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price) + '</span>' +
+          '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price, cur) + '</span>' +
         '</li>'
       ).join('');
 
@@ -2509,12 +2630,12 @@ select{
               '<p class="card-label">' + escapeHtml(b.dateLabel) + ' · ' + escapeHtml(b.time) + '</p>' +
               '<p class="history-title">' + escapeHtml(b.name) + '</p>' +
             '</div>' +
-            '<span class="history-badge">Confirmada</span>' +
+            '<span class="history-badge">Confirmada · ' + escapeHtml(cur) + '</span>' +
           '</div>' +
           '<ul class="history-services">' + servicesHtml + '</ul>' +
           '<dl class="history-meta">' +
             '<div><dt>Especialista</dt><dd>' + escapeHtml(b.specialist ? b.specialist.name : '—') + '</dd></div>' +
-            '<div><dt>Total</dt><dd>' + money(b.total) + '</dd></div>' +
+            '<div><dt>Total</dt><dd>' + money(b.total, cur) + '</dd></div>' +
           '</dl>' +
         '</article>'
       );
@@ -2528,11 +2649,13 @@ select{
   });
 
   /* =========================================================
-     16. PANTALLA DE ÉXITO
+     17. PANTALLA DE ÉXITO
      ========================================================= */
 
   function renderSuccess(booking) {
     stepsNav.classList.add('is-hidden');
+
+    const cur = booking.currency && CURRENCIES[booking.currency] ? booking.currency : DEFAULT_CURRENCY;
 
     const servicesHtml = (booking.services || [])
       .map((s) => escapeHtml(s.name))
@@ -2552,7 +2675,8 @@ select{
           summaryRow('Día', booking.dateLabel) +
           summaryRow('Hora', booking.time) +
           summaryRow('Duración total', booking.duration + ' min') +
-          summaryRow('Total', money(booking.total)) +
+          summaryRow('Total', money(booking.total, cur)) +
+          summaryRow('Moneda', cur) +
         '</dl>' +
         '<div class="success-actions">' +
           '<a href="#historial" class="btn btn-pill">Ver mis reservas</a>' +
@@ -2564,7 +2688,7 @@ select{
   }
 
   /* =========================================================
-     17. MODAL DE SOPORTE
+     18. MODAL DE SOPORTE
      ========================================================= */
 
   const supportModal = $('#supportModal');
@@ -2596,7 +2720,7 @@ select{
   });
 
   /* =========================================================
-     18. INICIALIZACIÓN
+     19. INICIALIZACIÓN
      ========================================================= */
 
   function findNextOpenDay() {
@@ -2615,6 +2739,13 @@ select{
       state.date = firstOpen;
       state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
     }
+
+    state.currency = DEFAULT_CURRENCY;
+    currencyButtons.forEach((b) => {
+      const active = b.dataset.currency === DEFAULT_CURRENCY;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
 
     renderCalendar();
     renderSlots();
