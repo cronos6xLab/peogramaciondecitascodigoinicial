@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aevi Wellness — Agenda tu cita</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   TOKENS — Aevi Wellness
+   ========================================================= */
+:root{
+  /* Colors */
+  --color-powder-blue:#d5e0ea;
+  --color-slate-bloom:#a3bfdb;
+  --color-warm-ink:#231f20;
+  --color-true-black:#000000;
+  --color-paper-white:#ffffff;
+  --color-mist-gray:#5f6368;
+
+  /* Type */
+  --font-sans:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --text-caption:10px;
+  --text-body:14px;
+  --text-body-lg:16px;
+  --text-heading-sm:24px;
+  --text-heading:28px;
+  --text-heading-lg:36px;
+  --text-heading-xl:42px;
+  --text-display:54px;
+
+  /* Spacing */
+  --spacing-4:4px;
+  --spacing-8:8px;
+  --spacing-12:12px;
+  --spacing-16:16px;
+  --spacing-24:24px;
+  --spacing-28:28px;
+  --spacing-32:32px;
+  --spacing-48:48px;
+  --spacing-64:64px;
+  --spacing-80:80px;
+
+  /* Radius */
+  --radius-sm:2px;
+  --radius-full:60px;
+
+  /* Layout */
+  --page-max-width:1200px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--color-paper-white);
+  color:var(--color-warm-ink);
+  font-family:var(--font-sans);
+  font-weight:300;
+  font-size:var(--text-body);
+  line-height:1.31;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,p,dl,dd{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+ul{list-style:none;margin:0;padding:0;}
+
+.container{
+  width:100%;
+  max-width:var(--page-max-width);
+  margin:0 auto;
+  padding:0 var(--spacing-24);
+}
+
+/* =========================================================
+   TIPOGRAFÍA
+   ========================================================= */
+.display{
+  font-size:clamp(34px, 6vw, var(--text-display));
+  font-weight:300;
+  line-height:1.08;
+}
+.heading-lg{
+  font-size:clamp(26px, 4vw, var(--text-heading-lg));
+  font-weight:300;
+  line-height:1.09;
+}
+.heading{
+  font-size:var(--text-heading);
+  font-weight:300;
+  line-height:1.1;
+}
+.eyebrow{
+  font-size:var(--text-caption);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--color-mist-gray);
+  font-weight:300;
+}
+.lead{
+  font-size:var(--text-body-lg);
+  line-height:1.33;
+  color:var(--color-mist-gray);
+  max-width:54ch;
+}
+.hint{
+  font-size:var(--text-body);
+  line-height:1.31;
+  color:var(--color-mist-gray);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--color-paper-white);
+  border-bottom:1px solid var(--color-powder-blue);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--spacing-24);
+  height:64px;
+}
+.wordmark{
+  font-size:var(--text-body);
+  font-weight:300;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.wordmark span{color:var(--color-mist-gray);}
+.nav{display:flex;gap:var(--spacing-24);}
+.nav a{
+  font-size:var(--text-body);
+  font-weight:300;
+  padding-bottom:2px;
+  border-bottom:1px solid transparent;
+  transition:border-color .15s ease;
+}
+.nav a:hover{border-bottom-color:var(--color-slate-bloom);}
+
+/* =========================================================
+   SECCIONES Y BANDAS
+   ========================================================= */
+.section{padding:var(--spacing-64) 0;}
+.band{padding:var(--spacing-64) 0;}
+.band--powder{background:var(--color-powder-blue);}
+.section-head{margin-bottom:var(--spacing-32);}
+.section-head .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
+
+.hero{padding:var(--spacing-80) 0 var(--spacing-64);}
+.hero .display{max-width:16ch;margin:var(--spacing-16) 0 var(--spacing-24);}
+
+/* =========================================================
+   PANELES / CARDS EDITORIALES
+   ========================================================= */
+.panel{
+  background:var(--color-paper-white);
+  border:1px solid var(--color-warm-ink);
+  border-radius:var(--radius-sm);
+  padding:var(--spacing-24);
+}
+.panel-label{
+  font-size:var(--text-caption);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--color-mist-gray);
+  margin-bottom:var(--spacing-8);
+}
+.panel-sub{
+  font-size:var(--text-body);
+  margin-bottom:var(--spacing-16);
+  text-transform:capitalize;
+}
+
+/* =========================================================
+   AGENDA — LAYOUT
+   ========================================================= */
+.agenda-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:var(--spacing-24);
+  align-items:start;
+}
+.agenda-side{display:grid;gap:var(--spacing-24);}
+
+/* =========================================================
+   CALENDARIO
+   ========================================================= */
+.cal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--spacing-16);
+  margin-bottom:var(--spacing-16);
+}
+.cal-month{
+  font-size:var(--text-body-lg);
+  font-weight:300;
+  text-transform:capitalize;
+}
+.cal-nav{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  background:transparent;
+  color:var(--color-warm-ink);
+  border:1px solid var(--color-powder-blue);
+  border-radius:var(--radius-sm);
+  font-size:var(--text-body);
+  line-height:1;
+  cursor:pointer;
+  transition:border-color .15s ease, opacity .15s ease;
+}
+.cal-nav:hover:not(:disabled){border-color:var(--color-warm-ink);}
+.cal-nav:disabled{opacity:.28;cursor:not-allowed;}
+
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7, 1fr);
+  gap:var(--spacing-4);
+}
+.cal-dow{
+  font-size:var(--text-caption);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--color-mist-gray);
+  text-align:center;
+  padding-bottom:var(--spacing-8);
+}
+.day{
+  position:relative;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:inherit;
+  font-size:var(--text-body);
+  font-weight:300;
+  color:var(--color-warm-ink);
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.day:hover:not(:disabled):not(.is-selected){border-color:var(--color-slate-bloom);}
+.day.is-off{color:var(--color-mist-gray);opacity:.45;cursor:not-allowed;}
+.day.is-today::after{
+  content:"";
+  position:absolute;
+  bottom:7px;
+  left:50%;
+  transform:translateX(-50%);
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:currentColor;
+}
+.day.is-selected{
+  background:var(--color-warm-ink);
+  border-color:var(--color-warm-ink);
+  color:var(--color-paper-white);
+}
+
+.cal-legend{
+  display:flex;
+  gap:var(--spacing-16);
+  margin-top:var(--spacing-16);
+  padding-top:var(--spacing-16);
+  border-top:1px solid var(--color-powder-blue);
+  font-size:12px;
+  color:var(--color-mist-gray);
+}
+.dot{
+  display:inline-block;
+  width:6px;height:6px;
+  border-radius:50%;
+  margin-right:6px;
+  vertical-align:middle;
+}
+.dot--open{background:var(--color-warm-ink);}
+.dot--off{background:var(--color-powder-blue);}
+
+/* =========================================================
+   HORARIOS
+   ========================================================= */
+.slots{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(88px, 1fr));
+  gap:var(--spacing-8);
+}
+.slot{
+  padding:10px 8px;
+  font-family:inherit;
+  font-size:var(--text-body);
+  font-weight:300;
+  color:var(--color-warm-ink);
+  background:transparent;
+  border:1px solid var(--color-powder-blue);
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-warm-ink);}
+.slot.is-taken{
+  color:var(--color-mist-gray);
+  opacity:.5;
+  text-decoration:line-through;
+  cursor:not-allowed;
+}
+.slot.is-selected{
+  background:var(--color-warm-ink);
+  border-color:var(--color-warm-ink);
+  color:var(--color-paper-white);
+}
+
+/* =========================================================
+   RESUMEN + FORMULARIO
+   ========================================================= */
+.summary{margin-bottom:var(--spacing-24);}
+.summary > div{
+  display:flex;
+  justify-content:space-between;
+  gap:var(--spacing-16);
+  padding:var(--spacing-8) 0;
+  border-bottom:1px solid var(--color-powder-blue);
+}
+.summary > div:last-child{border-bottom:0;}
+.summary dt{font-size:12px;color:var(--color-mist-gray);}
+.summary dd{
+  font-size:var(--text-body);
+  font-weight:500;
+  text-align:right;
+}
+
+.field{display:block;margin-bottom:var(--spacing-16);}
+.field span{
+  display:block;
+  font-size:12px;
+  color:var(--color-mist-gray);
+  margin-bottom:var(--spacing-4);
+}
+.field input{
+  width:100%;
+  padding:var(--spacing-8) 0;
+  font-family:inherit;
+  font-size:var(--text-body);
+  font-weight:300;
+  color:var(--color-warm-ink);
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--color-warm-ink);
+  border-radius:0;
+}
+.field input::placeholder{color:var(--color-mist-gray);}
+.field input:focus{outline:none;border-bottom-color:var(--color-true-black);}
+
+.form-note{
+  margin-top:var(--spacing-12);
+  font-size:12px;
+  color:var(--color-mist-gray);
+  min-height:16px;
+}
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+.btn{
+  font-family:inherit;
+  font-size:var(--text-body);
+  font-weight:500;
+  padding:var(--spacing-12) var(--spacing-16);
+  border:1px solid transparent;
+  border-radius:var(--radius-sm);
+  background:transparent;
+  color:var(--color-warm-ink);
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.btn-pill{
+  border-radius:var(--radius-full);
+  background:var(--color-slate-bloom);
+  color:var(--color-warm-ink);
+  border-color:var(--color-slate-bloom);
+  width:100%;
+  padding:var(--spacing-12) var(--spacing-24);
+}
+.btn-pill:hover{background:var(--color-powder-blue);border-color:var(--color-powder-blue);}
+.btn-ghost{
+  border:1px solid var(--color-powder-blue);
+  border-radius:var(--radius-sm);
+}
+.btn-ghost:hover{border-color:var(--color-warm-ink);}
+
+/* =========================================================
+   SERVICIOS
+   ========================================================= */
+.service-list{border-top:1px solid var(--color-warm-ink);}
+.service{
+  display:grid;
+  grid-template-columns:1fr 90px 110px;
+  gap:var(--spacing-24);
+  align-items:center;
+  width:100%;
+  padding:var(--spacing-24) var(--spacing-16);
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--color-powder-blue);
+  cursor:pointer;
+  transition:background .15s ease;
+}
+.service:hover{background:rgba(213,224,234,.4);}
+.service.is-selected{background:var(--color-powder-blue);}
+.service-name{
+  display:block;
+  font-size:var(--text-body-lg);
+  font-weight:300;
+}
+.service-desc{
+  display:block;
+  margin-top:2px;
+  font-size:12px;
+  color:var(--color-mist-gray);
+}
+.service-dur{
+  font-size:var(--text-body);
+  color:var(--color-mist-gray);
+  text-align:right;
+}
+.service-price{
+  font-size:var(--text-body);
+  font-weight:500;
+  text-align:right;
+}
+
+/* =========================================================
+   MAPA
+   ========================================================= */
+.map-card{
+  position:relative;
+  display:block;
+  height:420px;
+  border:1px solid var(--color-warm-ink);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  background:var(--color-paper-white);
+}
+.map-card iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  filter:grayscale(1) contrast(1.05);
+  pointer-events:none;
+}
+.map-cta{
+  position:absolute;
+  left:var(--spacing-16);
+  bottom:var(--spacing-16);
+  display:inline-flex;
+  align-items:center;
+  gap:var(--spacing-8);
+  padding:var(--spacing-12) var(--spacing-16);
+  font-size:var(--text-body);
+  font-weight:500;
+  background:var(--color-paper-white);
+  border:1px solid var(--color-warm-ink);
+  border-radius:var(--radius-sm);
+  transition:background .15s ease, color .15s ease;
+}
+.map-card:hover .map-cta{
+  background:var(--color-warm-ink);
+  color:var(--color-paper-white);
+}
+
+.location-meta{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:var(--spacing-24);
+  margin-top:var(--spacing-24);
+  padding-top:var(--spacing-24);
+  border-top:1px solid rgba(35,31,32,.2);
+}
+.location-meta dt{
+  font-size:var(--text-caption);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--color-warm-ink);
+  opacity:.6;
+  margin-bottom:var(--spacing-4);
+}
+.location-meta dd{font-size:var(--text-body);line-height:1.31;}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer{
+  background:var(--color-warm-ink);
+  color:var(--color-paper-white);
+  padding:var(--spacing-64) 0 var(--spacing-32);
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:var(--spacing-32);
+  padding-bottom:var(--spacing-32);
+  border-bottom:1px solid rgba(255,255,255,.18);
+}
+.footer-title{
+  font-size:var(--text-caption);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.55;
+  margin-bottom:var(--spacing-12);
+}
+.footer-list{display:grid;gap:var(--spacing-8);font-size:var(--text-body);}
+.footer-list a:hover{color:var(--color-slate-bloom);}
+.footer-bottom{
+  padding-top:var(--spacing-24);
+  font-size:12px;
+  opacity:.55;
+}
+
+/* =========================================================
+   BOTÓN FLOTANTE DE SOPORTE
+   ========================================================= */
+.support-fab{
+  position:fixed;
+  right:var(--spacing-24);
+  bottom:var(--spacing-24);
+  z-index:60;
+  display:inline-flex;
+  align-items:center;
+  gap:var(--spacing-8);
+  padding:var(--spacing-12) var(--spacing-24);
+  font-family:inherit;
+  font-size:var(--text-body);
+  font-weight:500;
+  color:var(--color-paper-white);
+  background:var(--color-warm-ink);
+  border:1px solid var(--color-warm-ink);
+  border-radius:var(--radius-full);
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.support-fab:hover{
+  background:var(--color-paper-white);
+  color:var(--color-warm-ink);
+}
+
+/* =========================================================
+   MODAL DE SOPORTE
+   ========================================================= */
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:var(--spacing-24);
+  background:rgba(35,31,32,.45);
+}
+.modal.is-open{display:flex;}
+.modal-panel{
+  width:100%;
+  max-width:440px;
+  max-height:88vh;
+  overflow:auto;
+  padding:var(--spacing-32);
+  background:var(--color-paper-white);
+  border:1px solid var(--color-warm-ink);
+  border-radius:var(--radius-sm);
+}
+.modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:var(--spacing-16);
+  margin-bottom:var(--spacing-24);
+}
+.modal-close{
+  padding:0 var(--spacing-4);
+  font-size:20px;
+  line-height:1;
+  color:var(--color-warm-ink);
+  background:none;
+  border:0;
+  cursor:pointer;
+}
+.modal-close:hover{color:var(--color-slate-bloom);}
+.contact-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--spacing-16);
+  padding:var(--spacing-12) 0;
+  border-bottom:1px solid var(--color-powder-blue);
+  font-size:var(--text-body);
+}
+.contact-row:last-child{border-bottom:0;}
+.contact-row span:first-child{color:var(--color-mist-gray);}
+.contact-row a{font-weight:500;}
+.contact-row a:hover{color:var(--color-slate-bloom);}
+.modal-footnote{
+  margin-top:var(--spacing-24);
+  padding-top:var(--spacing-16);
+  border-top:1px solid var(--color-powder-blue);
+  font-size:12px;
+  color:var(--color-mist-gray);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:900px){
+  .agenda-grid{grid-template-columns:1fr;}
+  .location-meta{grid-template-columns:1fr;gap:var(--spacing-16);}
+  .footer-grid{grid-template-columns:1fr;}
+}
+@media (max-width:720px){
+  .nav{display:none;}
+  .hero{padding:var(--spacing-48) 0;}
+  .section,.band{padding:var(--spacing-48) 0;}
+  .service{grid-template-columns:1fr auto;gap:var(--spacing-8) var(--spacing-16);}
+  .service-dur{display:none;}
+  .map-card{height:320px;}
+  .support-fab{right:var(--spacing-16);bottom:var(--spacing-16);}
+}
+@media (max-width:480px){
+  .day{height:38px;font-size:13px;}
+  .panel{padding:var(--spacing-16);}
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="wordmark">Aevi <span>Wellness</span></a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#agenda">Agenda</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#ubicacion">Ubicación</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- =========================================================
+       HERO
+       ========================================================= -->
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Reservas · Aevi Wellness</p>
+      <h1 class="display">Agenda tu ritual</h1>
+      <p class="lead">
+        Elige el día, el horario y el servicio. Confirmamos tu cita al instante
+        y te enviamos los detalles por correo.
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       01 — AGENDA (CALENDARIO + HORARIOS + RESUMEN)
+       ========================================================= -->
+  <section id="agenda" class="band band--powder">
+    <div class="container">
+
+      <div class="section-head">
+        <p class="eyebrow">01 — Reservas</p>
+        <h2 class="heading-lg">Elige día y horario</h2>
+      </div>
+
+      <div class="agenda-grid">
+
+        <!-- Calendario -->
+        <div class="panel">
+          <div class="cal-head">
+            <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
+            <p class="cal-month" id="monthLabel">—</p>
+            <button class="cal-nav" id="nextMonth" type="button" aria-label="Mes siguiente">&#8594;</button>
+          </div>
+
+          <div class="cal-grid" id="calGrid" role="grid" aria-label="Calendario de disponibilidad"></div>
+
+          <div class="cal-legend">
+            <span><i class="dot dot--open"></i>Con disponibilidad</span>
+            <span><i class="dot dot--off"></i>Cerrado</span>
+          </div>
+        </div>
+
+        <!-- Columna lateral -->
+        <div class="agenda-side">
+
+          <!-- Horarios -->
+          <div class="panel">
+            <p class="panel-label">Horarios</p>
+            <p class="panel-sub" id="slotsDate">Selecciona un día</p>
+            <div class="slots" id="slots"></div>
+          </div>
+
+          <!-- Resumen + formulario -->
+          <div class="panel" id="summaryPanel">
+            <p class="panel-label">Tu reserva</p>
+
+            <dl class="summary">
+              <div><dt>Servicio</dt><dd id="sumService">—</dd></div>
+              <div><dt>Día</dt><dd id="sumDate">—</dd></div>
+              <div><dt>Hora</dt><dd id="sumTime">—</dd></div>
+              <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
+            </dl>
+
+            <form id="bookingForm" novalidate>
+              <label class="field">
+                <span>Nombre</span>
+                <input type="text" id="fName" placeholder="Tu nombre" autocomplete="name" required>
+              </label>
+              <label class="field">
+                <span>Correo</span>
+                <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" required>
+              </label>
+              <label class="field">
+                <span>Teléfono</span>
+                <input type="tel" id="fPhone" placeholder="+52 55 0000 0000" autocomplete="tel">
+              </label>
+
+              <button class="btn btn-pill" type="submit">Confirmar reserva</button>
+              <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       02 — SERVICIOS
+       ========================================================= -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">02 — Carta de servicios</p>
+        <h2 class="heading-lg">Tratamientos disponibles</h2>
+        <p class="lead">Selecciona un servicio para añadirlo a tu reserva.</p>
+      </div>
+
+      <ul class="service-list" id="serviceList"></ul>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       03 — UBICACIÓN / MAPA
+       ========================================================= -->
+  <section id="ubicacion" class="band band--powder">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">03 — Ubicación</p>
+        <h2 class="heading-lg">Cómo llegar</h2>
+        <p class="lead">Toca el mapa para abrir la navegación en tu teléfono.</p>
+      </div>
+
+      <!-- El enlace abre la navegación con indicaciones -->
+      <a
+        class="map-card"
+        href="https://www.google.com/maps/dir/?api=1&destination=Calle%20Ejemplo%20123%2C%20Centro%2C%20CDMX"
+        target="_blank"
+        rel="noopener"
+        aria-label="Abrir navegación hacia la tienda">
+
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950"
+          title="Mapa de ubicación de la tienda"
+          loading="lazy"></iframe>
+
+        <span class="map-cta">Abrir navegación &#8594;</span>
+      </a>
+
+      <dl class="location-meta">
+        <div>
+          <dt>Dirección</dt>
+          <dd>Calle Ejemplo 123<br>Col. Centro, CDMX</dd>
+        </div>
+        <div>
+          <dt>Horario</dt>
+          <dd>Lun – Vie · 09:00 – 19:00<br>Sáb · 09:00 – 14:00</dd>
+        </div>
+        <div>
+          <dt>Estacionamiento</dt>
+          <dd>Valet disponible<br>a partir de las 10:00</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-title">Aevi Wellness</p>
+        <ul class="footer-list">
+          <li>Calle Ejemplo 123, Col. Centro</li>
+          <li>Ciudad de México</li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-title">Contacto</p>
+        <ul class="footer-list">
+          <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+          <li><a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></li>
+          <li><a href="https://wa.me/525512345678" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-title">Redes</p>
+        <ul class="footer-list">
+          <li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bottom">© <span id="year">2025</span> Aevi Wellness. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- =========================================================
+     BOTÓN FLOTANTE DE SOPORTE
+     ========================================================= -->
+<button class="support-fab" id="supportBtn" type="button">Soporte</button>
+
+<!-- =========================================================
+     MODAL DE SOPORTE
+     ========================================================= -->
+<div class="modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div>
+        <p class="panel-label">Atención</p>
+        <h3 class="heading" id="supportTitle">Estamos aquí</h3>
+      </div>
+      <button class="modal-close" id="supportClose" type="button" aria-label="Cerrar">&times;</button>
+    </div>
+
+    <div class="contact-row">
+      <span>Teléfono</span>
+      <a href="tel:+525512345678">+52 55 1234 5678</a>
+    </div>
+    <div class="contact-row">
+      <span>WhatsApp</span>
+      <a href="https://wa.me/525512345678" target="_blank" rel="noopener">Escribir mensaje</a>
+    </div>
+    <div class="contact-row">
+      <span>Correo</span>
+      <a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a>
+    </div>
+    <div class="contact-row">
+      <span>Instagram</span>
+      <a href="https://instagram.com/" target="_blank" rel="noopener">@aeviwellness</a>
+    </div>
+    <div class="contact-row">
+      <span>Facebook</span>
+      <a href="https://facebook.com/" target="_blank" rel="noopener">/aeviwellness</a>
+    </div>
+    <div class="contact-row">
+      <span>TikTok</span>
+      <a href="https://tiktok.com/" target="_blank" rel="noopener">@aeviwellness</a>
+    </div>
+
+    <p class="modal-footnote">
+      Horario de atención: lunes a viernes de 09:00 a 19:00 · sábados de 09:00 a 14:00.
+    </p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     1. DATOS EDITABLES
+     ========================================================= */
+
+  // Servicios disponibles
+  const SERVICES = [
+    { id:'diagnostico', name:'Consulta de diagnóstico', desc:'Análisis de piel y rutina personalizada.', duration:30, price:450 },
+    { id:'facial',      name:'Ritual facial nórdico',   desc:'Limpieza profunda, hidratación y masaje.', duration:60, price:950 },
+    { id:'masaje',      name:'Masaje con piedras frías',desc:'Drenaje linfático y descanso profundo.', duration:75, price:1200 },
+    { id:'cuerpo',      name:'Envoltura mineral',       desc:'Exfoliación y nutrición corporal.',        duration:90, price:1450 },
+    { id:'rutina',      name:'Asesoría de rutina',      desc:'Armado de rutina de 3 pasos en tienda.',   duration:45, price:600 }
+  ];
+
+  // Horarios por día de la semana (0 = domingo … 6 = sábado)
+  // Deja el arreglo vacío para marcar el día como cerrado.
+  const SLOTS_BY_WEEKDAY = {
+    0: [],
+    1: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    2: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    3: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    4: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    5: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    6: ['09:00','10:00','11:00','12:00','13:00']
+  };
+
+  const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const DOW_LABELS = ['L','M','M','J','V','S','D'];
+
+  /* =========================================================
+     2. UTILIDADES
+     ========================================================= */
+
+  const $ = (sel) => document.querySelector(sel);
+
+  const money = (n) =>
+    new Intl.NumberFormat('es-MX', { style:'currency', currency:'MXN', maximumFractionDigits:0 }).format(n);
+
+  const sameDay = (a, b) =>
+    a && b && a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+  const formatDate = (d) =>
+    `${WEEKDAYS[d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()]}`;
+
+  const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => (
+    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+  ));
+
+  const slotsFor = (date) => SLOTS_BY_WEEKDAY[date.getDay()] || [];
+
+  const isClosedDay = (date) => slotsFor(date).length === 0;
+
+  // Disponibilidad simulada y determinista (reemplazar por datos del backend)
+  function isSlotTaken(date, time) {
+    const list = slotsFor(date);
+    const index = list.indexOf(time);
+    if (index < 0) return true;
+    const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+    return ((seed + index * 7) % 5) === 0;
+  }
+
+  function isPastTime(time, now) {
+    const [h, m] = time.split(':').map(Number);
+    return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
+  }
+
+  /* =========================================================
+     3. ESTADO
+     ========================================================= */
+
+  const state = {
+    view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    date: null,
+    time: null,
+    service: null
+  };
+
+  /* =========================================================
+     4. REFERENCIAS DOM
+     ========================================================= */
+
+  const monthLabel = $('#monthLabel');
+  const calGrid    = $('#calGrid');
+  const prevBtn    = $('#prevMonth');
+  const nextBtn    = $('#nextMonth');
+  const slotsEl    = $('#slots');
+  const slotsDate  = $('#slotsDate');
+  const serviceList= $('#serviceList');
+  const sumService = $('#sumService');
+  const sumDate    = $('#sumDate');
+  const sumTime    = $('#sumTime');
+  const sumPrice   = $('#sumPrice');
+  const form       = $('#bookingForm');
+  const formNote   = $('#formNote');
+  const summaryPanel = $('#summaryPanel');
+
+  /* =========================================================
+     5. CALENDARIO
+     ========================================================= */
+
+  function renderCalendar() {
+    const year  = state.view.getFullYear();
+    const month = state.view.getMonth();
+
+    monthLabel.textContent = `${MONTHS[month]} ${year}`;
+
+    const now = new Date();
+    prevBtn.disabled = (year === now.getFullYear() && month === now.getMonth());
+
+    calGrid.innerHTML = '';
+
+    // Cabecera de días de la semana
+    DOW_LABELS.forEach((label) => {
+      const cell = document.createElement('div');
+      cell.className = 'cal-dow';
+      cell.textContent = label;
+      calGrid.appendChild(cell);
+    });
+
+    // Celdas vacías antes del día 1 (semana inicia en lunes)
+    const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
+    for (let i = 0; i < firstWeekday; i++) {
+      calGrid.appendChild(document.createElement('span'));
+    }
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const btn  = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day';
+      btn.textContent = String(day);
+
+      const unavailable = date < today || isClosedDay(date);
+
+      if (unavailable) {
+        btn.classList.add('is-off');
+        btn.disabled = true;
+      }
+      if (sameDay(date, today)) btn.classList.add('is-today');
+      if (sameDay(date, state.date)) btn.classList.add('is-selected');
+
+      btn.addEventListener('click', () => {
+        state.date = date;
+        state.time = null;
+        renderCalendar();
+        renderSlots();
+        renderSummary();
+      });
+
+      calGrid.appendChild(btn);
+    }
+  }
+
+  prevBtn.addEventListener('click', () => {
+    state.view = new Date(state.view.getFullYear(), state.view.getMonth() - 1, 1);
+    renderCalendar();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    state.view = new Date(state.view.getFullYear(), state.view.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  /* =========================================================
+     6. HORARIOS
+     ========================================================= */
+
+  function renderSlots() {
+    slotsEl.innerHTML = '';
+
+    if (!state.date) {
+      slotsDate.textContent = 'Selecciona un día';
+      slotsEl.innerHTML = '<p class="hint">Elige un día en el calendario para ver los horarios.</p>';
+      return;
+    }
+
+    slotsDate.textContent = formatDate(state.date);
+
+    const list = slotsFor(state.date);
+    if (list.length === 0) {
+      slotsEl.innerHTML = '<p class="hint">Sin horarios disponibles este día.</p>';
+      return;
+    }
+
+    const now = new Date();
+    const isToday = sameDay(state.date, now);
+
+    list.forEach((time) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot';
+      btn.textContent = time;
+
+      const taken = isSlotTaken(state.date, time) || (isToday && isPastTime(time, now));
+
+      if (taken) {
+        btn.classList.add('is-taken');
+        btn.disabled = true;
+      }
+      if (state.time === time) btn.classList.add('is-selected');
+
+      btn.addEventListener('click', () => {
+        state.time = time;
+        renderSlots();
+        renderSummary();
+      });
+
+      slotsEl.appendChild(btn);
+    });
+  }
+
+  /* =========================================================
+     7. RESUMEN
+     ========================================================= */
+
+  function renderSummary() {
+    sumService.textContent = state.service ? state.service.name : '—';
+    sumDate.textContent    = state.date ? formatDate(state.date) : '—';
+    sumTime.textContent    = state.time || '—';
+    sumPrice.textContent   = state.service ? money(state.service.price) : '—';
+  }
+
+  /* =========================================================
+     8. SERVICIOS
+     ========================================================= */
+
+  function renderServices() {
+    serviceList.innerHTML = '';
+
+    SERVICES.forEach((service) => {
+      const li = document.createElement('li');
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'service' + (state.service && state.service.id === service.id ? ' is-selected' : '');
+      btn.setAttribute('aria-pressed', state.service && state.service.id === service.id ? 'true' : 'false');
+
+      btn.innerHTML =
+        '<span class="service-main">' +
+          '<span class="service-name">' + escapeHtml(service.name) + '</span>' +
+          '<span class="service-desc">' + escapeHtml(service.desc) + '</span>' +
+        '</span>' +
+        '<span class="service-dur">' + service.duration + ' min</span>' +
+        '<span class="service-price">' + money(service.price) + '</span>';
+
+      btn.addEventListener('click', () => {
+        state.service = service;
+        renderServices();
+        renderSummary();
+        formNote.textContent = '';
+      });
+
+      li.appendChild(btn);
+      serviceList.appendChild(li);
+    });
+  }
+
+  /* =========================================================
+     9. CONFIRMACIÓN DE RESERVA
+     ========================================================= */
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name  = $('#fName').value.trim();
+    const email = $('#fEmail').value.trim();
+
+    if (!state.service || !state.date || !state.time) {
+      formNote.textContent = 'Selecciona un servicio, un día y un horario para continuar.';
+      return;
+    }
+    if (!name || !email) {
+      formNote.textContent = 'Escribe tu nombre y correo para confirmar.';
+      return;
+    }
+
+    // 👉 Aquí conectarías tu backend / API de reservas
+    renderConfirmation(name, email);
+  });
+
+  function renderConfirmation(name, email) {
+    summaryPanel.innerHTML =
+      '<p class="panel-label">Reserva confirmada</p>' +
+      '<h3 class="heading" style="margin-bottom:16px;">Gracias, ' + escapeHtml(name) + '.</h3>' +
+      '<p class="hint" style="margin-bottom:24px;">Te enviamos los detalles a ' + escapeHtml(email) + '.</p>' +
+      '<dl class="summary">' +
+        '<div><dt>Servicio</dt><dd>' + escapeHtml(state.service.name) + '</dd></div>' +
+        '<div><dt>Día</dt><dd>' + formatDate(state.date) + '</dd></div>' +
+        '<div><dt>Hora</dt><dd>' + state.time + '</dd></div>' +
+        '<div><dt>Total</dt><dd>' + money(state.service.price) + '</dd></div>' +
+      '</dl>' +
+      '<button class="btn btn-ghost" type="button" id="resetBtn" style="width:100%;">Hacer otra reserva</button>';
+
+    $('#resetBtn').addEventListener('click', () => window.location.reload());
+  }
+
+  /* =========================================================
+     10. MODAL DE SOPORTE
+     ========================================================= */
+
+  const supportModal = $('#supportModal');
+  const supportBtn   = $('#supportBtn');
+  const supportClose = $('#supportClose');
+
+  function openSupport() {
+    supportModal.classList.add('is-open');
+    supportClose.focus();
+  }
+  function closeSupport() {
+    supportModal.classList.remove('is-open');
+    supportBtn.focus();
+  }
+
+  supportBtn.addEventListener('click', openSupport);
+  supportClose.addEventListener('click', closeSupport);
+  supportModal.addEventListener('click', (event) => {
+    if (event.target === supportModal) closeSupport();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && supportModal.classList.contains('is-open')) closeSupport();
+  });
+
+  /* =========================================================
+     11. INICIALIZACIÓN
+     ========================================================= */
+
+  function findNextOpenDay() {
+    const cursor = new Date();
+    cursor.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 90; i++) {
+      if (!isClosedDay(cursor)) return new Date(cursor);
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return null;
+  }
+
+  function init() {
+    const firstOpen = findNextOpenDay();
+    if (firstOpen) {
+      state.date = firstOpen;
+      state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
+    }
+
+    renderCalendar();
+    renderSlots();
+    renderServices();
+    renderSummary();
+
+    $('#year').textContent = new Date().getFullYear();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
