@@ -367,7 +367,7 @@ select{
 /* =========================================================
    FLUJO DE RESERVA POR PASOS
    ========================================================= */
-#reserva{scroll-margin-top:84px;}
+#reserva, #historial, #ubicacion{scroll-margin-top:84px;}
 
 .steps{
   display:flex;
@@ -442,6 +442,12 @@ select{
 .panel-head{margin-bottom:var(--spacing-24);}
 .panel-head .heading{margin:var(--spacing-8) 0;}
 .panel-head .lead{font-size:15px;}
+.panel-hint{
+  font-size:13px;
+  line-height:1.4;
+  color:var(--color-slate);
+  margin-top:var(--spacing-8);
+}
 
 .panel-foot{
   display:flex;
@@ -748,6 +754,7 @@ select{
   letter-spacing:0.09em;
   text-transform:uppercase;
   color:var(--color-slate);
+  flex-shrink:0;
 }
 .summary dd{
   font-family:var(--font-tight);
@@ -757,15 +764,35 @@ select{
   text-align:right;
 }
 
-.field{display:block;margin-bottom:var(--spacing-16);}
-.field > span{
-  display:block;
+.field{display:block;margin-bottom:var(--spacing-20);}
+.field-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
   font-size:11px;
   font-weight:600;
   letter-spacing:0.09em;
   text-transform:uppercase;
   color:var(--color-slate);
   margin-bottom:var(--spacing-8);
+}
+.field-req,
+.field-optional{
+  font-style:normal;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  padding:2px 7px;
+  border-radius:var(--radius-pill);
+  line-height:1.4;
+}
+.field-req{
+  color:var(--color-deep-teal);
+  background:rgba(36,77,84,.1);
+}
+.field-optional{
+  color:var(--color-slate);
+  background:var(--color-bone);
 }
 .field input{
   width:100%;
@@ -788,9 +815,36 @@ select{
   border-color:var(--color-deep-teal);
   box-shadow:0 0 0 3px rgba(36,77,84,.12);
 }
+.field.is-invalid input,
 .field input[aria-invalid="true"]{
   border-color:#c0392b;
   box-shadow:0 0 0 3px rgba(192,57,43,.1);
+}
+.field.is-valid input{
+  border-color:var(--color-mint-pulse);
+}
+.field-hint{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  line-height:1.45;
+  color:var(--color-slate);
+}
+.field-error{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  font-weight:500;
+  line-height:1.45;
+  color:#c0392b;
+}
+.field-error[hidden]{display:none;}
+
+.form-intro{
+  font-size:13px;
+  line-height:1.5;
+  color:var(--color-slate);
+  margin-bottom:var(--spacing-20);
 }
 
 .form-note{
@@ -843,7 +897,7 @@ select{
 }
 
 /* =========================================================
-   SERVICIOS
+   SERVICIOS (selección múltiple)
    ========================================================= */
 .service-list{
   border-top:1px solid var(--color-mist);
@@ -957,6 +1011,95 @@ select{
   padding:0 var(--spacing-8);
 }
 .success .btn{width:auto;}
+.success-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--spacing-12);
+  justify-content:center;
+}
+
+/* =========================================================
+   HISTORIAL
+   ========================================================= */
+.history-list{display:grid;gap:var(--spacing-16);}
+.history-card{padding:var(--spacing-20) var(--spacing-24);}
+.history-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:var(--spacing-16);
+  margin-bottom:var(--spacing-12);
+}
+.history-title{
+  font-family:var(--font-tight);
+  font-size:17px;
+  font-weight:500;
+  color:var(--color-ink);
+  margin-top:2px;
+  letter-spacing:-0.01em;
+}
+.history-badge{
+  flex-shrink:0;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--color-deep-teal);
+  background:rgba(46,206,160,.16);
+  padding:5px 10px;
+  border-radius:var(--radius-pill);
+  white-space:nowrap;
+}
+.history-services{
+  display:grid;
+  gap:8px;
+  margin:0 0 var(--spacing-16);
+  padding:var(--spacing-12) 0;
+  border-top:1px solid var(--color-mist);
+  border-bottom:1px solid var(--color-mist);
+  font-size:14px;
+  color:var(--color-ink);
+}
+.history-services li{
+  display:flex;
+  justify-content:space-between;
+  gap:var(--spacing-12);
+  line-height:1.4;
+}
+.history-services .hist-meta{
+  color:var(--color-slate);
+  font-size:12px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.history-meta{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:var(--spacing-12);
+}
+.history-meta dt{
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.09em;
+  text-transform:uppercase;
+  color:var(--color-slate);
+}
+.history-meta dd{
+  font-size:14px;
+  font-weight:500;
+  color:var(--color-ink);
+  margin-top:2px;
+}
+.history-empty{
+  text-align:center;
+  padding:var(--spacing-40) var(--spacing-24);
+}
+.history-empty .lead{margin:var(--spacing-8) auto 0;}
+.history-actions{
+  margin-top:var(--spacing-20);
+  text-align:right;
+}
+.history-actions .btn{width:auto;}
 
 /* =========================================================
    MAPA
@@ -1246,6 +1389,9 @@ select{
   .btn{padding:12px 24px;font-size:15px;}
   .btn-outline-mint{padding:12px 28px;font-size:15px;}
   .specialist-grid{grid-template-columns:1fr;}
+  .history-head{flex-direction:column;gap:var(--spacing-8);}
+  .history-meta{grid-template-columns:1fr;}
+  .history-actions{text-align:center;}
 }
 </style>
 </head>
@@ -1266,7 +1412,7 @@ select{
     <a href="#top" class="wordmark">Aevi <span>Wellness</span></a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#reserva" data-nav-step="1">Reserva</a>
-      <a href="#reserva" data-nav-step="2">Servicios</a>
+      <a href="#historial">Historial</a>
       <a href="#ubicacion">Ubicación</a>
     </nav>
   </div>
@@ -1282,7 +1428,7 @@ select{
       <p class="eyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
       <p class="lead">
-        Cuatro pasos claros: elige día y horario, tu servicio, tu especialista
+        Cuatro pasos claros: elige día y horario, tus servicios, tu especialista
         y confirma. Te enviamos los detalles por correo.
       </p>
       <div class="hero-actions">
@@ -1325,7 +1471,7 @@ select{
         </li>
         <li>
           <button class="step-btn" type="button" data-goto="2" disabled>
-            <span class="step-num">2</span> Servicio
+            <span class="step-num">2</span> Servicios
           </button>
         </li>
         <li>
@@ -1381,12 +1527,13 @@ select{
           </div>
         </div>
 
-        <!-- ============ PASO 2 — SERVICIO ============ -->
+        <!-- ============ PASO 2 — SERVICIOS ============ -->
         <div class="step-panel" data-step="2">
           <div class="panel-head">
             <p class="eyebrow">Paso 2 de 4</p>
             <h3 class="heading">Carta de servicios</h3>
-            <p class="lead">Selecciona el tratamiento que quieres reservar.</p>
+            <p class="lead">Selecciona uno o más tratamientos. Puedes combinarlos en la misma visita.</p>
+            <p class="panel-hint" id="servicesHint" aria-live="polite">Puedes elegir más de un servicio.</p>
           </div>
 
           <ul class="service-list" id="serviceList"></ul>
@@ -1426,11 +1573,11 @@ select{
             <div class="card">
               <p class="card-label">Resumen</p>
               <dl class="summary">
-                <div><dt>Servicio</dt><dd id="sumService">—</dd></div>
+                <div><dt>Servicios</dt><dd id="sumServices">—</dd></div>
                 <div><dt>Especialista</dt><dd id="sumSpecialist">—</dd></div>
                 <div><dt>Día</dt><dd id="sumDate">—</dd></div>
                 <div><dt>Hora</dt><dd id="sumTime">—</dd></div>
-                <div><dt>Duración</dt><dd id="sumDuration">—</dd></div>
+                <div><dt>Duración total</dt><dd id="sumDuration">—</dd></div>
                 <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
               </dl>
             </div>
@@ -1438,18 +1585,27 @@ select{
             <!-- Formulario -->
             <form class="card" id="bookingForm" novalidate>
               <p class="card-label">Tus datos</p>
+              <p class="form-intro">Necesitamos estos datos para enviarte la confirmación y contactarte si algo cambia.</p>
 
-              <label class="field">
-                <span>Nombre</span>
-                <input type="text" id="fName" placeholder="Tu nombre" autocomplete="name" required>
+              <label class="field" data-field="name">
+                <span class="field-label">Nombre completo <em class="field-req">Requerido</em></span>
+                <input type="text" id="fName" placeholder="Ej. Ana García López" autocomplete="name" required aria-describedby="fName-hint fName-error">
+                <small class="field-hint" id="fName-hint">Tal como quieres que aparezca en tu reserva.</small>
+                <small class="field-error" id="fName-error" role="alert" hidden>Escribe al menos 2 letras de tu nombre.</small>
               </label>
-              <label class="field">
-                <span>Correo</span>
-                <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" inputmode="email" required>
+
+              <label class="field" data-field="email">
+                <span class="field-label">Correo electrónico <em class="field-req">Requerido</em></span>
+                <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" inputmode="email" required aria-describedby="fEmail-hint fEmail-error">
+                <small class="field-hint" id="fEmail-hint">Ahí te enviaremos la confirmación y los detalles de tu cita.</small>
+                <small class="field-error" id="fEmail-error" role="alert" hidden>Escribe un correo válido (ej. nombre@dominio.com).</small>
               </label>
-              <label class="field">
-                <span>Teléfono</span>
-                <input type="tel" id="fPhone" placeholder="+52 55 0000 0000" autocomplete="tel" inputmode="tel">
+
+              <label class="field" data-field="phone">
+                <span class="field-label">Teléfono <em class="field-optional">Opcional</em></span>
+                <input type="tel" id="fPhone" placeholder="+52 55 1234 5678" autocomplete="tel" inputmode="tel" aria-describedby="fPhone-hint fPhone-error">
+                <small class="field-hint" id="fPhone-hint">Incluye lada. Solo lo usamos para avisos de tu cita.</small>
+                <small class="field-error" id="fPhone-error" role="alert" hidden>Si lo llenas, escribe al menos 8 dígitos (o déjalo vacío).</small>
               </label>
 
               <button class="btn btn-pill" type="submit" id="confirmBtn" hidden>
@@ -1472,12 +1628,31 @@ select{
   </section>
 
   <!-- =========================================================
-       02 — UBICACIÓN
+       02 — HISTORIAL
        ========================================================= -->
-  <section id="ubicacion" class="section">
+  <section id="historial" class="section">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">02 — Ubicación</p>
+        <p class="eyebrow">02 — Historial</p>
+        <h2 class="heading-lg">Tus reservas</h2>
+        <p class="lead">Aquí aparecen las reservas guardadas en este navegador. Se guardan localmente, sin enviar datos a un servidor.</p>
+      </div>
+
+      <div class="history-list" id="historyList"></div>
+
+      <div class="history-actions">
+        <button class="btn btn-ghost" type="button" id="clearHistoryBtn" hidden>Borrar historial</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       03 — UBICACIÓN
+       ========================================================= -->
+  <section id="ubicacion" class="section section--bone">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">03 — Ubicación</p>
         <h2 class="heading-lg">Cómo llegar</h2>
         <p class="lead">Toca el mapa para abrir la navegación en tu teléfono.</p>
       </div>
@@ -1667,6 +1842,8 @@ select{
   const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
   const DOW_LABELS = ['L','M','M','J','V','S','D'];
 
+  const HISTORY_KEY = 'aevi_booking_history_v1';
+
   /* =========================================================
      2. UTILIDADES
      ========================================================= */
@@ -1682,6 +1859,13 @@ select{
 
   const formatDate = (d) =>
     `${WEEKDAYS[d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()]}`;
+
+  const dateToISO = (d) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
 
   const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => (
     { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
@@ -1720,7 +1904,7 @@ select{
     view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     date: null,
     time: null,
-    service: null,
+    services: [],
     specialist: null,
     step: 1
   };
@@ -1736,8 +1920,9 @@ select{
   const slotsEl        = $('#slots');
   const slotsDate      = $('#slotsDate');
   const serviceList    = $('#serviceList');
+  const servicesHint   = $('#servicesHint');
   const specialistList = $('#specialistList');
-  const sumService     = $('#sumService');
+  const sumServices    = $('#sumServices');
   const sumSpecialist  = $('#sumSpecialist');
   const sumDate        = $('#sumDate');
   const sumTime        = $('#sumTime');
@@ -1753,6 +1938,10 @@ select{
   const confirmBtn     = $('#confirmBtn');
   const nameInput      = $('#fName');
   const emailInput     = $('#fEmail');
+  const phoneInput     = $('#fPhone');
+
+  const historyList    = $('#historyList');
+  const clearHistoryBtn = $('#clearHistoryBtn');
 
   const confirmModal   = $('#confirmModal');
   const confirmBody    = $('#confirmBody');
@@ -1761,7 +1950,26 @@ select{
   const confirmClose   = $('#confirmClose');
 
   /* =========================================================
-     5. CALENDARIO
+     5. CÁLCULOS DE LA SELECCIÓN
+     ========================================================= */
+
+  const totalPrice = () => state.services.reduce((acc, s) => acc + s.price, 0);
+  const totalDuration = () => state.services.reduce((acc, s) => acc + s.duration, 0);
+  const isServiceSelected = (id) => state.services.some((s) => s.id === id);
+
+  function updateServicesHint() {
+    const n = state.services.length;
+    if (n === 0) {
+      servicesHint.textContent = 'Puedes elegir más de un servicio.';
+    } else if (n === 1) {
+      servicesHint.textContent = '1 servicio seleccionado.';
+    } else {
+      servicesHint.textContent = n + ' servicios seleccionados.';
+    }
+  }
+
+  /* =========================================================
+     6. CALENDARIO
      ========================================================= */
 
   function renderCalendar() {
@@ -1845,7 +2053,7 @@ select{
   });
 
   /* =========================================================
-     6. HORARIOS
+     7. HORARIOS
      ========================================================= */
 
   function renderSlots() {
@@ -1902,7 +2110,7 @@ select{
   }
 
   /* =========================================================
-     7. SERVICIOS
+     8. SERVICIOS (selección múltiple)
      ========================================================= */
 
   const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
@@ -1916,7 +2124,7 @@ select{
 
       const btn = document.createElement('button');
       btn.type = 'button';
-      const selected = state.service && state.service.id === service.id;
+      const selected = isServiceSelected(service.id);
       btn.className = 'service' + (selected ? ' is-selected' : '');
       btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
@@ -1930,8 +2138,18 @@ select{
         '<span class="service-check" aria-hidden="true">' + CHECK_SVG + '</span>';
 
       btn.addEventListener('click', () => {
-        state.service = service;
-        renderServices();
+        const idx = state.services.findIndex((s) => s.id === service.id);
+        if (idx >= 0) {
+          state.services.splice(idx, 1);
+        } else {
+          state.services.push(service);
+        }
+
+        const nowSelected = isServiceSelected(service.id);
+        btn.classList.toggle('is-selected', nowSelected);
+        btn.setAttribute('aria-pressed', nowSelected ? 'true' : 'false');
+
+        updateServicesHint();
         renderSummary();
         syncControls();
         formNote.textContent = '';
@@ -1944,7 +2162,7 @@ select{
   }
 
   /* =========================================================
-     8. ESPECIALISTAS
+     9. ESPECIALISTAS
      ========================================================= */
 
   function renderSpecialists() {
@@ -1986,31 +2204,102 @@ select{
   }
 
   /* =========================================================
-     9. RESUMEN
+     10. RESUMEN
      ========================================================= */
 
   function renderSummary() {
-    sumService.textContent    = state.service ? state.service.name : '—';
+    if (state.services.length === 0) {
+      sumServices.textContent = '—';
+    } else {
+      sumServices.innerHTML = state.services
+        .map((s) => escapeHtml(s.name))
+        .join('<br>');
+    }
     sumSpecialist.textContent = state.specialist ? state.specialist.name : '—';
     sumDate.textContent       = state.date ? formatDate(state.date) : '—';
     sumTime.textContent       = state.time || '—';
-    sumDuration.textContent   = state.service ? state.service.duration + ' min' : '—';
-    sumPrice.textContent      = state.service ? money(state.service.price) : '—';
+    sumDuration.textContent   = state.services.length ? totalDuration() + ' min' : '—';
+    sumPrice.textContent      = state.services.length ? money(totalPrice()) : '—';
   }
 
   /* =========================================================
-     10. VALIDACIÓN DE PASOS
+     11. VALIDACIÓN DEL FORMULARIO
      ========================================================= */
 
-  function formReady() {
-    const name  = nameInput.value.trim();
-    const email = emailInput.value.trim();
-    return !!(name && EMAIL_RE.test(email));
+  function isNameOk()  { return nameInput.value.trim().length >= 2; }
+  function isEmailOk() { return EMAIL_RE.test(emailInput.value.trim()); }
+  function isPhoneOk() {
+    const v = phoneInput.value.trim();
+    return !v || v.replace(/\D/g, '').length >= 8;
   }
+  function formReady() { return isNameOk() && isEmailOk() && isPhoneOk(); }
+
+  function validateField(fieldName) {
+    const field = form.querySelector('[data-field="' + fieldName + '"]');
+    if (!field) return true;
+
+    const input   = field.querySelector('input');
+    const errorEl = field.querySelector('.field-error');
+    const value   = input.value.trim();
+
+    let valid = true;
+    let message = '';
+
+    if (fieldName === 'name') {
+      valid = value.length >= 2;
+      message = 'Escribe al menos 2 letras de tu nombre.';
+    } else if (fieldName === 'email') {
+      valid = EMAIL_RE.test(value);
+      message = 'Escribe un correo válido (ej. nombre@dominio.com).';
+    } else if (fieldName === 'phone') {
+      const digits = value.replace(/\D/g, '');
+      valid = !value || digits.length >= 8;
+      message = 'Si lo llenas, escribe al menos 8 dígitos (o déjalo vacío).';
+    }
+
+    field.classList.toggle('is-invalid', !valid);
+    field.classList.toggle('is-valid', valid && value !== '');
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.hidden = valid;
+    }
+    input.setAttribute('aria-invalid', valid ? 'false' : 'true');
+    return valid;
+  }
+
+  function updateFormState() {
+    const ready = formReady();
+    confirmBtn.hidden = !ready;
+    formNote.classList.remove('is-error');
+    if (ready) {
+      formNote.textContent = 'Todo listo. Pulsa “Confirmar reserva” para revisar el resumen.';
+    } else {
+      formNote.textContent = 'Completa tu nombre y correo para habilitar la confirmación.';
+    }
+  }
+
+  [nameInput, emailInput, phoneInput].forEach((input) => {
+    input.addEventListener('blur', () => {
+      const field = input.closest('.field');
+      if (field) validateField(field.dataset.field);
+      updateFormState();
+    });
+    input.addEventListener('input', () => {
+      const field = input.closest('.field');
+      if (field && (field.classList.contains('is-invalid') || field.classList.contains('is-valid'))) {
+        validateField(field.dataset.field);
+      }
+      updateFormState();
+    });
+  });
+
+  /* =========================================================
+     12. VALIDACIÓN DE PASOS
+     ========================================================= */
 
   function isStepComplete(step) {
     if (step === 1) return !!(state.date && state.time);
-    if (step === 2) return !!state.service;
+    if (step === 2) return state.services.length > 0;
     if (step === 3) return !!state.specialist;
     if (step === 4) return formReady();
     return false;
@@ -2026,7 +2315,7 @@ select{
     next1.disabled = !isStepComplete(1);
     next2.disabled = !isStepComplete(2);
     next3.disabled = !isStepComplete(3);
-    confirmBtn.hidden = !formReady();
+    updateFormState();
     renderStepsNav();
   }
 
@@ -2041,7 +2330,7 @@ select{
   }
 
   /* =========================================================
-     11. NAVEGACIÓN ENTRE PASOS
+     13. NAVEGACIÓN ENTRE PASOS
      ========================================================= */
 
   function goToStep(n, opts) {
@@ -2082,41 +2371,24 @@ select{
   });
 
   /* =========================================================
-     12. FORMULARIO + CONFIRMACIÓN
+     14. FORMULARIO + CONFIRMACIÓN
      ========================================================= */
-
-  [nameInput, emailInput].forEach((input) => {
-    input.addEventListener('input', () => {
-      input.removeAttribute('aria-invalid');
-      formNote.classList.remove('is-error');
-      if (formReady()) {
-        formNote.textContent = 'Todo listo. Pulsa “Confirmar reserva” para revisar el resumen.';
-      } else {
-        formNote.textContent = 'Completa tu nombre y correo para habilitar la confirmación.';
-      }
-      syncControls();
-    });
-  });
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    if (!state.service || !state.date || !state.time || !state.specialist) {
+    if (state.services.length === 0 || !state.date || !state.time || !state.specialist) {
       formNote.textContent = 'Vuelve a los pasos anteriores: falta servicio, día, horario o especialista.';
       formNote.classList.add('is-error');
       return;
     }
-    if (!nameInput.value.trim()) {
-      nameInput.setAttribute('aria-invalid', 'true');
-      nameInput.focus();
-      formNote.textContent = 'Escribe tu nombre para continuar.';
-      formNote.classList.add('is-error');
-      return;
-    }
-    if (!EMAIL_RE.test(emailInput.value.trim())) {
-      emailInput.setAttribute('aria-invalid', 'true');
-      emailInput.focus();
-      formNote.textContent = 'Escribe un correo válido para continuar.';
+
+    const okName  = validateField('name');
+    const okEmail = validateField('email');
+    const okPhone = validateField('phone');
+
+    if (!okName || !okEmail || !okPhone) {
+      formNote.textContent = 'Revisa los campos marcados en rojo antes de continuar.';
       formNote.classList.add('is-error');
       return;
     }
@@ -2127,17 +2399,22 @@ select{
   const summaryRow = (label, value) =>
     '<div><dt>' + label + '</dt><dd>' + escapeHtml(value) + '</dd></div>';
 
+  function servicesListHtml() {
+    return state.services.map((s) => escapeHtml(s.name)).join('<br>');
+  }
+
   function openConfirmModal() {
     confirmBody.innerHTML =
       '<dl class="summary">' +
-        summaryRow('Servicio', state.service.name) +
+        '<div><dt>Servicios</dt><dd>' + servicesListHtml() + '</dd></div>' +
         summaryRow('Especialista', state.specialist.name) +
         summaryRow('Día', formatDate(state.date)) +
         summaryRow('Hora', state.time) +
-        summaryRow('Duración', state.service.duration + ' min') +
-        summaryRow('Total', money(state.service.price)) +
+        summaryRow('Duración total', totalDuration() + ' min') +
+        summaryRow('Total', money(totalPrice())) +
         summaryRow('A nombre de', nameInput.value.trim()) +
         summaryRow('Correo', emailInput.value.trim()) +
+        (phoneInput.value.trim() ? summaryRow('Teléfono', phoneInput.value.trim()) : '') +
       '</dl>' +
       '<p class="modal-footnote">Al confirmar bloquearemos este horario a tu nombre y te enviaremos los detalles por correo.</p>';
 
@@ -2153,17 +2430,113 @@ select{
   confirmOk.addEventListener('click', () => {
     closeConfirmModal(false);
 
-    // 👉 Aquí conectarías tu backend / API de reservas
-    renderSuccess(nameInput.value.trim(), emailInput.value.trim());
+    const booking = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      createdAt: new Date().toISOString(),
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      dateISO: dateToISO(state.date),
+      dateLabel: formatDate(state.date),
+      time: state.time,
+      services: state.services.map((s) => ({ id:s.id, name:s.name, duration:s.duration, price:s.price })),
+      specialist: { id: state.specialist.id, name: state.specialist.name },
+      total: totalPrice(),
+      duration: totalDuration()
+    };
+
+    saveBooking(booking);
+    renderSuccess(booking);
+    renderHistory();
   });
+
   confirmBack.addEventListener('click', () => closeConfirmModal(true));
   confirmClose.addEventListener('click', () => closeConfirmModal(true));
   confirmModal.addEventListener('click', (event) => {
     if (event.target === confirmModal) closeConfirmModal(true);
   });
 
-  function renderSuccess(name, email) {
+  /* =========================================================
+     15. HISTORIAL (localStorage)
+     ========================================================= */
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveBooking(booking) {
+    try {
+      const list = loadHistory();
+      list.unshift(booking);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50)));
+    } catch (e) {
+      // Safari en modo privado o almacenamiento lleno: se ignora.
+    }
+  }
+
+  function renderHistory() {
+    const list = loadHistory();
+    clearHistoryBtn.hidden = list.length === 0;
+
+    if (list.length === 0) {
+      historyList.innerHTML =
+        '<div class="card history-empty">' +
+          '<p class="card-label">Sin reservas</p>' +
+          '<p class="lead" style="font-size:15px;">Aún no tienes reservas guardadas en este navegador. Agenda tu primer ritual arriba.</p>' +
+        '</div>';
+      return;
+    }
+
+    historyList.innerHTML = list.map((b) => {
+      const servicesHtml = (b.services || []).map((s) =>
+        '<li>' +
+          '<span>' + escapeHtml(s.name) + '</span>' +
+          '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price) + '</span>' +
+        '</li>'
+      ).join('');
+
+      return (
+        '<article class="card history-card">' +
+          '<div class="history-head">' +
+            '<div>' +
+              '<p class="card-label">' + escapeHtml(b.dateLabel) + ' · ' + escapeHtml(b.time) + '</p>' +
+              '<p class="history-title">' + escapeHtml(b.name) + '</p>' +
+            '</div>' +
+            '<span class="history-badge">Confirmada</span>' +
+          '</div>' +
+          '<ul class="history-services">' + servicesHtml + '</ul>' +
+          '<dl class="history-meta">' +
+            '<div><dt>Especialista</dt><dd>' + escapeHtml(b.specialist ? b.specialist.name : '—') + '</dd></div>' +
+            '<div><dt>Total</dt><dd>' + money(b.total) + '</dd></div>' +
+          '</dl>' +
+        '</article>'
+      );
+    }).join('');
+  }
+
+  clearHistoryBtn.addEventListener('click', () => {
+    if (!window.confirm('¿Borrar todo el historial de reservas de este navegador?')) return;
+    try { localStorage.removeItem(HISTORY_KEY); } catch (e) {}
+    renderHistory();
+  });
+
+  /* =========================================================
+     16. PANTALLA DE ÉXITO
+     ========================================================= */
+
+  function renderSuccess(booking) {
     stepsNav.classList.add('is-hidden');
+
+    const servicesHtml = (booking.services || [])
+      .map((s) => escapeHtml(s.name))
+      .join('<br>');
 
     summaryPanel.innerHTML =
       '<div class="success">' +
@@ -2171,23 +2544,27 @@ select{
           '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>' +
         '</div>' +
         '<p class="eyebrow">Reserva confirmada</p>' +
-        '<h3 class="heading-lg">Gracias, ' + escapeHtml(name) + '.</h3>' +
-        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(email) + '. Te esperamos en Aevi Wellness.</p>' +
+        '<h3 class="heading-lg">Gracias, ' + escapeHtml(booking.name) + '.</h3>' +
+        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(booking.email) + '. Te esperamos en Aevi Wellness.</p>' +
         '<dl class="summary">' +
-          summaryRow('Servicio', state.service.name) +
-          summaryRow('Especialista', state.specialist.name) +
-          summaryRow('Día', formatDate(state.date)) +
-          summaryRow('Hora', state.time) +
-          summaryRow('Total', money(state.service.price)) +
+          '<div><dt>Servicios</dt><dd>' + servicesHtml + '</dd></div>' +
+          summaryRow('Especialista', booking.specialist.name) +
+          summaryRow('Día', booking.dateLabel) +
+          summaryRow('Hora', booking.time) +
+          summaryRow('Duración total', booking.duration + ' min') +
+          summaryRow('Total', money(booking.total)) +
         '</dl>' +
-        '<button class="btn btn-ghost" type="button" id="newBookingBtn">Hacer otra reserva</button>' +
+        '<div class="success-actions">' +
+          '<a href="#historial" class="btn btn-pill">Ver mis reservas</a>' +
+          '<button class="btn btn-ghost" type="button" id="newBookingBtn">Hacer otra reserva</button>' +
+        '</div>' +
       '</div>';
 
     document.getElementById('newBookingBtn').addEventListener('click', () => window.location.reload());
   }
 
   /* =========================================================
-     13. MODAL DE SOPORTE
+     17. MODAL DE SOPORTE
      ========================================================= */
 
   const supportModal = $('#supportModal');
@@ -2219,7 +2596,7 @@ select{
   });
 
   /* =========================================================
-     14. INICIALIZACIÓN
+     18. INICIALIZACIÓN
      ========================================================= */
 
   function findNextOpenDay() {
@@ -2244,7 +2621,9 @@ select{
     renderServices();
     renderSpecialists();
     renderSummary();
+    updateServicesHint();
     syncControls();
+    renderHistory();
 
     $('#year').textContent = new Date().getFullYear();
   }
