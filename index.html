@@ -355,7 +355,7 @@ select{
 }
 
 /* =========================================================
-   AGENDA — LAYOUT
+   AGENDA — LAYOUT (paso 1)
    ========================================================= */
 .agenda-grid{
   display:grid;
@@ -363,7 +363,106 @@ select{
   gap:var(--spacing-24);
   align-items:start;
 }
-.agenda-side{display:grid;gap:var(--spacing-24);}
+
+/* =========================================================
+   FLUJO DE RESERVA POR PASOS
+   ========================================================= */
+#reserva{scroll-margin-top:84px;}
+
+.steps{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--spacing-8);
+  margin:0 0 var(--spacing-24);
+  padding:0;
+  list-style:none;
+}
+.steps li{flex:1 1 0;min-width:140px;}
+.steps.is-hidden{display:none;}
+
+.step-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 14px;
+  text-align:left;
+  font-family:var(--font-tight);
+  font-size:14px;
+  font-weight:500;
+  color:var(--color-slate);
+  background:var(--color-paper);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-pill);
+  transition:border-color .15s ease, background .15s ease, color .15s ease;
+}
+.step-btn .step-num{
+  width:22px;
+  height:22px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  font-size:11px;
+  font-weight:600;
+  background:var(--color-bone);
+  color:var(--color-slate);
+  transition:background .15s ease, color .15s ease;
+}
+.step-btn:disabled{opacity:.5;cursor:not-allowed;}
+.step-btn:not(:disabled):hover{border-color:var(--color-mint-pulse);}
+.step-btn.is-active{
+  border-color:var(--color-deep-teal);
+  color:var(--color-deep-teal);
+  background:rgba(36,77,84,.05);
+}
+.step-btn.is-active .step-num{background:var(--color-deep-teal);color:#fff;}
+.step-btn.is-done{
+  border-color:var(--color-mint-pulse);
+  color:var(--color-deep-teal);
+  background:rgba(46,206,160,.06);
+}
+.step-btn.is-done .step-num{background:var(--color-mint-pulse);color:#fff;}
+
+.booking-shell{
+  background:var(--color-paper);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-3xl);
+  padding:clamp(20px, 3vw, 40px);
+}
+
+.step-panel{display:none;}
+.step-panel.is-active{display:block;animation:panelIn .3s ease both;}
+
+@keyframes panelIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:none;}
+}
+
+.panel-head{margin-bottom:var(--spacing-24);}
+.panel-head .heading{margin:var(--spacing-8) 0;}
+.panel-head .lead{font-size:15px;}
+
+.panel-foot{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:var(--spacing-12);
+  margin-top:var(--spacing-28);
+  padding-top:var(--spacing-20);
+  border-top:1px solid var(--color-mist);
+}
+.panel-foot .btn{width:auto;}
+.panel-foot .btn-ghost{margin-right:auto;}
+.panel-foot .form-note{margin:0;flex:1 1 100%;}
+
+/* Paso 4 — dos columnas */
+.reserva-grid{
+  display:grid;
+  grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
+  gap:var(--spacing-24);
+  align-items:start;
+}
 
 /* =========================================================
    CARDS
@@ -546,11 +645,94 @@ select{
   border-color:var(--color-mint-pulse);
   color:#fff;
 }
+.slots-empty{
+  font-size:14px;
+  color:var(--color-slate);
+  grid-column:1 / -1;
+}
+
+/* =========================================================
+   ESPECIALISTAS
+   ========================================================= */
+.specialist-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+  gap:var(--spacing-12);
+}
+.specialist{
+  display:flex;
+  align-items:flex-start;
+  gap:var(--spacing-16);
+  width:100%;
+  padding:var(--spacing-16);
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+  background:var(--color-paper);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-xl);
+  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  touch-action:manipulation;
+}
+.specialist:hover:not(:disabled){
+  border-color:var(--color-mint-pulse);
+  background:rgba(46,206,160,.05);
+}
+.specialist.is-selected{
+  border-color:var(--color-deep-teal);
+  background:var(--color-bone);
+  box-shadow:inset 0 0 0 1px var(--color-deep-teal);
+}
+.specialist:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  background:var(--color-bone);
+}
+.spec-avatar{
+  width:44px;
+  height:44px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--color-deep-teal);
+  color:#fff;
+  font-family:var(--font-tight);
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:0.02em;
+  transition:background .15s ease;
+}
+.specialist.is-selected .spec-avatar{background:var(--color-mint-pulse);}
+.spec-body{display:block;min-width:0;}
+.spec-name{
+  display:block;
+  font-family:var(--font-tight);
+  font-size:16px;
+  font-weight:500;
+  color:var(--color-ink);
+  letter-spacing:-0.01em;
+}
+.spec-role{
+  display:block;
+  margin-top:2px;
+  font-size:13px;
+  color:var(--color-slate);
+}
+.spec-days{
+  display:block;
+  margin-top:8px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--color-deep-teal);
+}
+.specialist:disabled .spec-days{color:var(--color-fog);}
 
 /* =========================================================
    RESUMEN + FORMULARIO
    ========================================================= */
-.summary{margin-bottom:var(--spacing-24);}
 .summary > div{
   display:flex;
   justify-content:space-between;
@@ -606,6 +788,10 @@ select{
   border-color:var(--color-deep-teal);
   box-shadow:0 0 0 3px rgba(36,77,84,.12);
 }
+.field input[aria-invalid="true"]{
+  border-color:#c0392b;
+  box-shadow:0 0 0 3px rgba(192,57,43,.1);
+}
 
 .form-note{
   margin-top:var(--spacing-12);
@@ -614,6 +800,7 @@ select{
   color:var(--color-slate);
   min-height:18px;
 }
+.form-note.is-error{color:#c0392b;}
 
 /* =========================================================
    BOTONES
@@ -630,10 +817,12 @@ select{
   padding:14px 32px;
   border:1px solid transparent;
   border-radius:var(--radius-pill);
-  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .08s ease;
+  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .08s ease, opacity .15s ease;
   touch-action:manipulation;
 }
 .btn:active{transform:translateY(1px);}
+.btn[hidden]{display:none;}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
 
 .btn-pill{
   width:100%;
@@ -641,14 +830,14 @@ select{
   color:#fff;
   border-color:var(--color-mint-pulse);
 }
-.btn-pill:hover{filter:brightness(0.95);}
+.btn-pill:hover:not(:disabled){filter:brightness(0.95);}
 
 .btn-ghost{
   background:transparent;
   color:var(--color-deep-teal);
   border-color:var(--color-deep-teal);
 }
-.btn-ghost:hover{
+.btn-ghost:hover:not(:disabled){
   background:var(--color-deep-teal);
   color:#fff;
 }
@@ -735,6 +924,39 @@ select{
   border-color:var(--color-mint-pulse);
 }
 .service.is-selected .service-check svg{opacity:1;}
+
+/* =========================================================
+   ÉXITO
+   ========================================================= */
+.success{
+  max-width:560px;
+  margin:0 auto;
+  padding:var(--spacing-16) 0;
+  text-align:center;
+}
+.success-mark{
+  width:72px;
+  height:72px;
+  margin:0 auto var(--spacing-20);
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(46,206,160,.14);
+}
+.success-mark svg{
+  width:32px;height:32px;
+  stroke:var(--color-mint-pulse);
+  stroke-width:2.5;
+  fill:none;
+}
+.success .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
+.success .lead{margin:0 auto var(--spacing-24);}
+.success .summary{
+  text-align:left;
+  margin-bottom:var(--spacing-24);
+  padding:0 var(--spacing-8);
+}
+.success .btn{width:auto;}
 
 /* =========================================================
    MAPA
@@ -867,7 +1089,7 @@ select{
 .support-fab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
 
 /* =========================================================
-   MODAL DE SOPORTE
+   MODALES
    ========================================================= */
 .modal{
   position:fixed;
@@ -889,6 +1111,7 @@ select{
   background:var(--color-paper);
   border-radius:var(--radius-2xl);
   border:1px solid var(--color-mist);
+  animation:panelIn .25s ease both;
 }
 .modal-head{
   display:flex;
@@ -911,6 +1134,13 @@ select{
   flex-shrink:0;
 }
 .modal-close:hover{background:var(--color-mist);}
+
+.modal-actions{
+  display:flex;
+  gap:var(--spacing-12);
+  margin-top:var(--spacing-24);
+}
+.modal-actions .btn{flex:1 1 0;width:auto;}
 
 .contact-row{
   display:flex;
@@ -938,7 +1168,7 @@ select{
 .contact-row a:hover{color:var(--color-mint-pulse);}
 
 .modal-footnote{
-  margin-top:var(--spacing-24);
+  margin-top:var(--spacing-16);
   padding-top:var(--spacing-16);
   border-top:1px solid var(--color-mist);
   font-size:13px;
@@ -957,6 +1187,8 @@ select{
 .slot:focus-visible,
 .day:focus-visible,
 .cal-nav:focus-visible,
+.specialist:focus-visible,
+.step-btn:focus-visible,
 .support-fab:focus-visible{
   outline-offset:3px;
 }
@@ -966,6 +1198,7 @@ select{
    ========================================================= */
 @media (max-width:1024px){
   .agenda-grid{grid-template-columns:1fr;}
+  .reserva-grid{grid-template-columns:1fr;}
   .hero{grid-template-columns:1fr;}
   .hero-light{min-height:320px;}
   .hero-dark{padding:var(--spacing-60) var(--spacing-24);}
@@ -973,13 +1206,19 @@ select{
 
 @media (max-width:720px){
   .nav{display:none;}
-  .section{padding:var(--spacing-48) 0;}
+  .section{padding:48px 0;}
   .section-head{margin-bottom:var(--spacing-24);}
   .card{padding:var(--spacing-20);}
   .hero-dark{padding:var(--spacing-40) var(--spacing-20);}
   .hero-light{min-height:260px;}
   .hero-mark{width:min(220px, 60%);}
   .hero-mark svg{width:40px;height:40px;}
+
+  .steps li{min-width:calc(50% - var(--spacing-4));}
+  .step-btn{font-size:13px;padding:10px 12px;}
+  .booking-shell{border-radius:var(--radius-2xl);}
+
+  .panel-foot .btn{flex:1 1 auto;}
 
   .service{grid-template-columns:1fr auto;gap:var(--spacing-8) var(--spacing-16);}
   .service-dur{display:none;}
@@ -1006,6 +1245,7 @@ select{
   .announce{font-size:12px;padding:8px 12px;}
   .btn{padding:12px 24px;font-size:15px;}
   .btn-outline-mint{padding:12px 28px;font-size:15px;}
+  .specialist-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -1025,8 +1265,8 @@ select{
   <div class="header-inner">
     <a href="#top" class="wordmark">Aevi <span>Wellness</span></a>
     <nav class="nav" aria-label="Navegación principal">
-      <a href="#agenda">Agenda</a>
-      <a href="#servicios">Servicios</a>
+      <a href="#reserva" data-nav-step="1">Reserva</a>
+      <a href="#reserva" data-nav-step="2">Servicios</a>
       <a href="#ubicacion">Ubicación</a>
     </nav>
   </div>
@@ -1042,11 +1282,11 @@ select{
       <p class="eyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
       <p class="lead">
-        Elige el día, el horario y el servicio. Confirmamos tu cita al instante
-        y te enviamos los detalles por correo.
+        Cuatro pasos claros: elige día y horario, tu servicio, tu especialista
+        y confirma. Te enviamos los detalles por correo.
       </p>
       <div class="hero-actions">
-        <a href="#agenda" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
+        <a href="#reserva" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
       </div>
     </div>
 
@@ -1065,58 +1305,140 @@ select{
   </section>
 
   <!-- =========================================================
-       01 — AGENDA
+       01 — RESERVAS (FLUJO POR PASOS)
        ========================================================= -->
-  <section id="agenda" class="section section--bone">
+  <section id="reserva" class="section section--bone">
     <div class="container">
 
       <div class="section-head">
         <p class="eyebrow">01 — Reservas</p>
-        <h2 class="heading-lg">Elige día y horario</h2>
-        <p class="lead">Selecciona un día disponible en el calendario y luego tu horario.</p>
+        <h2 class="heading-lg">Agenda en 4 pasos</h2>
+        <p class="lead">Cada paso es una pantalla. Avanza cuando tengas tu selección lista.</p>
       </div>
 
-      <div class="agenda-grid">
+      <!-- Indicador de pasos -->
+      <ol class="steps" id="stepsNav" aria-label="Pasos de la reserva">
+        <li>
+          <button class="step-btn is-active" type="button" data-goto="1">
+            <span class="step-num">1</span> Día y hora
+          </button>
+        </li>
+        <li>
+          <button class="step-btn" type="button" data-goto="2" disabled>
+            <span class="step-num">2</span> Servicio
+          </button>
+        </li>
+        <li>
+          <button class="step-btn" type="button" data-goto="3" disabled>
+            <span class="step-num">3</span> Especialista
+          </button>
+        </li>
+        <li>
+          <button class="step-btn" type="button" data-goto="4" disabled>
+            <span class="step-num">4</span> Tu reserva
+          </button>
+        </li>
+      </ol>
 
-        <!-- Calendario -->
-        <div class="card">
-          <div class="cal-head">
-            <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
-            <p class="cal-month" id="monthLabel">—</p>
-            <button class="cal-nav" id="nextMonth" type="button" aria-label="Mes siguiente">&#8594;</button>
+      <div class="booking-shell">
+
+        <!-- ============ PASO 1 — DÍA Y HORA ============ -->
+        <div class="step-panel is-active" data-step="1">
+          <div class="panel-head">
+            <p class="eyebrow">Paso 1 de 4</p>
+            <h3 class="heading">Elige día y horario</h3>
+            <p class="lead">Selecciona un día disponible en el calendario y después tu horario.</p>
           </div>
 
-          <div class="cal-grid" id="calGrid" role="grid" aria-label="Calendario de disponibilidad"></div>
+          <div class="agenda-grid">
+            <!-- Calendario -->
+            <div class="card">
+              <div class="cal-head">
+                <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
+                <p class="cal-month" id="monthLabel">—</p>
+                <button class="cal-nav" id="nextMonth" type="button" aria-label="Mes siguiente">&#8594;</button>
+              </div>
 
-          <div class="cal-legend">
-            <span><i class="dot dot--open"></i>Con disponibilidad</span>
-            <span><i class="dot dot--today"></i>Hoy</span>
-            <span><i class="dot dot--off"></i>Cerrado</span>
+              <div class="cal-grid" id="calGrid" role="grid" aria-label="Calendario de disponibilidad"></div>
+
+              <div class="cal-legend">
+                <span><i class="dot dot--open"></i>Con disponibilidad</span>
+                <span><i class="dot dot--today"></i>Hoy</span>
+                <span><i class="dot dot--off"></i>Cerrado</span>
+              </div>
+            </div>
+
+            <!-- Horarios -->
+            <div class="card">
+              <p class="card-label">Horarios</p>
+              <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
+              <div class="slots" id="slots"></div>
+            </div>
+          </div>
+
+          <div class="panel-foot">
+            <button class="btn btn-pill" type="button" id="next1" disabled>Continuar</button>
           </div>
         </div>
 
-        <!-- Columna lateral -->
-        <div class="agenda-side">
-
-          <!-- Horarios -->
-          <div class="card">
-            <p class="card-label">Horarios</p>
-            <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
-            <div class="slots" id="slots"></div>
+        <!-- ============ PASO 2 — SERVICIO ============ -->
+        <div class="step-panel" data-step="2">
+          <div class="panel-head">
+            <p class="eyebrow">Paso 2 de 4</p>
+            <h3 class="heading">Carta de servicios</h3>
+            <p class="lead">Selecciona el tratamiento que quieres reservar.</p>
           </div>
 
-          <!-- Resumen + formulario -->
-          <div class="card" id="summaryPanel">
-            <p class="card-label">Tu reserva</p>
+          <ul class="service-list" id="serviceList"></ul>
 
-            <dl class="summary">
-              <div><dt>Servicio</dt><dd id="sumService">—</dd></div>
-              <div><dt>Día</dt><dd id="sumDate">—</dd></div>
-              <div><dt>Hora</dt><dd id="sumTime">—</dd></div>
-              <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
-            </dl>
+          <div class="panel-foot">
+            <button class="btn btn-ghost" type="button" data-back="1">Atrás</button>
+            <button class="btn btn-pill" type="button" id="next2" disabled>Continuar</button>
+          </div>
+        </div>
 
-            <form id="bookingForm" novalidate>
+        <!-- ============ PASO 3 — ESPECIALISTA ============ -->
+        <div class="step-panel" data-step="3">
+          <div class="panel-head">
+            <p class="eyebrow">Paso 3 de 4</p>
+            <h3 class="heading">Elige a tu especialista</h3>
+            <p class="lead" id="specHint">Te atenderá la persona que selecciones. Verás sólo a quienes trabajan ese día.</p>
+          </div>
+
+          <div class="specialist-grid" id="specialistList"></div>
+
+          <div class="panel-foot">
+            <button class="btn btn-ghost" type="button" data-back="2">Atrás</button>
+            <button class="btn btn-pill" type="button" id="next3" disabled>Continuar</button>
+          </div>
+        </div>
+
+        <!-- ============ PASO 4 — TU RESERVA ============ -->
+        <div class="step-panel" data-step="4" id="summaryPanel">
+          <div class="panel-head">
+            <p class="eyebrow">Paso 4 de 4</p>
+            <h3 class="heading">Tu reserva</h3>
+            <p class="lead">Revisa los detalles y completa tus datos para confirmar.</p>
+          </div>
+
+          <div class="reserva-grid">
+            <!-- Resumen -->
+            <div class="card">
+              <p class="card-label">Resumen</p>
+              <dl class="summary">
+                <div><dt>Servicio</dt><dd id="sumService">—</dd></div>
+                <div><dt>Especialista</dt><dd id="sumSpecialist">—</dd></div>
+                <div><dt>Día</dt><dd id="sumDate">—</dd></div>
+                <div><dt>Hora</dt><dd id="sumTime">—</dd></div>
+                <div><dt>Duración</dt><dd id="sumDuration">—</dd></div>
+                <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
+              </dl>
+            </div>
+
+            <!-- Formulario -->
+            <form class="card" id="bookingForm" novalidate>
+              <p class="card-label">Tus datos</p>
+
               <label class="field">
                 <span>Nombre</span>
                 <input type="text" id="fName" placeholder="Tu nombre" autocomplete="name" required>
@@ -1130,38 +1452,32 @@ select{
                 <input type="tel" id="fPhone" placeholder="+52 55 0000 0000" autocomplete="tel" inputmode="tel">
               </label>
 
-              <button class="btn btn-pill" type="submit">Confirmar reserva</button>
-              <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+              <button class="btn btn-pill" type="submit" id="confirmBtn" hidden>
+                Confirmar reserva
+              </button>
+
+              <p class="form-note" id="formNote" role="status" aria-live="polite">
+                Completa tu nombre y correo para habilitar la confirmación.
+              </p>
             </form>
           </div>
 
+          <div class="panel-foot">
+            <button class="btn btn-ghost" type="button" data-back="3">Atrás</button>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
 
   <!-- =========================================================
-       02 — SERVICIOS
+       02 — UBICACIÓN
        ========================================================= -->
-  <section id="servicios" class="section">
+  <section id="ubicacion" class="section">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">02 — Carta de servicios</p>
-        <h2 class="heading-lg">Tratamientos disponibles</h2>
-        <p class="lead">Selecciona un servicio para añadirlo a tu reserva.</p>
-      </div>
-
-      <ul class="service-list" id="serviceList"></ul>
-    </div>
-  </section>
-
-  <!-- =========================================================
-       03 — UBICACIÓN
-       ========================================================= -->
-  <section id="ubicacion" class="section section--bone">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">03 — Ubicación</p>
+        <p class="eyebrow">02 — Ubicación</p>
         <h2 class="heading-lg">Cómo llegar</h2>
         <p class="lead">Toca el mapa para abrir la navegación en tu teléfono.</p>
       </div>
@@ -1289,6 +1605,28 @@ select{
   </div>
 </div>
 
+<!-- =========================================================
+     MODAL DE CONFIRMACIÓN DE RESERVA
+     ========================================================= -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div>
+        <p class="card-label">Paso final</p>
+        <h3 class="heading" id="confirmTitle">Revisa tu reserva</h3>
+      </div>
+      <button class="modal-close" id="confirmClose" type="button" aria-label="Cerrar">&times;</button>
+    </div>
+
+    <div id="confirmBody"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" id="confirmBack">Volver</button>
+      <button class="btn btn-pill" type="button" id="confirmOk">Confirmar reserva</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -1305,6 +1643,14 @@ select{
     { id:'rutina',      name:'Asesoría de rutina',      desc:'Armado de rutina de 3 pasos en tienda.',   duration:45, price:600 }
   ];
 
+  // days: 0 = domingo … 6 = sábado
+  const SPECIALISTS = [
+    { id:'sofia',   name:'Ana Sofía Ríos', role:'Especialista facial', days:[1,2,3,4,5] },
+    { id:'marcos',  name:'Marcos Delgado', role:'Terapeuta corporal',  days:[1,3,5,6]   },
+    { id:'valeria', name:'Valeria Cruz',   role:'Cosmiatra',           days:[2,4,6]     },
+    { id:'ivan',    name:'Iván Ortega',    role:'Masoterapeuta',       days:[1,2,3,4,5,6] }
+  ];
+
   // Horarios por día de la semana (0 = domingo … 6 = sábado)
   const SLOTS_BY_WEEKDAY = {
     0: [],
@@ -1318,6 +1664,7 @@ select{
 
   const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
   const DOW_LABELS = ['L','M','M','J','V','S','D'];
 
   /* =========================================================
@@ -1343,6 +1690,12 @@ select{
   const slotsFor = (date) => SLOTS_BY_WEEKDAY[date.getDay()] || [];
   const isClosedDay = (date) => slotsFor(date).length === 0;
 
+  const initials = (name) =>
+    name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+
+  const daysLabel = (days) =>
+    days.slice().sort((a, b) => a - b).map((d) => DAY_SHORT[d]).join(' · ');
+
   // Disponibilidad simulada y determinista (reemplazar por datos del backend)
   function isSlotTaken(date, time) {
     const list = slotsFor(date);
@@ -1357,6 +1710,8 @@ select{
     return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
   }
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
   /* =========================================================
      3. ESTADO
      ========================================================= */
@@ -1365,27 +1720,45 @@ select{
     view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     date: null,
     time: null,
-    service: null
+    service: null,
+    specialist: null,
+    step: 1
   };
 
   /* =========================================================
      4. REFERENCIAS DOM
      ========================================================= */
 
-  const monthLabel   = $('#monthLabel');
-  const calGrid      = $('#calGrid');
-  const prevBtn      = $('#prevMonth');
-  const nextBtn      = $('#nextMonth');
-  const slotsEl      = $('#slots');
-  const slotsDate    = $('#slotsDate');
-  const serviceList  = $('#serviceList');
-  const sumService   = $('#sumService');
-  const sumDate      = $('#sumDate');
-  const sumTime      = $('#sumTime');
-  const sumPrice     = $('#sumPrice');
-  const form         = $('#bookingForm');
-  const formNote     = $('#formNote');
-  const summaryPanel = $('#summaryPanel');
+  const monthLabel     = $('#monthLabel');
+  const calGrid        = $('#calGrid');
+  const prevBtn        = $('#prevMonth');
+  const nextBtn        = $('#nextMonth');
+  const slotsEl        = $('#slots');
+  const slotsDate      = $('#slotsDate');
+  const serviceList    = $('#serviceList');
+  const specialistList = $('#specialistList');
+  const sumService     = $('#sumService');
+  const sumSpecialist  = $('#sumSpecialist');
+  const sumDate        = $('#sumDate');
+  const sumTime        = $('#sumTime');
+  const sumDuration    = $('#sumDuration');
+  const sumPrice       = $('#sumPrice');
+  const form           = $('#bookingForm');
+  const formNote       = $('#formNote');
+  const summaryPanel   = $('#summaryPanel');
+  const stepsNav       = $('#stepsNav');
+  const next1          = $('#next1');
+  const next2          = $('#next2');
+  const next3          = $('#next3');
+  const confirmBtn     = $('#confirmBtn');
+  const nameInput      = $('#fName');
+  const emailInput     = $('#fEmail');
+
+  const confirmModal   = $('#confirmModal');
+  const confirmBody    = $('#confirmBody');
+  const confirmOk      = $('#confirmOk');
+  const confirmBack    = $('#confirmBack');
+  const confirmClose   = $('#confirmClose');
 
   /* =========================================================
      5. CALENDARIO
@@ -1442,10 +1815,19 @@ select{
       btn.addEventListener('click', () => {
         state.date = date;
         state.time = null;
+
+        // Si el especialista elegido no trabaja ese día, se limpia la selección
+        if (state.specialist && state.specialist.days.indexOf(date.getDay()) === -1) {
+          state.specialist = null;
+        }
+
         renderCalendar();
         renderSlots();
+        renderSpecialists();
         renderSummary();
+        syncControls();
         formNote.textContent = '';
+        formNote.classList.remove('is-error');
       });
 
       calGrid.appendChild(btn);
@@ -1472,7 +1854,7 @@ select{
     if (!state.date) {
       slotsDate.textContent = 'Selecciona un día';
       slotsDate.classList.add('empty');
-      slotsEl.innerHTML = '<p class="lead" style="font-size:14px;">Elige un día en el calendario para ver los horarios.</p>';
+      slotsEl.innerHTML = '<p class="slots-empty">Elige un día en el calendario para ver los horarios.</p>';
       return;
     }
 
@@ -1481,7 +1863,7 @@ select{
 
     const list = slotsFor(state.date);
     if (list.length === 0) {
-      slotsEl.innerHTML = '<p class="lead" style="font-size:14px;">Sin horarios disponibles este día.</p>';
+      slotsEl.innerHTML = '<p class="slots-empty">Sin horarios disponibles este día.</p>';
       return;
     }
 
@@ -1510,7 +1892,9 @@ select{
         state.time = time;
         renderSlots();
         renderSummary();
+        syncControls();
         formNote.textContent = '';
+        formNote.classList.remove('is-error');
       });
 
       slotsEl.appendChild(btn);
@@ -1518,18 +1902,7 @@ select{
   }
 
   /* =========================================================
-     7. RESUMEN
-     ========================================================= */
-
-  function renderSummary() {
-    sumService.textContent = state.service ? state.service.name : '—';
-    sumDate.textContent    = state.date ? formatDate(state.date) : '—';
-    sumTime.textContent    = state.time || '—';
-    sumPrice.textContent   = state.service ? money(state.service.price) : '—';
-  }
-
-  /* =========================================================
-     8. SERVICIOS
+     7. SERVICIOS
      ========================================================= */
 
   const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
@@ -1560,7 +1933,9 @@ select{
         state.service = service;
         renderServices();
         renderSummary();
+        syncControls();
         formNote.textContent = '';
+        formNote.classList.remove('is-error');
       });
 
       li.appendChild(btn);
@@ -1569,46 +1944,250 @@ select{
   }
 
   /* =========================================================
-     9. CONFIRMACIÓN DE RESERVA
+     8. ESPECIALISTAS
      ========================================================= */
+
+  function renderSpecialists() {
+    specialistList.innerHTML = '';
+
+    const weekday = state.date ? state.date.getDay() : null;
+
+    SPECIALISTS.forEach((spec) => {
+      const available = weekday === null || spec.days.indexOf(weekday) !== -1;
+      const selected  = !!(state.specialist && state.specialist.id === spec.id);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'specialist' + (selected ? ' is-selected' : '');
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+
+      btn.innerHTML =
+        '<span class="spec-avatar" aria-hidden="true">' + escapeHtml(initials(spec.name)) + '</span>' +
+        '<span class="spec-body">' +
+          '<span class="spec-name">' + escapeHtml(spec.name) + '</span>' +
+          '<span class="spec-role">' + escapeHtml(spec.role) + '</span>' +
+          '<span class="spec-days">' +
+            (available ? 'Disponible ' + daysLabel(spec.days) : 'No disponible este día') +
+          '</span>' +
+        '</span>';
+
+      btn.addEventListener('click', () => {
+        state.specialist = spec;
+        renderSpecialists();
+        renderSummary();
+        syncControls();
+        formNote.textContent = '';
+        formNote.classList.remove('is-error');
+      });
+
+      specialistList.appendChild(btn);
+    });
+  }
+
+  /* =========================================================
+     9. RESUMEN
+     ========================================================= */
+
+  function renderSummary() {
+    sumService.textContent    = state.service ? state.service.name : '—';
+    sumSpecialist.textContent = state.specialist ? state.specialist.name : '—';
+    sumDate.textContent       = state.date ? formatDate(state.date) : '—';
+    sumTime.textContent       = state.time || '—';
+    sumDuration.textContent   = state.service ? state.service.duration + ' min' : '—';
+    sumPrice.textContent      = state.service ? money(state.service.price) : '—';
+  }
+
+  /* =========================================================
+     10. VALIDACIÓN DE PASOS
+     ========================================================= */
+
+  function formReady() {
+    const name  = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    return !!(name && EMAIL_RE.test(email));
+  }
+
+  function isStepComplete(step) {
+    if (step === 1) return !!(state.date && state.time);
+    if (step === 2) return !!state.service;
+    if (step === 3) return !!state.specialist;
+    if (step === 4) return formReady();
+    return false;
+  }
+
+  function maxReachableStep() {
+    let s = 1;
+    while (s < 4 && isStepComplete(s)) s++;
+    return s;
+  }
+
+  function syncControls() {
+    next1.disabled = !isStepComplete(1);
+    next2.disabled = !isStepComplete(2);
+    next3.disabled = !isStepComplete(3);
+    confirmBtn.hidden = !formReady();
+    renderStepsNav();
+  }
+
+  function renderStepsNav() {
+    const max = maxReachableStep();
+    stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
+      const n = Number(btn.dataset.goto);
+      btn.classList.toggle('is-active', n === state.step);
+      btn.classList.toggle('is-done', n !== state.step && isStepComplete(n));
+      btn.disabled = n > max;
+    });
+  }
+
+  /* =========================================================
+     11. NAVEGACIÓN ENTRE PASOS
+     ========================================================= */
+
+  function goToStep(n, opts) {
+    opts = opts || {};
+    n = Math.max(1, Math.min(4, n));
+    state.step = n;
+
+    document.querySelectorAll('.step-panel').forEach((panel) => {
+      panel.classList.toggle('is-active', Number(panel.dataset.step) === n);
+    });
+
+    renderStepsNav();
+
+    if (opts.scroll !== false) {
+      const target = document.getElementById('reserva');
+      if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  }
+
+  next1.addEventListener('click', () => goToStep(2));
+  next2.addEventListener('click', () => goToStep(3));
+  next3.addEventListener('click', () => goToStep(4));
+
+  document.querySelectorAll('[data-back]').forEach((btn) => {
+    btn.addEventListener('click', () => goToStep(Number(btn.dataset.back)));
+  });
+
+  stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
+    btn.addEventListener('click', () => goToStep(Number(btn.dataset.goto)));
+  });
+
+  document.querySelectorAll('[data-nav-step]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = Number(link.dataset.navStep);
+      goToStep(Math.min(target, maxReachableStep()));
+    });
+  });
+
+  /* =========================================================
+     12. FORMULARIO + CONFIRMACIÓN
+     ========================================================= */
+
+  [nameInput, emailInput].forEach((input) => {
+    input.addEventListener('input', () => {
+      input.removeAttribute('aria-invalid');
+      formNote.classList.remove('is-error');
+      if (formReady()) {
+        formNote.textContent = 'Todo listo. Pulsa “Confirmar reserva” para revisar el resumen.';
+      } else {
+        formNote.textContent = 'Completa tu nombre y correo para habilitar la confirmación.';
+      }
+      syncControls();
+    });
+  });
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const name  = $('#fName').value.trim();
-    const email = $('#fEmail').value.trim();
-
-    if (!state.service || !state.date || !state.time) {
-      formNote.textContent = 'Selecciona un servicio, un día y un horario para continuar.';
+    if (!state.service || !state.date || !state.time || !state.specialist) {
+      formNote.textContent = 'Vuelve a los pasos anteriores: falta servicio, día, horario o especialista.';
+      formNote.classList.add('is-error');
       return;
     }
-    if (!name || !email) {
-      formNote.textContent = 'Escribe tu nombre y correo para confirmar.';
+    if (!nameInput.value.trim()) {
+      nameInput.setAttribute('aria-invalid', 'true');
+      nameInput.focus();
+      formNote.textContent = 'Escribe tu nombre para continuar.';
+      formNote.classList.add('is-error');
+      return;
+    }
+    if (!EMAIL_RE.test(emailInput.value.trim())) {
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.focus();
+      formNote.textContent = 'Escribe un correo válido para continuar.';
+      formNote.classList.add('is-error');
       return;
     }
 
-    // 👉 Aquí conectarías tu backend / API de reservas
-    renderConfirmation(name, email);
+    openConfirmModal();
   });
 
-  function renderConfirmation(name, email) {
-    summaryPanel.innerHTML =
-      '<p class="card-label">Reserva confirmada</p>' +
-      '<h3 class="heading" style="margin-bottom:12px;">Gracias, ' + escapeHtml(name) + '.</h3>' +
-      '<p class="lead" style="margin-bottom:24px;font-size:15px;">Te enviamos los detalles a ' + escapeHtml(email) + '.</p>' +
-      '<dl class="summary">' +
-        '<div><dt>Servicio</dt><dd>' + escapeHtml(state.service.name) + '</dd></div>' +
-        '<div><dt>Día</dt><dd>' + formatDate(state.date) + '</dd></div>' +
-        '<div><dt>Hora</dt><dd>' + state.time + '</dd></div>' +
-        '<div><dt>Total</dt><dd>' + money(state.service.price) + '</dd></div>' +
-      '</dl>' +
-      '<button class="btn btn-ghost" type="button" id="resetBtn" style="width:100%;">Hacer otra reserva</button>';
+  const summaryRow = (label, value) =>
+    '<div><dt>' + label + '</dt><dd>' + escapeHtml(value) + '</dd></div>';
 
-    $('#resetBtn').addEventListener('click', () => window.location.reload());
+  function openConfirmModal() {
+    confirmBody.innerHTML =
+      '<dl class="summary">' +
+        summaryRow('Servicio', state.service.name) +
+        summaryRow('Especialista', state.specialist.name) +
+        summaryRow('Día', formatDate(state.date)) +
+        summaryRow('Hora', state.time) +
+        summaryRow('Duración', state.service.duration + ' min') +
+        summaryRow('Total', money(state.service.price)) +
+        summaryRow('A nombre de', nameInput.value.trim()) +
+        summaryRow('Correo', emailInput.value.trim()) +
+      '</dl>' +
+      '<p class="modal-footnote">Al confirmar bloquearemos este horario a tu nombre y te enviaremos los detalles por correo.</p>';
+
+    confirmModal.classList.add('is-open');
+    confirmOk.focus();
+  }
+
+  function closeConfirmModal(returnFocus) {
+    confirmModal.classList.remove('is-open');
+    if (returnFocus && !confirmBtn.hidden) confirmBtn.focus();
+  }
+
+  confirmOk.addEventListener('click', () => {
+    closeConfirmModal(false);
+
+    // 👉 Aquí conectarías tu backend / API de reservas
+    renderSuccess(nameInput.value.trim(), emailInput.value.trim());
+  });
+  confirmBack.addEventListener('click', () => closeConfirmModal(true));
+  confirmClose.addEventListener('click', () => closeConfirmModal(true));
+  confirmModal.addEventListener('click', (event) => {
+    if (event.target === confirmModal) closeConfirmModal(true);
+  });
+
+  function renderSuccess(name, email) {
+    stepsNav.classList.add('is-hidden');
+
+    summaryPanel.innerHTML =
+      '<div class="success">' +
+        '<div class="success-mark" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>' +
+        '</div>' +
+        '<p class="eyebrow">Reserva confirmada</p>' +
+        '<h3 class="heading-lg">Gracias, ' + escapeHtml(name) + '.</h3>' +
+        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(email) + '. Te esperamos en Aevi Wellness.</p>' +
+        '<dl class="summary">' +
+          summaryRow('Servicio', state.service.name) +
+          summaryRow('Especialista', state.specialist.name) +
+          summaryRow('Día', formatDate(state.date)) +
+          summaryRow('Hora', state.time) +
+          summaryRow('Total', money(state.service.price)) +
+        '</dl>' +
+        '<button class="btn btn-ghost" type="button" id="newBookingBtn">Hacer otra reserva</button>' +
+      '</div>';
+
+    document.getElementById('newBookingBtn').addEventListener('click', () => window.location.reload());
   }
 
   /* =========================================================
-     10. MODAL DE SOPORTE
+     13. MODAL DE SOPORTE
      ========================================================= */
 
   const supportModal = $('#supportModal');
@@ -1629,12 +2208,18 @@ select{
   supportModal.addEventListener('click', (event) => {
     if (event.target === supportModal) closeSupport();
   });
+
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && supportModal.classList.contains('is-open')) closeSupport();
+    if (event.key !== 'Escape') return;
+    if (confirmModal.classList.contains('is-open')) {
+      closeConfirmModal(true);
+    } else if (supportModal.classList.contains('is-open')) {
+      closeSupport();
+    }
   });
 
   /* =========================================================
-     11. INICIALIZACIÓN
+     14. INICIALIZACIÓN
      ========================================================= */
 
   function findNextOpenDay() {
@@ -1657,7 +2242,9 @@ select{
     renderCalendar();
     renderSlots();
     renderServices();
+    renderSpecialists();
     renderSummary();
+    syncControls();
 
     $('#year').textContent = new Date().getFullYear();
   }
