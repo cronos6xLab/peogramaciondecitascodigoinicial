@@ -11,11 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================
-   TOKENS — 2.AG Style
-   ========================================================= */
+/* ============ TOKENS ============ */
 :root{
-  /* Colors */
   --color-deep-teal:#244d54;
   --color-mint-pulse:#2ecea0;
   --color-soft-teal:#6dddbd;
@@ -27,12 +24,8 @@
   --color-mist:#e5e7eb;
   --color-bone:#f0f1f2;
   --color-paper:#ffffff;
-
-  /* Fonts */
   --font-tight:'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-inter:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-
-  /* Type scale */
   --text-caption:10px;
   --text-body:16px;
   --text-subheading:20px;
@@ -41,1360 +34,279 @@
   --text-heading-lg:45px;
   --text-stat:48px;
   --text-display:62px;
-
-  /* Spacing */
-  --spacing-4:4px;
-  --spacing-8:8px;
-  --spacing-12:12px;
-  --spacing-16:16px;
-  --spacing-20:20px;
-  --spacing-24:24px;
-  --spacing-28:28px;
-  --spacing-32:32px;
-  --spacing-36:36px;
-  --spacing-40:40px;
-  --spacing-60:60px;
-  --spacing-80:80px;
-
-  /* Radius */
-  --radius-md:5px;
-  --radius-lg:8px;
-  --radius-xl:12px;
-  --radius-2xl:20px;
-  --radius-3xl:30px;
-  --radius-pill:50px;
-  --radius-hero:250px;
-
-  /* Layout */
-  --page-max-width:1280px;
-  --section-gap:64px;
+  --spacing-4:4px; --spacing-8:8px; --spacing-12:12px; --spacing-16:16px;
+  --spacing-20:20px; --spacing-24:24px; --spacing-28:28px; --spacing-32:32px;
+  --spacing-36:36px; --spacing-40:40px; --spacing-60:60px; --spacing-80:80px;
+  --radius-md:5px; --radius-lg:8px; --radius-xl:12px; --radius-2xl:20px;
+  --radius-3xl:30px; --radius-pill:50px; --radius-hero:250px;
+  --page-max-width:1280px; --section-gap:64px;
 }
-
-/* =========================================================
-   RESET / BASE
-   ========================================================= */
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-html{
-  scroll-behavior:smooth;
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
-}
-body{
-  margin:0;
-  background:var(--color-paper);
-  color:var(--color-carbon);
-  font-family:var(--font-tight);
-  font-size:var(--text-body);
-  font-weight:400;
-  line-height:1.5;
-  letter-spacing:0.005em;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden;
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+body{margin:0;background:var(--color-paper);color:var(--color-carbon);font-family:var(--font-tight);font-size:var(--text-body);font-weight:400;line-height:1.5;letter-spacing:0.005em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;}
 h1,h2,h3,p,dl,dd{margin:0;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 ul{list-style:none;margin:0;padding:0;}
+input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulation;}
 
-/* =========================================================
-   iOS — evita el zoom automático en inputs de texto
-   (font-size mínimo 16px en todos los campos)
-   ========================================================= */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="search"],
-input[type="password"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-input[type="url"],
-textarea,
-select{
-  font-family:inherit;
-  font-size:16px;
-  touch-action:manipulation;
-}
-
-/* =========================================================
-   UTILIDADES
-   ========================================================= */
-.container{
-  width:100%;
-  max-width:var(--page-max-width);
-  margin:0 auto;
-  padding:0 var(--spacing-24);
-}
-
+/* ============ UTILIDADES ============ */
+.container{width:100%;max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);}
 .section{padding:var(--section-gap) 0;}
 .section--bone{background:var(--color-bone);}
 .section--teal{background:var(--color-deep-teal);color:#fff;}
 .section--teal .eyebrow{color:var(--color-soft-teal);}
 .section--teal .lead{color:rgba(255,255,255,.72);}
-
-.eyebrow{
-  font-size:var(--text-caption);
-  font-weight:500;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-graphite);
-}
-.lead{
-  font-size:16px;
-  line-height:1.5;
-  color:var(--color-slate);
-  max-width:60ch;
-}
-
+.eyebrow{font-size:var(--text-caption);font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-graphite);}
+.lead{font-size:16px;line-height:1.5;color:var(--color-slate);max-width:60ch;}
 .section-head{margin-bottom:var(--spacing-32);}
 .section-head .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
+.display{font-family:var(--font-tight);font-size:clamp(36px,6vw,var(--text-display));font-weight:500;line-height:1.02;letter-spacing:-0.042em;}
+.heading-lg{font-family:var(--font-tight);font-size:clamp(28px,4vw,var(--text-heading-lg));font-weight:500;line-height:1.21;letter-spacing:-0.02em;color:var(--color-ink);}
+.heading{font-family:var(--font-tight);font-size:clamp(22px,2.6vw,var(--text-heading-sm));font-weight:500;line-height:1.3;letter-spacing:-0.01em;color:var(--color-ink);}
 
-/* Tipografía fluida */
-.display{
-  font-family:var(--font-tight);
-  font-size:clamp(36px, 6vw, var(--text-display));
-  font-weight:500;
-  line-height:1.02;
-  letter-spacing:-0.042em;
-}
-.heading-lg{
-  font-family:var(--font-tight);
-  font-size:clamp(28px, 4vw, var(--text-heading-lg));
-  font-weight:500;
-  line-height:1.21;
-  letter-spacing:-0.02em;
-  color:var(--color-ink);
-}
-.heading{
-  font-family:var(--font-tight);
-  font-size:clamp(22px, 2.6vw, var(--text-heading-sm));
-  font-weight:500;
-  line-height:1.3;
-  letter-spacing:-0.01em;
-  color:var(--color-ink);
-}
-
-/* =========================================================
-   ANNOUNCEMENT BAR
-   ========================================================= */
-.announce{
-  background:var(--color-mint-pulse);
-  color:#fff;
-  text-align:center;
-  padding:10px var(--spacing-16);
-  font-family:var(--font-tight);
-  font-size:13px;
-  font-weight:500;
-  letter-spacing:0.05em;
-}
+/* ============ ANNOUNCE ============ */
+.announce{background:var(--color-mint-pulse);color:#fff;text-align:center;padding:10px var(--spacing-16);font-size:13px;font-weight:500;letter-spacing:0.05em;}
 .announce strong{font-weight:600;}
 
-/* =========================================================
-   HEADER / NAV
-   ========================================================= */
-.site-header{
-  background:var(--color-paper);
-  border-bottom:1px solid var(--color-mist);
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-.header-inner{
-  max-width:var(--page-max-width);
-  margin:0 auto;
-  padding:0 var(--spacing-24);
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:var(--spacing-24);
-}
-.wordmark{
-  font-family:var(--font-tight);
-  font-weight:600;
-  font-size:20px;
-  letter-spacing:-0.02em;
-  color:var(--color-ink);
-  white-space:nowrap;
-}
+/* ============ HEADER ============ */
+.site-header{background:var(--color-paper);border-bottom:1px solid var(--color-mist);position:sticky;top:0;z-index:50;}
+.header-inner{max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);height:64px;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-24);}
+.wordmark{font-family:var(--font-tight);font-weight:600;font-size:20px;letter-spacing:-0.02em;color:var(--color-ink);white-space:nowrap;display:flex;align-items:center;gap:8px;}
 .wordmark span{color:var(--color-deep-teal);font-weight:500;}
-
+.wordmark img{height:32px;width:auto;display:block;}
 .nav{display:flex;gap:var(--spacing-4);}
-.nav a{
-  font-size:15px;
-  font-weight:500;
-  padding:8px 16px;
-  color:var(--color-carbon);
-  border-radius:var(--radius-pill);
-  transition:color .15s ease, background .15s ease;
-}
-.nav a:hover{
-  color:var(--color-deep-teal);
-  background:var(--color-bone);
-}
+.nav a{font-size:15px;font-weight:500;padding:8px 16px;color:var(--color-carbon);border-radius:var(--radius-pill);transition:color .15s ease,background .15s ease;}
+.nav a:hover{color:var(--color-deep-teal);background:var(--color-bone);}
 
-/* =========================================================
-   HERO
-   ========================================================= */
-.hero{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  min-height:520px;
-  overflow:hidden;
-}
-.hero-dark{
-  background:var(--color-deep-teal);
-  color:#fff;
-  padding:var(--spacing-80) clamp(24px, 5vw, 80px);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  position:relative;
-}
-.hero-dark .eyebrow{
-  color:var(--color-soft-teal);
-  letter-spacing:0.1em;
-}
-.hero-dark .display{
-  color:#fff;
-  margin:var(--spacing-16) 0 var(--spacing-24);
-  max-width:12ch;
-}
-.hero-dark .lead{
-  color:rgba(255,255,255,.72);
-  margin-bottom:var(--spacing-32);
-  font-size:17px;
-  max-width:38ch;
-}
-.hero-actions{
-  display:flex;
-  gap:var(--spacing-12);
-  flex-wrap:wrap;
-}
-
-.btn-outline-mint{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:var(--spacing-8);
-  padding:14px 40px;
-  background:transparent;
-  color:#fff;
-  border:1px solid var(--color-mint-pulse);
-  border-radius:var(--radius-pill);
-  font-family:var(--font-tight);
-  font-size:16px;
-  font-weight:500;
-  min-height:48px;
-  transition:background .15s ease;
-}
+/* ============ HERO ============ */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px;overflow:hidden;}
+.hero-dark{background:var(--color-deep-teal);color:#fff;padding:var(--spacing-80) clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center;position:relative;}
+.hero-dark .eyebrow{color:var(--color-soft-teal);letter-spacing:0.1em;}
+.hero-dark .display{color:#fff;margin:var(--spacing-16) 0 var(--spacing-24);max-width:12ch;}
+.hero-dark .lead{color:rgba(255,255,255,.72);margin-bottom:var(--spacing-32);font-size:17px;max-width:38ch;}
+.hero-actions{display:flex;gap:var(--spacing-12);flex-wrap:wrap;}
+.btn-outline-mint{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);padding:14px 40px;background:transparent;color:#fff;border:1px solid var(--color-mint-pulse);border-radius:var(--radius-pill);font-family:var(--font-tight);font-size:16px;font-weight:500;min-height:48px;transition:background .15s ease;}
 .btn-outline-mint:hover{background:rgba(46,206,160,.12);}
+.hero-light{background:var(--color-paper);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.hero-light::before,.hero-light::after{content:'';position:absolute;border-radius:50%;pointer-events:none;}
+.hero-light::before{width:min(380px,55%);height:min(380px,55%);top:8%;left:12%;background:radial-gradient(circle at 35% 35%,rgba(46,206,160,.42),rgba(46,206,160,0) 65%);}
+.hero-light::after{width:min(500px,72%);height:min(500px,72%);bottom:-8%;right:-6%;background:radial-gradient(circle at 40% 40%,rgba(109,221,189,.5),rgba(109,221,189,0) 68%);}
+.hero-mark{position:relative;z-index:1;width:min(320px,58%);aspect-ratio:1;border-radius:50%;background:var(--color-paper);border:1px solid var(--color-mist);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--spacing-8);box-shadow:0 0 0 20px rgba(255,255,255,.55);}
+.hero-mark svg{width:52px;height:52px;stroke:var(--color-deep-teal);fill:none;stroke-width:1.5;}
+.hero-mark span{font-family:var(--font-tight);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-deep-teal);}
 
-.hero-light{
-  background:var(--color-paper);
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.hero-light::before,
-.hero-light::after{
-  content:'';
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-}
-.hero-light::before{
-  width:min(380px, 55%);
-  height:min(380px, 55%);
-  top:8%;
-  left:12%;
-  background:radial-gradient(circle at 35% 35%, rgba(46,206,160,.42), rgba(46,206,160,0) 65%);
-}
-.hero-light::after{
-  width:min(500px, 72%);
-  height:min(500px, 72%);
-  bottom:-8%;
-  right:-6%;
-  background:radial-gradient(circle at 40% 40%, rgba(109,221,189,.5), rgba(109,221,189,0) 68%);
-}
-.hero-mark{
-  position:relative;
-  z-index:1;
-  width:min(320px, 58%);
-  aspect-ratio:1;
-  border-radius:50%;
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:var(--spacing-8);
-  box-shadow:0 0 0 20px rgba(255,255,255,.55);
-}
-.hero-mark svg{
-  width:52px;
-  height:52px;
-  stroke:var(--color-deep-teal);
-  fill:none;
-  stroke-width:1.5;
-}
-.hero-mark span{
-  font-family:var(--font-tight);
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  color:var(--color-deep-teal);
-}
-
-/* =========================================================
-   AGENDA — LAYOUT (paso 1)
-   ========================================================= */
-.agenda-grid{
-  display:grid;
-  grid-template-columns:minmax(0, 1.15fr) minmax(0, 1fr);
-  gap:var(--spacing-24);
-  align-items:start;
-}
-
-/* =========================================================
-   FLUJO DE RESERVA POR PASOS
-   ========================================================= */
-#reserva, #historial, #ubicacion{scroll-margin-top:84px;}
-
-.steps{
-  display:flex;
-  flex-wrap:wrap;
-  gap:var(--spacing-8);
-  margin:0 0 var(--spacing-24);
-  padding:0;
-  list-style:none;
-}
+/* ============ FLUJO RESERVA ============ */
+.agenda-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:var(--spacing-24);align-items:start;}
+#reserva,#historial,#ubicacion{scroll-margin-top:84px;}
+.steps{display:flex;flex-wrap:wrap;gap:var(--spacing-8);margin:0 0 var(--spacing-24);padding:0;list-style:none;}
 .steps li{flex:1 1 0;min-width:140px;}
 .steps.is-hidden{display:none;}
-
-.step-btn{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px 14px;
-  text-align:left;
-  font-family:var(--font-tight);
-  font-size:14px;
-  font-weight:500;
-  color:var(--color-slate);
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-pill);
-  transition:border-color .15s ease, background .15s ease, color .15s ease;
-}
-.step-btn .step-num{
-  width:22px;
-  height:22px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  font-size:11px;
-  font-weight:600;
-  background:var(--color-bone);
-  color:var(--color-slate);
-  transition:background .15s ease, color .15s ease;
-}
+.step-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;text-align:left;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-slate);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:border-color .15s ease,background .15s ease,color .15s ease;}
+.step-btn .step-num{width:22px;height:22px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:11px;font-weight:600;background:var(--color-bone);color:var(--color-slate);transition:background .15s ease,color .15s ease;}
 .step-btn:disabled{opacity:.5;cursor:not-allowed;}
 .step-btn:not(:disabled):hover{border-color:var(--color-mint-pulse);}
-.step-btn.is-active{
-  border-color:var(--color-deep-teal);
-  color:var(--color-deep-teal);
-  background:rgba(36,77,84,.05);
-}
+.step-btn.is-active{border-color:var(--color-deep-teal);color:var(--color-deep-teal);background:rgba(36,77,84,.05);}
 .step-btn.is-active .step-num{background:var(--color-deep-teal);color:#fff;}
-.step-btn.is-done{
-  border-color:var(--color-mint-pulse);
-  color:var(--color-deep-teal);
-  background:rgba(46,206,160,.06);
-}
+.step-btn.is-done{border-color:var(--color-mint-pulse);color:var(--color-deep-teal);background:rgba(46,206,160,.06);}
 .step-btn.is-done .step-num{background:var(--color-mint-pulse);color:#fff;}
-
-.booking-shell{
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-3xl);
-  padding:clamp(20px, 3vw, 40px);
-}
-
+.booking-shell{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-3xl);padding:clamp(20px,3vw,40px);}
 .step-panel{display:none;}
 .step-panel.is-active{display:block;animation:panelIn .3s ease both;}
-
-@keyframes panelIn{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:none;}
-}
-
+@keyframes panelIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 .panel-head{margin-bottom:var(--spacing-24);}
 .panel-head .heading{margin:var(--spacing-8) 0;}
 .panel-head .lead{font-size:15px;}
-.panel-hint{
-  font-size:13px;
-  line-height:1.4;
-  color:var(--color-slate);
-  margin-top:var(--spacing-8);
-}
-
-.panel-foot{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:var(--spacing-12);
-  margin-top:var(--spacing-28);
-  padding-top:var(--spacing-20);
-  border-top:1px solid var(--color-mist);
-}
+.panel-hint{font-size:13px;line-height:1.4;color:var(--color-slate);margin-top:var(--spacing-8);}
+.panel-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--spacing-12);margin-top:var(--spacing-28);padding-top:var(--spacing-20);border-top:1px solid var(--color-mist);}
 .panel-foot .btn{width:auto;}
 .panel-foot .btn-ghost{margin-right:auto;}
 .panel-foot .form-note{margin:0;flex:1 1 100%;}
+.reserva-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:var(--spacing-24);align-items:start;}
 
-/* Paso 4 — dos columnas */
-.reserva-grid{
-  display:grid;
-  grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
-  gap:var(--spacing-24);
-  align-items:start;
-}
-
-/* =========================================================
-   SELECTOR DE MONEDA
-   ========================================================= */
-.currency-bar{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:var(--spacing-12);
-  margin-top:var(--spacing-16);
-  padding:var(--spacing-12) var(--spacing-16);
-  background:var(--color-bone);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-pill);
-}
-.currency-label{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-}
-.currency-options{
-  display:inline-flex;
-  gap:4px;
-  padding:3px;
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-pill);
-}
-.currency-btn{
-  padding:6px 14px;
-  font-family:var(--font-tight);
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:0.06em;
-  color:var(--color-slate);
-  background:transparent;
-  border:0;
-  border-radius:var(--radius-pill);
-  transition:background .15s ease, color .15s ease, box-shadow .15s ease;
-  touch-action:manipulation;
-  min-height:30px;
-}
+/* ============ MONEDA ============ */
+.currency-bar{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-12);margin-top:var(--spacing-16);padding:var(--spacing-12) var(--spacing-16);background:var(--color-bone);border:1px solid var(--color-mist);border-radius:var(--radius-pill);}
+.currency-label{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
+.currency-options{display:inline-flex;gap:4px;padding:3px;background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);}
+.currency-btn{padding:6px 14px;font-family:var(--font-tight);font-size:12px;font-weight:600;letter-spacing:0.06em;color:var(--color-slate);background:transparent;border:0;border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease,box-shadow .15s ease;min-height:30px;}
 .currency-btn:hover:not(.is-active){color:var(--color-deep-teal);}
-.currency-btn.is-active{
-  background:var(--color-deep-teal);
-  color:#fff;
-  box-shadow:0 1px 4px rgba(36,77,84,.25);
-}
-.currency-note{
-  font-size:11px;
-  line-height:1.4;
-  color:var(--color-slate);
-}
+.currency-btn.is-active{background:var(--color-deep-teal);color:#fff;box-shadow:0 1px 4px rgba(36,77,84,.25);}
+.currency-note{font-size:11px;line-height:1.4;color:var(--color-slate);}
 
-/* =========================================================
-   CARDS
-   ========================================================= */
-.card{
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-2xl);
-  padding:var(--spacing-24);
-}
-.card-label{
-  font-size:var(--text-caption);
-  font-weight:600;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  color:var(--color-deep-teal);
-  margin-bottom:var(--spacing-8);
-}
-.card-sub{
-  font-family:var(--font-tight);
-  font-size:16px;
-  font-weight:500;
-  color:var(--color-ink);
-  margin-bottom:var(--spacing-16);
-  text-transform:capitalize;
-}
+/* ============ CARDS ============ */
+.card{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-2xl);padding:var(--spacing-24);}
+.card-label{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-8);}
+.card-sub{font-family:var(--font-tight);font-size:16px;font-weight:500;color:var(--color-ink);margin-bottom:var(--spacing-16);text-transform:capitalize;}
 .card-sub.empty{color:var(--color-slate);font-weight:400;}
 
-/* =========================================================
-   CALENDARIO
-   ========================================================= */
-.cal-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:var(--spacing-12);
-  margin-bottom:var(--spacing-20);
-}
-.cal-month{
-  font-family:var(--font-tight);
-  font-size:17px;
-  font-weight:500;
-  color:var(--color-ink);
-  text-transform:capitalize;
-  letter-spacing:-0.01em;
-}
-.cal-nav{
-  width:36px;
-  height:36px;
-  display:grid;
-  place-items:center;
-  background:var(--color-paper);
-  color:var(--color-deep-teal);
-  border:1px solid var(--color-mist);
-  border-radius:50%;
-  font-size:16px;
-  line-height:1;
-  transition:border-color .15s ease, background .15s ease, opacity .15s ease;
-}
-.cal-nav:hover:not(:disabled){
-  border-color:var(--color-deep-teal);
-  background:var(--color-bone);
-}
+/* ============ CALENDARIO ============ */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-bottom:var(--spacing-20);}
+.cal-month{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-ink);text-transform:capitalize;letter-spacing:-0.01em;}
+.cal-nav{width:36px;height:36px;display:grid;place-items:center;background:var(--color-paper);color:var(--color-deep-teal);border:1px solid var(--color-mist);border-radius:50%;font-size:16px;line-height:1;transition:border-color .15s ease,background .15s ease,opacity .15s ease;}
+.cal-nav:hover:not(:disabled){border-color:var(--color-deep-teal);background:var(--color-bone);}
 .cal-nav:disabled{opacity:.3;cursor:not-allowed;}
-
-.cal-grid{
-  display:grid;
-  grid-template-columns:repeat(7, minmax(0, 1fr));
-  gap:6px;
-}
-.cal-dow{
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-  text-align:center;
-  padding-bottom:var(--spacing-8);
-}
-.day{
-  position:relative;
-  aspect-ratio:1;
-  min-height:38px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:var(--font-tight);
-  font-size:14px;
-  font-weight:500;
-  color:var(--color-carbon);
-  background:transparent;
-  border:1px solid transparent;
-  border-radius:var(--radius-lg);
-  transition:background .15s ease, border-color .15s ease, color .15s ease;
-  touch-action:manipulation;
-}
-.day:hover:not(:disabled):not(.is-selected){
-  border-color:var(--color-mint-pulse);
-  background:rgba(46,206,160,.06);
-}
-.day.is-off{
-  color:var(--color-fog);
-  opacity:.55;
-  cursor:not-allowed;
-}
-.day.is-today::after{
-  content:'';
-  position:absolute;
-  bottom:6px;
-  left:50%;
-  transform:translateX(-50%);
-  width:4px;
-  height:4px;
-  border-radius:50%;
-  background:var(--color-mint-pulse);
-}
-.day.is-selected{
-  background:var(--color-deep-teal);
-  border-color:var(--color-deep-teal);
-  color:#fff;
-}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;}
+.cal-dow{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-slate);text-align:center;padding-bottom:var(--spacing-8);}
+.day{position:relative;aspect-ratio:1;min-height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-carbon);background:transparent;border:1px solid transparent;border-radius:var(--radius-lg);transition:background .15s ease,border-color .15s ease,color .15s ease;}
+.day:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.06);}
+.day.is-off{color:var(--color-fog);opacity:.55;cursor:not-allowed;}
+.day.is-today::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-mint-pulse);}
+.day.is-selected{background:var(--color-deep-teal);border-color:var(--color-deep-teal);color:#fff;}
 .day.is-selected.is-today::after{background:var(--color-mint-pulse);}
-
-.cal-legend{
-  display:flex;
-  flex-wrap:wrap;
-  gap:var(--spacing-16);
-  margin-top:var(--spacing-20);
-  padding-top:var(--spacing-16);
-  border-top:1px solid var(--color-mist);
-  font-size:12px;
-  color:var(--color-slate);
-}
-.dot{
-  display:inline-block;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  margin-right:6px;
-  vertical-align:middle;
-}
+.cal-legend{display:flex;flex-wrap:wrap;gap:var(--spacing-16);margin-top:var(--spacing-20);padding-top:var(--spacing-16);border-top:1px solid var(--color-mist);font-size:12px;color:var(--color-slate);}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;}
 .dot--open{background:var(--color-deep-teal);}
 .dot--today{background:var(--color-mint-pulse);}
 .dot--off{background:var(--color-mist);}
 
-/* =========================================================
-   HORARIOS
-   ========================================================= */
-.slots{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(84px, 1fr));
-  gap:var(--spacing-8);
-}
-.slot{
-  padding:10px 8px;
-  font-family:var(--font-tight);
-  font-size:14px;
-  font-weight:500;
-  color:var(--color-ink);
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-pill);
-  transition:background .15s ease, border-color .15s ease, color .15s ease;
-  min-height:42px;
-  touch-action:manipulation;
-}
-.slot:hover:not(:disabled):not(.is-selected){
-  border-color:var(--color-mint-pulse);
-  background:rgba(46,206,160,.06);
-}
-.slot.is-taken{
-  color:var(--color-fog);
-  text-decoration:line-through;
-  opacity:.55;
-  cursor:not-allowed;
-  background:var(--color-bone);
-}
-.slot.is-selected{
-  background:var(--color-mint-pulse);
-  border-color:var(--color-mint-pulse);
-  color:#fff;
-}
-.slots-empty{
-  font-size:14px;
-  color:var(--color-slate);
-  grid-column:1 / -1;
-}
+/* ============ HORARIOS ============ */
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:var(--spacing-8);}
+.slot{padding:10px 8px;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:background .15s ease,border-color .15s ease,color .15s ease;min-height:42px;}
+.slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.06);}
+.slot.is-taken{color:var(--color-fog);text-decoration:line-through;opacity:.55;cursor:not-allowed;background:var(--color-bone);}
+.slot.is-selected{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);color:#fff;}
+.slots-empty{font-size:14px;color:var(--color-slate);grid-column:1 / -1;}
 
-/* =========================================================
-   ESPECIALISTAS
-   ========================================================= */
-.specialist-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
-  gap:var(--spacing-12);
-}
-.specialist{
-  display:flex;
-  align-items:flex-start;
-  gap:var(--spacing-16);
-  width:100%;
-  padding:var(--spacing-16);
-  text-align:left;
-  font-family:inherit;
-  color:inherit;
-  background:var(--color-paper);
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-xl);
-  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
-  touch-action:manipulation;
-}
-.specialist:hover:not(:disabled){
-  border-color:var(--color-mint-pulse);
-  background:rgba(46,206,160,.05);
-}
-.specialist.is-selected{
-  border-color:var(--color-deep-teal);
-  background:var(--color-bone);
-  box-shadow:inset 0 0 0 1px var(--color-deep-teal);
-}
-.specialist:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  background:var(--color-bone);
-}
-.spec-avatar{
-  width:44px;
-  height:44px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:var(--color-deep-teal);
-  color:#fff;
-  font-family:var(--font-tight);
-  font-size:14px;
-  font-weight:600;
-  letter-spacing:0.02em;
-  transition:background .15s ease;
-}
+/* ============ ESPECIALISTAS ============ */
+.specialist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:var(--spacing-12);}
+.specialist{display:flex;align-items:flex-start;gap:var(--spacing-16);width:100%;padding:var(--spacing-16);text-align:left;font-family:inherit;color:inherit;background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-xl);transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;}
+.specialist:hover:not(:disabled){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.05);}
+.specialist.is-selected{border-color:var(--color-deep-teal);background:var(--color-bone);box-shadow:inset 0 0 0 1px var(--color-deep-teal);}
+.specialist:disabled{opacity:.45;cursor:not-allowed;background:var(--color-bone);}
+.spec-avatar{width:44px;height:44px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--color-deep-teal);color:#fff;font-family:var(--font-tight);font-size:14px;font-weight:600;letter-spacing:0.02em;transition:background .15s ease;}
 .specialist.is-selected .spec-avatar{background:var(--color-mint-pulse);}
 .spec-body{display:block;min-width:0;}
-.spec-name{
-  display:block;
-  font-family:var(--font-tight);
-  font-size:16px;
-  font-weight:500;
-  color:var(--color-ink);
-  letter-spacing:-0.01em;
-}
-.spec-role{
-  display:block;
-  margin-top:2px;
-  font-size:13px;
-  color:var(--color-slate);
-}
-.spec-days{
-  display:block;
-  margin-top:8px;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:var(--color-deep-teal);
-}
+.spec-name{display:block;font-family:var(--font-tight);font-size:16px;font-weight:500;color:var(--color-ink);letter-spacing:-0.01em;}
+.spec-role{display:block;margin-top:2px;font-size:13px;color:var(--color-slate);}
+.spec-days{display:block;margin-top:8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-deep-teal);}
 .specialist:disabled .spec-days{color:var(--color-fog);}
 
-/* =========================================================
-   RESUMEN + FORMULARIO
-   ========================================================= */
-.summary > div{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  gap:var(--spacing-16);
-  padding:var(--spacing-12) 0;
-  border-bottom:1px solid var(--color-mist);
-}
+/* ============ RESUMEN + FORM ============ */
+.summary > div{display:flex;justify-content:space-between;align-items:baseline;gap:var(--spacing-16);padding:var(--spacing-12) 0;border-bottom:1px solid var(--color-mist);}
 .summary > div:last-child{border-bottom:0;padding-bottom:0;}
-.summary dt{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-  flex-shrink:0;
-}
-.summary dd{
-  font-family:var(--font-tight);
-  font-size:15px;
-  font-weight:500;
-  color:var(--color-ink);
-  text-align:right;
-}
-
+.summary dt{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);flex-shrink:0;}
+.summary dd{font-family:var(--font-tight);font-size:15px;font-weight:500;color:var(--color-ink);text-align:right;}
 .field{display:block;margin-bottom:var(--spacing-20);}
-.field-label{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-  margin-bottom:var(--spacing-8);
-}
-.field-req,
-.field-optional{
-  font-style:normal;
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:0.08em;
-  padding:2px 7px;
-  border-radius:var(--radius-pill);
-  line-height:1.4;
-}
-.field-req{
-  color:var(--color-deep-teal);
-  background:rgba(36,77,84,.1);
-}
-.field-optional{
-  color:var(--color-slate);
-  background:var(--color-bone);
-}
-.field input{
-  width:100%;
-  padding:12px 14px;
-  font-size:16px; /* previene zoom iOS */
-  font-family:var(--font-tight);
-  font-weight:400;
-  color:var(--color-carbon);
-  background:var(--color-paper);
-  border:1px solid var(--color-fog);
-  border-radius:var(--radius-md);
-  transition:border-color .15s ease, box-shadow .15s ease;
-  touch-action:manipulation;
-  -webkit-appearance:none;
-  appearance:none;
-}
+.field-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);margin-bottom:var(--spacing-8);}
+.field-req,.field-optional{font-style:normal;font-size:9px;font-weight:600;letter-spacing:0.08em;padding:2px 7px;border-radius:var(--radius-pill);line-height:1.4;}
+.field-req{color:var(--color-deep-teal);background:rgba(36,77,84,.1);}
+.field-optional{color:var(--color-slate);background:var(--color-bone);}
+.field input{width:100%;padding:12px 14px;font-size:16px;font-family:var(--font-tight);font-weight:400;color:var(--color-carbon);background:var(--color-paper);border:1px solid var(--color-fog);border-radius:var(--radius-md);transition:border-color .15s ease,box-shadow .15s ease;-webkit-appearance:none;appearance:none;}
 .field input::placeholder{color:var(--color-fog);}
-.field input:focus{
-  outline:none;
-  border-color:var(--color-deep-teal);
-  box-shadow:0 0 0 3px rgba(36,77,84,.12);
-}
-.field.is-invalid input,
-.field input[aria-invalid="true"]{
-  border-color:#c0392b;
-  box-shadow:0 0 0 3px rgba(192,57,43,.1);
-}
-.field.is-valid input{
-  border-color:var(--color-mint-pulse);
-}
-.field-hint{
-  display:block;
-  margin-top:6px;
-  font-size:12px;
-  line-height:1.45;
-  color:var(--color-slate);
-}
-.field-error{
-  display:block;
-  margin-top:6px;
-  font-size:12px;
-  font-weight:500;
-  line-height:1.45;
-  color:#c0392b;
-}
+.field input:focus{outline:none;border-color:var(--color-deep-teal);box-shadow:0 0 0 3px rgba(36,77,84,.12);}
+.field.is-invalid input,.field input[aria-invalid="true"]{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1);}
+.field.is-valid input{border-color:var(--color-mint-pulse);}
+.field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.45;color:var(--color-slate);}
+.field-error{display:block;margin-top:6px;font-size:12px;font-weight:500;line-height:1.45;color:#c0392b;}
 .field-error[hidden]{display:none;}
-
-.form-intro{
-  font-size:13px;
-  line-height:1.5;
-  color:var(--color-slate);
-  margin-bottom:var(--spacing-20);
-}
-
-.form-note{
-  margin-top:var(--spacing-12);
-  font-size:13px;
-  line-height:1.4;
-  color:var(--color-slate);
-  min-height:18px;
-}
+.form-intro{font-size:13px;line-height:1.5;color:var(--color-slate);margin-bottom:var(--spacing-20);}
+.form-note{margin-top:var(--spacing-12);font-size:13px;line-height:1.4;color:var(--color-slate);min-height:18px;}
 .form-note.is-error{color:#c0392b;}
 
-/* =========================================================
-   BOTONES
-   ========================================================= */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:var(--spacing-8);
-  font-family:var(--font-tight);
-  font-size:16px;
-  font-weight:500;
-  min-height:48px;
-  padding:14px 32px;
-  border:1px solid transparent;
-  border-radius:var(--radius-pill);
-  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .08s ease, opacity .15s ease;
-  touch-action:manipulation;
-}
+/* ============ BOTONES ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);font-family:var(--font-tight);font-size:16px;font-weight:500;min-height:48px;padding:14px 32px;border:1px solid transparent;border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease,border-color .15s ease,transform .08s ease,opacity .15s ease;}
 .btn:active{transform:translateY(1px);}
 .btn[hidden]{display:none;}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-
-.btn-pill{
-  width:100%;
-  background:var(--color-mint-pulse);
-  color:#fff;
-  border-color:var(--color-mint-pulse);
-}
+.btn-pill{width:100%;background:var(--color-mint-pulse);color:#fff;border-color:var(--color-mint-pulse);}
 .btn-pill:hover:not(:disabled){filter:brightness(0.95);}
+.btn-ghost{background:transparent;color:var(--color-deep-teal);border-color:var(--color-deep-teal);}
+.btn-ghost:hover:not(:disabled){background:var(--color-deep-teal);color:#fff;}
 
-.btn-ghost{
-  background:transparent;
-  color:var(--color-deep-teal);
-  border-color:var(--color-deep-teal);
-}
-.btn-ghost:hover:not(:disabled){
-  background:var(--color-deep-teal);
-  color:#fff;
-}
-
-/* =========================================================
-   SERVICIOS (selección múltiple)
-   ========================================================= */
-.service-list{
-  border-top:1px solid var(--color-mist);
-}
+/* ============ SERVICIOS ============ */
+.service-list{border-top:1px solid var(--color-mist);}
 .service-item{border-bottom:1px solid var(--color-mist);}
-
-.service{
-  display:grid;
-  grid-template-columns:1fr auto auto auto;
-  align-items:center;
-  gap:var(--spacing-24);
-  width:100%;
-  padding:var(--spacing-24) var(--spacing-16);
-  text-align:left;
-  font-family:inherit;
-  color:inherit;
-  background:transparent;
-  border:0;
-  border-radius:var(--radius-xl);
-  transition:background .15s ease;
-  touch-action:manipulation;
-}
+.service{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:var(--spacing-24);width:100%;padding:var(--spacing-24) var(--spacing-16);text-align:left;font-family:inherit;color:inherit;background:transparent;border:0;border-radius:var(--radius-xl);transition:background .15s ease;}
 .service:hover{background:var(--color-bone);}
 .service.is-selected{background:var(--color-bone);}
-
 .service-main{display:block;min-width:0;}
-.service-name{
-  display:block;
-  font-family:var(--font-tight);
-  font-size:18px;
-  font-weight:500;
-  color:var(--color-ink);
-  letter-spacing:-0.01em;
-  line-height:1.25;
-}
-.service-desc{
-  display:block;
-  margin-top:4px;
-  font-size:13px;
-  line-height:1.45;
-  color:var(--color-slate);
-}
-.service-dur{
-  font-size:13px;
-  font-weight:500;
-  color:var(--color-slate);
-  white-space:nowrap;
-}
-.service-price{
-  font-family:var(--font-tight);
-  font-size:17px;
-  font-weight:500;
-  color:var(--color-deep-teal);
-  white-space:nowrap;
-  letter-spacing:-0.01em;
-}
-.service-check{
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  border:1px solid var(--color-fog);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-  transition:background .15s ease, border-color .15s ease;
-}
-.service-check svg{
-  width:12px;height:12px;
-  stroke:#fff;
-  stroke-width:2;
-  fill:none;
-  opacity:0;
-  transition:opacity .15s ease;
-}
-.service.is-selected .service-check{
-  background:var(--color-mint-pulse);
-  border-color:var(--color-mint-pulse);
-}
+.service-name{display:block;font-family:var(--font-tight);font-size:18px;font-weight:500;color:var(--color-ink);letter-spacing:-0.01em;line-height:1.25;}
+.service-desc{display:block;margin-top:4px;font-size:13px;line-height:1.45;color:var(--color-slate);}
+.service-dur{font-size:13px;font-weight:500;color:var(--color-slate);white-space:nowrap;}
+.service-price{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-deep-teal);white-space:nowrap;letter-spacing:-0.01em;}
+.service-check{width:22px;height:22px;border-radius:50%;border:1px solid var(--color-fog);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s ease,border-color .15s ease;}
+.service-check svg{width:12px;height:12px;stroke:#fff;stroke-width:2;fill:none;opacity:0;transition:opacity .15s ease;}
+.service.is-selected .service-check{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
 .service.is-selected .service-check svg{opacity:1;}
 
-/* =========================================================
-   ÉXITO
-   ========================================================= */
-.success{
-  max-width:560px;
-  margin:0 auto;
-  padding:var(--spacing-16) 0;
-  text-align:center;
-}
-.success-mark{
-  width:72px;
-  height:72px;
-  margin:0 auto var(--spacing-20);
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:rgba(46,206,160,.14);
-}
-.success-mark svg{
-  width:32px;height:32px;
-  stroke:var(--color-mint-pulse);
-  stroke-width:2.5;
-  fill:none;
-}
+/* ============ ÉXITO ============ */
+.success{max-width:560px;margin:0 auto;padding:var(--spacing-16) 0;text-align:center;}
+.success-mark{width:72px;height:72px;margin:0 auto var(--spacing-20);display:grid;place-items:center;border-radius:50%;background:rgba(46,206,160,.14);}
+.success-mark svg{width:32px;height:32px;stroke:var(--color-mint-pulse);stroke-width:2.5;fill:none;}
 .success .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
 .success .lead{margin:0 auto var(--spacing-24);}
-.success .summary{
-  text-align:left;
-  margin-bottom:var(--spacing-24);
-  padding:0 var(--spacing-8);
-}
+.success .summary{text-align:left;margin-bottom:var(--spacing-24);padding:0 var(--spacing-8);}
 .success .btn{width:auto;}
-.success-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:var(--spacing-12);
-  justify-content:center;
-}
+.success-actions{display:flex;flex-wrap:wrap;gap:var(--spacing-12);justify-content:center;}
 
-/* =========================================================
-   HISTORIAL
-   ========================================================= */
+/* ============ HISTORIAL ============ */
 .history-list{display:grid;gap:var(--spacing-16);}
 .history-card{padding:var(--spacing-20) var(--spacing-24);}
-.history-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:var(--spacing-16);
-  margin-bottom:var(--spacing-12);
-}
-.history-title{
-  font-family:var(--font-tight);
-  font-size:17px;
-  font-weight:500;
-  color:var(--color-ink);
-  margin-top:2px;
-  letter-spacing:-0.01em;
-}
-.history-badge{
-  flex-shrink:0;
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:var(--color-deep-teal);
-  background:rgba(46,206,160,.16);
-  padding:5px 10px;
-  border-radius:var(--radius-pill);
-  white-space:nowrap;
-}
-.history-services{
-  display:grid;
-  gap:8px;
-  margin:0 0 var(--spacing-16);
-  padding:var(--spacing-12) 0;
-  border-top:1px solid var(--color-mist);
-  border-bottom:1px solid var(--color-mist);
-  font-size:14px;
-  color:var(--color-ink);
-}
-.history-services li{
-  display:flex;
-  justify-content:space-between;
-  gap:var(--spacing-12);
-  line-height:1.4;
-}
-.history-services .hist-meta{
-  color:var(--color-slate);
-  font-size:12px;
-  white-space:nowrap;
-  flex-shrink:0;
-}
-.history-meta{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:var(--spacing-12);
-}
-.history-meta dt{
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-}
-.history-meta dd{
-  font-size:14px;
-  font-weight:500;
-  color:var(--color-ink);
-  margin-top:2px;
-}
-.history-empty{
-  text-align:center;
-  padding:var(--spacing-40) var(--spacing-24);
-}
+.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-12);}
+.history-title{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-ink);margin-top:2px;letter-spacing:-0.01em;}
+.history-badge{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.16);padding:5px 10px;border-radius:var(--radius-pill);white-space:nowrap;}
+.history-services{display:grid;gap:8px;margin:0 0 var(--spacing-16);padding:var(--spacing-12) 0;border-top:1px solid var(--color-mist);border-bottom:1px solid var(--color-mist);font-size:14px;color:var(--color-ink);}
+.history-services li{display:flex;justify-content:space-between;gap:var(--spacing-12);line-height:1.4;}
+.history-services .hist-meta{color:var(--color-slate);font-size:12px;white-space:nowrap;flex-shrink:0;}
+.history-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--spacing-12);}
+.history-meta dt{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
+.history-meta dd{font-size:14px;font-weight:500;color:var(--color-ink);margin-top:2px;}
+.history-empty{text-align:center;padding:var(--spacing-40) var(--spacing-24);}
 .history-empty .lead{margin:var(--spacing-8) auto 0;}
-.history-actions{
-  margin-top:var(--spacing-20);
-  text-align:right;
-}
+.history-actions{margin-top:var(--spacing-20);text-align:right;}
 .history-actions .btn{width:auto;}
 
-/* =========================================================
-   MAPA
-   ========================================================= */
-.map-card{
-  position:relative;
-  display:block;
-  height:440px;
-  border:1px solid var(--color-mist);
-  border-radius:var(--radius-2xl);
-  overflow:hidden;
-  background:var(--color-paper);
-  transition:border-color .15s ease;
-}
+/* ============ MAPA ============ */
+.map-card{position:relative;display:block;height:440px;border:1px solid var(--color-mist);border-radius:var(--radius-2xl);overflow:hidden;background:var(--color-paper);transition:border-color .15s ease;}
 .map-card:hover{border-color:var(--color-deep-teal);}
-.map-card iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  filter:grayscale(1) contrast(1.05);
-  pointer-events:none;
-  display:block;
-}
-.map-cta{
-  position:absolute;
-  left:var(--spacing-16);
-  bottom:var(--spacing-16);
-  display:inline-flex;
-  align-items:center;
-  gap:var(--spacing-8);
-  padding:12px 20px;
-  font-family:var(--font-tight);
-  font-size:14px;
-  font-weight:500;
-  color:var(--color-deep-teal);
-  background:var(--color-paper);
-  border:1px solid var(--color-deep-teal);
-  border-radius:var(--radius-pill);
-  transition:background .15s ease, color .15s ease;
-}
-.map-card:hover .map-cta{
-  background:var(--color-deep-teal);
-  color:#fff;
-}
+.map-card iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.05);pointer-events:none;display:block;}
+.map-cta{position:absolute;left:var(--spacing-16);bottom:var(--spacing-16);display:inline-flex;align-items:center;gap:var(--spacing-8);padding:12px 20px;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-deep-teal);background:var(--color-paper);border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease;}
+.map-card:hover .map-cta{background:var(--color-deep-teal);color:#fff;}
+.location-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--spacing-32);margin-top:var(--spacing-32);padding-top:var(--spacing-32);border-top:1px solid var(--color-mist);}
+.location-meta dt{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-8);}
+.location-meta dd{font-size:15px;line-height:1.5;color:var(--color-graphite);}
 
-.location-meta{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:var(--spacing-32);
-  margin-top:var(--spacing-32);
-  padding-top:var(--spacing-32);
-  border-top:1px solid var(--color-mist);
-}
-.location-meta dt{
-  font-size:var(--text-caption);
-  font-weight:600;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  color:var(--color-deep-teal);
-  margin-bottom:var(--spacing-8);
-}
-.location-meta dd{
-  font-size:15px;
-  line-height:1.5;
-  color:var(--color-graphite);
-}
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-.site-footer{
-  background:var(--color-deep-teal);
-  color:#fff;
-  padding:var(--section-gap) 0 var(--spacing-32);
-}
-.footer-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:var(--spacing-40);
-  padding-bottom:var(--spacing-32);
-  border-bottom:1px solid rgba(255,255,255,.14);
-}
-.footer-title{
-  font-size:var(--text-caption);
-  font-weight:600;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  color:var(--color-soft-teal);
-  margin-bottom:var(--spacing-16);
-}
+/* ============ FOOTER ============ */
+.site-footer{background:var(--color-deep-teal);color:#fff;padding:var(--section-gap) 0 var(--spacing-32);}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--spacing-40);padding-bottom:var(--spacing-32);border-bottom:1px solid rgba(255,255,255,.14);}
+.footer-title{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-soft-teal);margin-bottom:var(--spacing-16);}
 .footer-list{display:grid;gap:var(--spacing-12);font-size:15px;}
 .footer-list a{transition:color .15s ease;}
 .footer-list a:hover{color:var(--color-mint-pulse);}
-.footer-bottom{
-  padding-top:var(--spacing-24);
-  font-size:12px;
-  letter-spacing:0.02em;
-  color:rgba(255,255,255,.55);
-}
+.footer-bottom{padding-top:var(--spacing-24);font-size:12px;letter-spacing:0.02em;color:rgba(255,255,255,.55);}
 
-/* =========================================================
-   BOTÓN FLOTANTE DE SOPORTE
-   ========================================================= */
-.support-fab{
-  position:fixed;
-  right:var(--spacing-24);
-  bottom:var(--spacing-24);
-  z-index:60;
-  display:inline-flex;
-  align-items:center;
-  gap:var(--spacing-8);
-  padding:14px 24px;
-  font-family:var(--font-tight);
-  font-size:15px;
-  font-weight:500;
-  color:#fff;
-  background:var(--color-deep-teal);
-  border:1px solid var(--color-deep-teal);
-  border-radius:var(--radius-pill);
-  box-shadow:0 0 0 1px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.14);
-  transition:background .15s ease, border-color .15s ease, transform .1s ease;
-  touch-action:manipulation;
-  padding-bottom:calc(14px + env(safe-area-inset-bottom, 0px));
-}
-.support-fab:hover{
-  background:var(--color-mint-pulse);
-  border-color:var(--color-mint-pulse);
-}
+/* ============ SOPORTE FAB ============ */
+.support-fab{position:fixed;right:var(--spacing-24);bottom:var(--spacing-24);z-index:60;display:inline-flex;align-items:center;gap:var(--spacing-8);padding:14px 24px;font-family:var(--font-tight);font-size:15px;font-weight:500;color:#fff;background:var(--color-deep-teal);border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);transition:background .15s ease,border-color .15s ease,transform .1s ease;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));}
+.support-fab:hover{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
 .support-fab:active{transform:translateY(1px);}
 .support-fab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
 
-/* =========================================================
-   MODALES
-   ========================================================= */
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:var(--spacing-24);
-  background:rgba(21,21,21,.55);
-}
+/* ============ MODALES ============ */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:var(--spacing-24);background:rgba(21,21,21,.55);}
 .modal.is-open{display:flex;}
-.modal-panel{
-  width:100%;
-  max-width:460px;
-  max-height:88vh;
-  overflow:auto;
-  padding:var(--spacing-32);
-  background:var(--color-paper);
-  border-radius:var(--radius-2xl);
-  border:1px solid var(--color-mist);
-  animation:panelIn .25s ease both;
-}
-.modal-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:var(--spacing-16);
-  margin-bottom:var(--spacing-24);
-}
-.modal-close{
-  width:36px;height:36px;
-  display:grid;
-  place-items:center;
-  font-size:22px;
-  line-height:1;
-  color:var(--color-ink);
-  background:var(--color-bone);
-  border:0;
-  border-radius:50%;
-  transition:background .15s ease;
-  flex-shrink:0;
-}
+.modal-panel{width:100%;max-width:460px;max-height:88vh;overflow:auto;padding:var(--spacing-32);background:var(--color-paper);border-radius:var(--radius-2xl);border:1px solid var(--color-mist);animation:panelIn .25s ease both;}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-24);}
+.modal-close{width:36px;height:36px;display:grid;place-items:center;font-size:22px;line-height:1;color:var(--color-ink);background:var(--color-bone);border:0;border-radius:50%;transition:background .15s ease;flex-shrink:0;}
 .modal-close:hover{background:var(--color-mist);}
-
-.modal-actions{
-  display:flex;
-  gap:var(--spacing-12);
-  margin-top:var(--spacing-24);
-}
+.modal-actions{display:flex;gap:var(--spacing-12);margin-top:var(--spacing-24);}
 .modal-actions .btn{flex:1 1 0;width:auto;}
-
-.contact-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:var(--spacing-16);
-  padding:var(--spacing-16) 0;
-  border-bottom:1px solid var(--color-mist);
-  font-size:15px;
-}
+.contact-row{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-16);padding:var(--spacing-16) 0;border-bottom:1px solid var(--color-mist);font-size:15px;}
 .contact-row:last-of-type{border-bottom:0;}
-.contact-row > span:first-child{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:0.09em;
-  text-transform:uppercase;
-  color:var(--color-slate);
-}
-.contact-row a{
-  font-family:var(--font-tight);
-  font-weight:500;
-  color:var(--color-deep-teal);
-  transition:color .15s ease;
-}
+.contact-row > span:first-child{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
+.contact-row a{font-family:var(--font-tight);font-weight:500;color:var(--color-deep-teal);transition:color .15s ease;}
 .contact-row a:hover{color:var(--color-mint-pulse);}
+.modal-footnote{margin-top:var(--spacing-16);padding-top:var(--spacing-16);border-top:1px solid var(--color-mist);font-size:13px;line-height:1.5;color:var(--color-slate);}
+#confirmError{margin-top:var(--spacing-16);}
 
-.modal-footnote{
-  margin-top:var(--spacing-16);
-  padding-top:var(--spacing-16);
-  border-top:1px solid var(--color-mist);
-  font-size:13px;
-  line-height:1.5;
-  color:var(--color-slate);
-}
+/* ============ LOADING ============ */
+.loading{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--color-slate);}
+.loading::before{content:'';width:14px;height:14px;border:2px solid var(--color-mist);border-top-color:var(--color-deep-teal);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-/* =========================================================
-   FOCUS VISIBLE (accesibilidad con teclado)
-   ========================================================= */
-:focus-visible{
-  outline:2px solid var(--color-mint-pulse);
-  outline-offset:2px;
-}
-.btn:focus-visible,
-.slot:focus-visible,
-.day:focus-visible,
-.cal-nav:focus-visible,
-.specialist:focus-visible,
-.step-btn:focus-visible,
-.currency-btn:focus-visible,
-.support-fab:focus-visible{
-  outline-offset:3px;
-}
+/* ============ FOCUS ============ */
+:focus-visible{outline:2px solid var(--color-mint-pulse);outline-offset:2px;}
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* ============ RESPONSIVE ============ */
 @media (max-width:1024px){
   .agenda-grid{grid-template-columns:1fr;}
   .reserva-grid{grid-template-columns:1fr;}
@@ -1402,7 +314,6 @@ select{
   .hero-light{min-height:320px;}
   .hero-dark{padding:var(--spacing-60) var(--spacing-24);}
 }
-
 @media (max-width:720px){
   .nav{display:none;}
   .section{padding:48px 0;}
@@ -1410,34 +321,29 @@ select{
   .card{padding:var(--spacing-20);}
   .hero-dark{padding:var(--spacing-40) var(--spacing-20);}
   .hero-light{min-height:260px;}
-  .hero-mark{width:min(220px, 60%);}
+  .hero-mark{width:min(220px,60%);}
   .hero-mark svg{width:40px;height:40px;}
-
   .steps li{min-width:calc(50% - var(--spacing-4));}
   .step-btn{font-size:13px;padding:10px 12px;}
   .booking-shell{border-radius:var(--radius-2xl);}
-
   .panel-foot .btn{flex:1 1 auto;}
-
   .service{grid-template-columns:1fr auto;gap:var(--spacing-8) var(--spacing-16);}
   .service-dur{display:none;}
   .service-check{grid-row:1 / span 2;}
   .service-price{grid-column:1 / -1;text-align:left;font-size:16px;}
   .service.is-selected .service-price{color:var(--color-deep-teal);}
-
   .map-card{height:320px;}
   .location-meta{grid-template-columns:1fr;gap:var(--spacing-20);}
   .footer-grid{grid-template-columns:1fr;gap:var(--spacing-24);}
   .support-fab{right:var(--spacing-16);bottom:var(--spacing-16);}
 }
-
 @media (max-width:480px){
   .container{padding:0 var(--spacing-16);}
   .header-inner{padding:0 var(--spacing-16);height:60px;}
   .day{min-height:34px;font-size:13px;border-radius:var(--radius-md);}
   .cal-nav{width:32px;height:32px;font-size:14px;}
   .cal-month{font-size:15px;}
-  .slots{grid-template-columns:repeat(auto-fill, minmax(76px, 1fr));}
+  .slots{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));}
   .slot{font-size:13px;padding:9px 6px;min-height:40px;}
   .card{border-radius:var(--radius-xl);}
   .modal-panel{padding:var(--spacing-24);}
@@ -1455,19 +361,13 @@ select{
 </head>
 <body>
 
-<!-- =========================================================
-     ANNOUNCEMENT BAR
-     ========================================================= -->
-<div class="announce">
+<div class="announce" id="announceBar">
   <strong>Envío gratis</strong> en pedidos +$1,500 · <strong>Agenda hoy</strong> y recibe tu diagnóstico de piel sin costo
 </div>
 
-<!-- =========================================================
-     HEADER
-     ========================================================= -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="#top" class="wordmark">Aevi <span>Wellness</span></a>
+    <a href="#top" class="wordmark" id="wordmark">Aevi <span>Wellness</span></a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#reserva" data-nav-step="1">Reserva</a>
       <a href="#historial">Historial</a>
@@ -1478,22 +378,15 @@ select{
 
 <main id="top">
 
-  <!-- =========================================================
-       HERO SPLIT
-       ========================================================= -->
   <section class="hero" aria-label="Presentación">
     <div class="hero-dark">
-      <p class="eyebrow">Reservas · Aevi Wellness</p>
+      <p class="eyebrow" id="heroEyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
-      <p class="lead">
-        Cuatro pasos claros: elige día y horario, tus servicios, tu especialista
-        y confirma. Te enviamos los detalles por correo.
-      </p>
+      <p class="lead">Cuatro pasos claros: elige día y horario, tus servicios, tu especialista y confirma. Te enviamos los detalles por correo.</p>
       <div class="hero-actions">
         <a href="#reserva" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
       </div>
     </div>
-
     <div class="hero-light" aria-hidden="true">
       <div class="hero-mark">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1508,92 +401,61 @@ select{
     </div>
   </section>
 
-  <!-- =========================================================
-       01 — RESERVAS (FLUJO POR PASOS)
-       ========================================================= -->
   <section id="reserva" class="section section--bone">
     <div class="container">
-
       <div class="section-head">
         <p class="eyebrow">01 — Reservas</p>
         <h2 class="heading-lg">Agenda en 4 pasos</h2>
         <p class="lead">Cada paso es una pantalla. Avanza cuando tengas tu selección lista.</p>
+        <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;" hidden></p>
       </div>
 
-      <!-- Indicador de pasos -->
       <ol class="steps" id="stepsNav" aria-label="Pasos de la reserva">
-        <li>
-          <button class="step-btn is-active" type="button" data-goto="1">
-            <span class="step-num">1</span> Día y hora
-          </button>
-        </li>
-        <li>
-          <button class="step-btn" type="button" data-goto="2" disabled>
-            <span class="step-num">2</span> Servicios
-          </button>
-        </li>
-        <li>
-          <button class="step-btn" type="button" data-goto="3" disabled>
-            <span class="step-num">3</span> Especialista
-          </button>
-        </li>
-        <li>
-          <button class="step-btn" type="button" data-goto="4" disabled>
-            <span class="step-num">4</span> Tu reserva
-          </button>
-        </li>
+        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Día y hora</button></li>
+        <li><button class="step-btn" type="button" data-goto="2" disabled><span class="step-num">2</span> Servicios</button></li>
+        <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Especialista</button></li>
+        <li><button class="step-btn" type="button" data-goto="4" disabled><span class="step-num">4</span> Tu reserva</button></li>
       </ol>
 
       <div class="booking-shell">
 
-        <!-- ============ PASO 1 — DÍA Y HORA ============ -->
         <div class="step-panel is-active" data-step="1">
           <div class="panel-head">
             <p class="eyebrow">Paso 1 de 4</p>
             <h3 class="heading">Elige día y horario</h3>
             <p class="lead">Selecciona un día disponible en el calendario y después tu horario.</p>
           </div>
-
           <div class="agenda-grid">
-            <!-- Calendario -->
             <div class="card">
               <div class="cal-head">
                 <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
                 <p class="cal-month" id="monthLabel">—</p>
                 <button class="cal-nav" id="nextMonth" type="button" aria-label="Mes siguiente">&#8594;</button>
               </div>
-
               <div class="cal-grid" id="calGrid" role="grid" aria-label="Calendario de disponibilidad"></div>
-
               <div class="cal-legend">
                 <span><i class="dot dot--open"></i>Con disponibilidad</span>
                 <span><i class="dot dot--today"></i>Hoy</span>
                 <span><i class="dot dot--off"></i>Cerrado</span>
               </div>
             </div>
-
-            <!-- Horarios -->
             <div class="card">
               <p class="card-label">Horarios</p>
               <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
               <div class="slots" id="slots"></div>
             </div>
           </div>
-
           <div class="panel-foot">
             <button class="btn btn-pill" type="button" id="next1" disabled>Continuar</button>
           </div>
         </div>
 
-        <!-- ============ PASO 2 — SERVICIOS ============ -->
         <div class="step-panel" data-step="2">
           <div class="panel-head">
             <p class="eyebrow">Paso 2 de 4</p>
             <h3 class="heading">Carta de servicios</h3>
             <p class="lead">Selecciona uno o más tratamientos. Puedes combinarlos en la misma visita.</p>
             <p class="panel-hint" id="servicesHint" aria-live="polite">Puedes elegir más de un servicio.</p>
-
-            <!-- Selector de moneda -->
             <div class="currency-bar">
               <span class="currency-label" id="currencyLabel">Moneda</span>
               <div class="currency-options" id="currencyOptions" role="group" aria-labelledby="currencyLabel">
@@ -1604,41 +466,33 @@ select{
               <span class="currency-note">MXN predeterminado</span>
             </div>
           </div>
-
           <ul class="service-list" id="serviceList"></ul>
-
           <div class="panel-foot">
             <button class="btn btn-ghost" type="button" data-back="1">Atrás</button>
             <button class="btn btn-pill" type="button" id="next2" disabled>Continuar</button>
           </div>
         </div>
 
-        <!-- ============ PASO 3 — ESPECIALISTA ============ -->
         <div class="step-panel" data-step="3">
           <div class="panel-head">
             <p class="eyebrow">Paso 3 de 4</p>
             <h3 class="heading">Elige a tu especialista</h3>
             <p class="lead" id="specHint">Te atenderá la persona que selecciones. Verás sólo a quienes trabajan ese día.</p>
           </div>
-
           <div class="specialist-grid" id="specialistList"></div>
-
           <div class="panel-foot">
             <button class="btn btn-ghost" type="button" data-back="2">Atrás</button>
             <button class="btn btn-pill" type="button" id="next3" disabled>Continuar</button>
           </div>
         </div>
 
-        <!-- ============ PASO 4 — TU RESERVA ============ -->
         <div class="step-panel" data-step="4" id="summaryPanel">
           <div class="panel-head">
             <p class="eyebrow">Paso 4 de 4</p>
             <h3 class="heading">Tu reserva</h3>
             <p class="lead">Revisa los detalles y completa tus datos para confirmar.</p>
           </div>
-
           <div class="reserva-grid">
-            <!-- Resumen -->
             <div class="card">
               <p class="card-label">Resumen</p>
               <dl class="summary">
@@ -1650,43 +504,31 @@ select{
                 <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
               </dl>
             </div>
-
-            <!-- Formulario -->
             <form class="card" id="bookingForm" novalidate>
               <p class="card-label">Tus datos</p>
               <p class="form-intro">Necesitamos estos datos para enviarte la confirmación y contactarte si algo cambia.</p>
-
               <label class="field" data-field="name">
                 <span class="field-label">Nombre completo <em class="field-req">Requerido</em></span>
                 <input type="text" id="fName" placeholder="Ej. Ana García López" autocomplete="name" required aria-describedby="fName-hint fName-error">
                 <small class="field-hint" id="fName-hint">Tal como quieres que aparezca en tu reserva.</small>
                 <small class="field-error" id="fName-error" role="alert" hidden>Escribe al menos 2 letras de tu nombre.</small>
               </label>
-
               <label class="field" data-field="email">
                 <span class="field-label">Correo electrónico <em class="field-req">Requerido</em></span>
                 <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" inputmode="email" required aria-describedby="fEmail-hint fEmail-error">
                 <small class="field-hint" id="fEmail-hint">Ahí te enviaremos la confirmación y los detalles de tu cita.</small>
                 <small class="field-error" id="fEmail-error" role="alert" hidden>Escribe un correo válido (ej. nombre@dominio.com).</small>
               </label>
-
               <label class="field" data-field="phone">
                 <span class="field-label">Teléfono <em class="field-optional">Opcional</em></span>
                 <input type="tel" id="fPhone" placeholder="+52 55 1234 5678" autocomplete="tel" inputmode="tel" aria-describedby="fPhone-hint fPhone-error">
                 <small class="field-hint" id="fPhone-hint">Incluye lada. Solo lo usamos para avisos de tu cita.</small>
                 <small class="field-error" id="fPhone-error" role="alert" hidden>Si lo llenas, escribe al menos 8 dígitos (o déjalo vacío).</small>
               </label>
-
-              <button class="btn btn-pill" type="submit" id="confirmBtn" hidden>
-                Confirmar reserva
-              </button>
-
-              <p class="form-note" id="formNote" role="status" aria-live="polite">
-                Completa tu nombre y correo para habilitar la confirmación.
-              </p>
+              <button class="btn btn-pill" type="submit" id="confirmBtn" hidden>Confirmar reserva</button>
+              <p class="form-note" id="formNote" role="status" aria-live="polite">Completa tu nombre y correo para habilitar la confirmación.</p>
             </form>
           </div>
-
           <div class="panel-foot">
             <button class="btn btn-ghost" type="button" data-back="3">Atrás</button>
           </div>
@@ -1696,9 +538,6 @@ select{
     </div>
   </section>
 
-  <!-- =========================================================
-       02 — HISTORIAL
-       ========================================================= -->
   <section id="historial" class="section">
     <div class="container">
       <div class="section-head">
@@ -1706,18 +545,13 @@ select{
         <h2 class="heading-lg">Tus reservas</h2>
         <p class="lead">Aquí aparecen las reservas guardadas en este navegador. Se guardan localmente, sin enviar datos a un servidor.</p>
       </div>
-
       <div class="history-list" id="historyList"></div>
-
       <div class="history-actions">
         <button class="btn btn-ghost" type="button" id="clearHistoryBtn" hidden>Borrar historial</button>
       </div>
     </div>
   </section>
 
-  <!-- =========================================================
-       03 — UBICACIÓN
-       ========================================================= -->
   <section id="ubicacion" class="section section--bone">
     <div class="container">
       <div class="section-head">
@@ -1725,60 +559,36 @@ select{
         <h2 class="heading-lg">Cómo llegar</h2>
         <p class="lead">Toca el mapa para abrir la navegación en tu teléfono.</p>
       </div>
-
-      <a
-        class="map-card"
-        href="https://www.google.com/maps/dir/?api=1&destination=Calle%20Ejemplo%20123%2C%20Centro%2C%20CDMX"
-        target="_blank"
-        rel="noopener"
-        aria-label="Abrir navegación hacia la tienda">
-
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950"
-          title="Mapa de ubicación de la tienda"
-          loading="lazy"></iframe>
-
+      <a class="map-card" id="mapCard" href="https://www.google.com/maps/dir/?api=1&destination=Calle%20Ejemplo%20123%2C%20Centro%2C%20CDMX" target="_blank" rel="noopener" aria-label="Abrir navegación hacia la tienda">
+        <iframe id="mapIframe" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950" title="Mapa de ubicación de la tienda" loading="lazy"></iframe>
         <span class="map-cta">Abrir navegación &#8594;</span>
       </a>
-
       <dl class="location-meta">
-        <div>
-          <dt>Dirección</dt>
-          <dd>Calle Ejemplo 123<br>Col. Centro, CDMX</dd>
-        </div>
-        <div>
-          <dt>Horario</dt>
-          <dd>Lun – Vie · 09:00 – 19:00<br>Sáb · 09:00 – 14:00</dd>
-        </div>
-        <div>
-          <dt>Estacionamiento</dt>
-          <dd>Valet disponible<br>a partir de las 10:00</dd>
-        </div>
+        <div><dt>Dirección</dt><dd id="locAddress">Calle Ejemplo 123<br>Col. Centro, CDMX</dd></div>
+        <div><dt>Horario</dt><dd id="locSchedule">Lun – Vie · 09:00 – 19:00<br>Sáb · 09:00 – 14:00</dd></div>
+        <div><dt>Estacionamiento</dt><dd>Valet disponible<br>a partir de las 10:00</dd></div>
       </dl>
     </div>
   </section>
 
 </main>
 
-<!-- =========================================================
-     FOOTER
-     ========================================================= -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div>
-        <p class="footer-title">Aevi Wellness</p>
+        <p class="footer-title" id="footerBusinessName">Aevi Wellness</p>
         <ul class="footer-list">
-          <li>Calle Ejemplo 123, Col. Centro</li>
+          <li id="footerAddress">Calle Ejemplo 123, Col. Centro</li>
           <li>Ciudad de México</li>
         </ul>
       </div>
       <div>
         <p class="footer-title">Contacto</p>
         <ul class="footer-list">
-          <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-          <li><a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></li>
-          <li><a href="https://wa.me/525512345678" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a id="footerPhone" href="tel:+525512345678">+52 55 1234 5678</a></li>
+          <li><a id="footerEmail" href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></li>
+          <li><a id="footerWhatsApp" href="https://wa.me/525512345678" target="_blank" rel="noopener">WhatsApp</a></li>
         </ul>
       </div>
       <div>
@@ -1790,80 +600,39 @@ select{
         </ul>
       </div>
     </div>
-    <p class="footer-bottom">© <span id="year">2025</span> Aevi Wellness. Todos los derechos reservados.</p>
+    <p class="footer-bottom">© <span id="year">2025</span> <span id="footerCopyrightName">Aevi Wellness</span>. Todos los derechos reservados.</p>
   </div>
 </footer>
 
-<!-- =========================================================
-     BOTÓN FLOTANTE DE SOPORTE
-     ========================================================= -->
 <button class="support-fab" id="supportBtn" type="button" aria-haspopup="dialog">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M21 12a9 9 0 1 1-3.2-6.9"/>
-    <path d="M21 4v5h-5"/>
-  </svg>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 4v5h-5"/></svg>
   Soporte
 </button>
 
-<!-- =========================================================
-     MODAL DE SOPORTE
-     ========================================================= -->
 <div class="modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
   <div class="modal-panel">
     <div class="modal-head">
-      <div>
-        <p class="card-label">Atención</p>
-        <h3 class="heading" id="supportTitle">Estamos aquí</h3>
-      </div>
+      <div><p class="card-label">Atención</p><h3 class="heading" id="supportTitle">Estamos aquí</h3></div>
       <button class="modal-close" id="supportClose" type="button" aria-label="Cerrar">&times;</button>
     </div>
-
-    <div class="contact-row">
-      <span>Teléfono</span>
-      <a href="tel:+525512345678">+52 55 1234 5678</a>
-    </div>
-    <div class="contact-row">
-      <span>WhatsApp</span>
-      <a href="https://wa.me/525512345678" target="_blank" rel="noopener">Escribir mensaje</a>
-    </div>
-    <div class="contact-row">
-      <span>Correo</span>
-      <a href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a>
-    </div>
-    <div class="contact-row">
-      <span>Instagram</span>
-      <a href="https://instagram.com/" target="_blank" rel="noopener">@aeviwellness</a>
-    </div>
-    <div class="contact-row">
-      <span>Facebook</span>
-      <a href="https://facebook.com/" target="_blank" rel="noopener">/aeviwellness</a>
-    </div>
-    <div class="contact-row">
-      <span>TikTok</span>
-      <a href="https://tiktok.com/" target="_blank" rel="noopener">@aeviwellness</a>
-    </div>
-
-    <p class="modal-footnote">
-      Horario de atención: lunes a viernes de 09:00 a 19:00 · sábados de 09:00 a 14:00.
-    </p>
+    <div class="contact-row"><span>Teléfono</span><a id="supPhone" href="tel:+525512345678">+52 55 1234 5678</a></div>
+    <div class="contact-row"><span>WhatsApp</span><a id="supWhatsApp" href="https://wa.me/525512345678" target="_blank" rel="noopener">Escribir mensaje</a></div>
+    <div class="contact-row"><span>Correo</span><a id="supEmail" href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></div>
+    <div class="contact-row"><span>Instagram</span><a href="https://instagram.com/" target="_blank" rel="noopener">@aeviwellness</a></div>
+    <div class="contact-row"><span>Facebook</span><a href="https://facebook.com/" target="_blank" rel="noopener">/aeviwellness</a></div>
+    <div class="contact-row"><span>TikTok</span><a href="https://tiktok.com/" target="_blank" rel="noopener">@aeviwellness</a></div>
+    <p class="modal-footnote" id="supFootnote">Horario de atención: lunes a viernes de 09:00 a 19:00 · sábados de 09:00 a 14:00.</p>
   </div>
 </div>
 
-<!-- =========================================================
-     MODAL DE CONFIRMACIÓN DE RESERVA
-     ========================================================= -->
 <div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
   <div class="modal-panel">
     <div class="modal-head">
-      <div>
-        <p class="card-label">Paso final</p>
-        <h3 class="heading" id="confirmTitle">Revisa tu reserva</h3>
-      </div>
+      <div><p class="card-label">Paso final</p><h3 class="heading" id="confirmTitle">Revisa tu reserva</h3></div>
       <button class="modal-close" id="confirmClose" type="button" aria-label="Cerrar">&times;</button>
     </div>
-
     <div id="confirmBody"></div>
-
+    <p id="confirmError" class="field-error" role="alert" hidden></p>
     <div class="modal-actions">
       <button class="btn btn-ghost" type="button" id="confirmBack">Volver</button>
       <button class="btn btn-pill" type="button" id="confirmOk">Confirmar reserva</button>
@@ -1876,27 +645,26 @@ select{
   'use strict';
 
   /* =========================================================
-     1. DATOS EDITABLES
+     0. CONFIGURACIÓN DEL BACKEND
      ========================================================= */
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIpslooNGNBqrg6NAGwk5ElppYHDtC5sOPHU1uWoiaLu_73hs-wdQpIKjWgUe1XrTNKA/exec';
 
-  const SERVICES = [
-    { id:'diagnostico', name:'Consulta de diagnóstico', desc:'Análisis de piel y rutina personalizada.', duration:30, price:450 },
-    { id:'facial',      name:'Ritual facial nórdico',   desc:'Limpieza profunda, hidratación y masaje.', duration:60, price:950 },
-    { id:'masaje',      name:'Masaje con piedras frías',desc:'Drenaje linfático y descanso profundo.', duration:75, price:1200 },
-    { id:'cuerpo',      name:'Envoltura mineral',       desc:'Exfoliación y nutrición corporal.',        duration:90, price:1450 },
-    { id:'rutina',      name:'Asesoría de rutina',      desc:'Armado de rutina de 3 pasos en tienda.',   duration:45, price:600 }
-  ];
+  /* =========================================================
+     1. CONSTANTES
+     ========================================================= */
+  const CURRENCIES = {
+    MXN: { code:'MXN', mxnPerUnit:1,    decimals:0 },
+    USD: { code:'USD', mxnPerUnit:17.5, decimals:2 },
+    EUR: { code:'EUR', mxnPerUnit:19.2, decimals:2 }
+  };
+  const DEFAULT_CURRENCY = 'MXN';
 
-  // days: 0 = domingo … 6 = sábado
-  const SPECIALISTS = [
-    { id:'sofia',   name:'Ana Sofía Ríos', role:'Especialista facial', days:[1,2,3,4,5] },
-    { id:'marcos',  name:'Marcos Delgado', role:'Terapeuta corporal',  days:[1,3,5,6]   },
-    { id:'valeria', name:'Valeria Cruz',   role:'Cosmiatra',           days:[2,4,6]     },
-    { id:'ivan',    name:'Iván Ortega',    role:'Masoterapeuta',       days:[1,2,3,4,5,6] }
-  ];
+  const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
+  const DOW_LABELS = ['L','M','M','J','V','S','D'];
 
-  // Horarios por día de la semana (0 = domingo … 6 = sábado)
-  const SLOTS_BY_WEEKDAY = {
+  const DEFAULT_SLOTS_BY_WEEKDAY = {
     0: [],
     1: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
     2: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
@@ -1906,26 +674,12 @@ select{
     6: ['09:00','10:00','11:00','12:00','13:00']
   };
 
-  // Monedas disponibles. `mxnPerUnit` = cuántos MXN equivalen a 1 unidad.
-  // Los precios base de SERVICES están en MXN. Ajusta los tipos de cambio aquí.
-  const CURRENCIES = {
-    MXN: { code:'MXN', mxnPerUnit:1,     decimals:0 },
-    USD: { code:'USD', mxnPerUnit:17.5,  decimals:2 },
-    EUR: { code:'EUR', mxnPerUnit:19.2,  decimals:2 }
-  };
-  const DEFAULT_CURRENCY = 'MXN';
-
-  const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
-  const DOW_LABELS = ['L','M','M','J','V','S','D'];
-
   const HISTORY_KEY = 'aevi_booking_history_v1';
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   /* =========================================================
      2. UTILIDADES
      ========================================================= */
-
   const $ = (sel) => document.querySelector(sel);
 
   function money(mxnAmount, currencyCode) {
@@ -1933,8 +687,7 @@ select{
     const cur  = CURRENCIES[code] || CURRENCIES[DEFAULT_CURRENCY];
     const value = Number(mxnAmount) / cur.mxnPerUnit;
     return new Intl.NumberFormat('es-MX', {
-      style:'currency',
-      currency: code,
+      style:'currency', currency: code,
       minimumFractionDigits: cur.decimals,
       maximumFractionDigits: cur.decimals
     }).format(value);
@@ -1958,35 +711,67 @@ select{
     { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
   ));
 
-  const slotsFor = (date) => SLOTS_BY_WEEKDAY[date.getDay()] || [];
-  const isClosedDay = (date) => slotsFor(date).length === 0;
-
   const initials = (name) =>
-    name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+    String(name || '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 
   const daysLabel = (days) =>
-    days.slice().sort((a, b) => a - b).map((d) => DAY_SHORT[d]).join(' · ');
-
-  // Disponibilidad simulada y determinista (reemplazar por datos del backend)
-  function isSlotTaken(date, time) {
-    const list = slotsFor(date);
-    const index = list.indexOf(time);
-    if (index < 0) return true;
-    const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
-    return ((seed + index * 7) % 5) === 0;
-  }
+    (days || []).slice().sort((a, b) => a - b).map((d) => DAY_SHORT[d]).join(' · ');
 
   function isPastTime(time, now) {
     const [h, m] = time.split(':').map(Number);
     return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
   }
 
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  /* =========================================================
+     3. API HELPERS (GAS)
+     ========================================================= */
+  async function gasGet(action, params) {
+    const url = new URL(GAS_URL);
+    url.searchParams.set('action', action);
+    Object.entries(params || {}).forEach(([k, v]) => url.searchParams.set(k, v));
+    const res = await fetch(url.toString(), { method: 'GET', redirect: 'follow' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  async function gasPost(action, data) {
+    // text/plain evita preflight CORS; GAS parsea e.postData.contents como JSON.
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action }, data || {}))
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
 
   /* =========================================================
-     3. ESTADO
+     4. NORMALIZADORES (backend → frontend)
      ========================================================= */
+  function normalizeService(s) {
+    return {
+      id: String(s.ID || s.id || ''),
+      name: String(s.Nombre || s.name || ''),
+      desc: String(s.Descripción || s.Descripcion || s.desc || ''),
+      duration: Number(s.Duración || s.Duracion || s.duration || 0),
+      price: Number(s.Precio || s.price || 0)
+    };
+  }
 
+  function normalizeSpecialist(sp) {
+    const raw = String(sp.Días || sp.Dias || sp.days || '');
+    const days = raw.split(',').map(x => Number(String(x).trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6);
+    return {
+      id: String(sp.ID || sp.id || ''),
+      name: String(sp.Nombre || sp.name || ''),
+      role: String(sp.Rol || sp.role || ''),
+      days: days
+    };
+  }
+
+  /* =========================================================
+     5. ESTADO
+     ========================================================= */
   const state = {
     view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     date: null,
@@ -1994,13 +779,18 @@ select{
     services: [],
     specialist: null,
     currency: DEFAULT_CURRENCY,
-    step: 1
+    step: 1,
+    servicesCatalog: [],
+    specialistsCatalog: [],
+    config: {},
+    availabilityCache: {},        // { 'YYYY-MM-DD': { specId: [times] } }
+    availabilityBySpecialist: {}, // cache del día actual
+    backendReady: false
   };
 
   /* =========================================================
-     4. REFERENCIAS DOM
+     6. DOM
      ========================================================= */
-
   const monthLabel     = $('#monthLabel');
   const calGrid        = $('#calGrid');
   const prevBtn        = $('#prevMonth');
@@ -2027,41 +817,184 @@ select{
   const nameInput      = $('#fName');
   const emailInput     = $('#fEmail');
   const phoneInput     = $('#fPhone');
-
   const currencyButtons = Array.prototype.slice.call(document.querySelectorAll('.currency-btn'));
-
   const historyList    = $('#historyList');
   const clearHistoryBtn = $('#clearHistoryBtn');
-
   const confirmModal   = $('#confirmModal');
   const confirmBody    = $('#confirmBody');
+  const confirmError   = $('#confirmError');
   const confirmOk      = $('#confirmOk');
   const confirmBack    = $('#confirmBack');
   const confirmClose   = $('#confirmClose');
+  const supportModal   = $('#supportModal');
+  const supportBtn     = $('#supportBtn');
+  const supportClose   = $('#supportClose');
+  const backendStatus  = $('#backendStatus');
 
   /* =========================================================
-     5. CÁLCULOS DE LA SELECCIÓN
+     7. SCHEDULE (config-driven con fallback)
      ========================================================= */
+  function slotsFor(date) {
+    const wd = date.getDay();
+    const key = 'schedule_' + wd;
+    if (Object.prototype.hasOwnProperty.call(state.config, key)) {
+      const val = state.config[key];
+      if (!val || !String(val).trim()) return [];
+      return String(val).split(',').map(s => s.trim()).filter(Boolean);
+    }
+    return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
+  }
+  const isClosedDay = (date) => slotsFor(date).length === 0;
 
+  /* =========================================================
+     8. APLICAR CONFIG AL DOM
+     ========================================================= */
+  function applyConfig() {
+    const c = state.config || {};
+
+    if (c.businessName) {
+      document.title = c.businessName + ' — Agenda tu cita';
+      const wm = document.getElementById('wordmark');
+      if (wm) {
+        if (c.logoUrl) {
+          wm.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="' + escapeHtml(c.businessName) + '">';
+        } else {
+          const parts = String(c.businessName).trim().split(/\s+/);
+          if (parts.length > 1) {
+            wm.innerHTML = escapeHtml(parts[0]) + ' <span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>';
+          } else {
+            wm.textContent = c.businessName;
+          }
+        }
+      }
+      const fbn = document.getElementById('footerBusinessName');
+      if (fbn) fbn.textContent = c.businessName;
+      const fcn = document.getElementById('footerCopyrightName');
+      if (fcn) fcn.textContent = c.businessName;
+      const he = document.getElementById('heroEyebrow');
+      if (he) he.textContent = 'Reservas · ' + c.businessName;
+    }
+
+    if (c.address) {
+      const la = document.getElementById('locAddress');
+      if (la) la.innerHTML = escapeHtml(c.address).replace(/\n/g, '<br>');
+      const fa = document.getElementById('footerAddress');
+      if (fa) fa.textContent = c.address;
+      const map = document.getElementById('mapCard');
+      if (map) {
+        map.href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
+      }
+    }
+
+    if (c.phone) {
+      const digits = String(c.phone).replace(/\D/g, '');
+      const telHref = 'tel:+' + digits;
+      const waHref = 'https://wa.me/' + digits;
+      const fp = document.getElementById('footerPhone');
+      if (fp) { fp.textContent = c.phone; fp.href = telHref; }
+      const fe = document.getElementById('footerWhatsApp');
+      if (fe) { fe.href = waHref; }
+      const sp = document.getElementById('supPhone');
+      if (sp) { sp.textContent = c.phone; sp.href = telHref; }
+      const sw = document.getElementById('supWhatsApp');
+      if (sw) sw.href = waHref;
+    }
+
+    if (c.email) {
+      const fem = document.getElementById('footerEmail');
+      if (fem) { fem.textContent = c.email; fem.href = 'mailto:' + c.email; }
+      const sem = document.getElementById('supEmail');
+      if (sem) { sem.textContent = c.email; sem.href = 'mailto:' + c.email; }
+    }
+
+    if (c.currency && CURRENCIES[c.currency]) {
+      state.currency = c.currency;
+      currencyButtons.forEach((b) => {
+        const active = b.dataset.currency === c.currency;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    // Horario textual
+    const ls = document.getElementById('locSchedule');
+    if (ls) {
+      const lines = [];
+      for (let d = 1; d <= 6; d++) {
+        const sched = slotsFor({ getDay: () => d });
+        if (sched.length > 0) {
+          lines.push(WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1) + ' · ' + sched[0] + ' – ' + sched[sched.length - 1]);
+        }
+      }
+      ls.innerHTML = lines.length ? lines.join('<br>') : 'Consulta por WhatsApp';
+      const footnote = document.getElementById('supFootnote');
+      if (footnote) footnote.innerHTML = 'Horario de atención: ' + (lines.join(' · ') || 'consulta directa');
+    }
+  }
+
+  /* =========================================================
+     9. CARGA DEL BACKEND
+     ========================================================= */
+  async function loadBackendData() {
+    backendStatus.hidden = true;
+    try {
+      const [config, services, specialists] = await Promise.all([
+        gasGet('getConfig').catch(() => ({})),
+        gasGet('getServices').catch(() => []),
+        gasGet('getSpecialists').catch(() => [])
+      ]);
+      state.config = (config && typeof config === 'object') ? config : {};
+      state.servicesCatalog = (Array.isArray(services) ? services : []).map(normalizeService);
+      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
+      state.backendReady = true;
+      applyConfig();
+      return true;
+    } catch (e) {
+      state.backendReady = false;
+      backendStatus.textContent = '⚠ No se pudo conectar con el servidor de reservas: ' + e.message + '. Intenta recargar.';
+      backendStatus.hidden = false;
+      return false;
+    }
+  }
+
+  async function loadAvailabilityForDate(date) {
+    if (!date || state.specialistsCatalog.length === 0) return {};
+    const dateISO = dateToISO(date);
+    if (state.availabilityCache[dateISO]) {
+      state.availabilityBySpecialist = state.availabilityCache[dateISO];
+      return state.availabilityCache[dateISO];
+    }
+    const result = {};
+    await Promise.all(state.specialistsCatalog.map(async (spec) => {
+      try {
+        const times = await gasGet('getAvailability', { date: dateISO, specialistId: spec.id });
+        result[spec.id] = Array.isArray(times) ? times.map(String) : [];
+      } catch (e) {
+        result[spec.id] = [];
+      }
+    }));
+    state.availabilityCache[dateISO] = result;
+    state.availabilityBySpecialist = result;
+    return result;
+  }
+
+  /* =========================================================
+     10. CÁLCULOS
+     ========================================================= */
   const totalPrice = () => state.services.reduce((acc, s) => acc + s.price, 0);
   const totalDuration = () => state.services.reduce((acc, s) => acc + s.duration, 0);
   const isServiceSelected = (id) => state.services.some((s) => s.id === id);
 
   function updateServicesHint() {
     const n = state.services.length;
-    if (n === 0) {
-      servicesHint.textContent = 'Puedes elegir más de un servicio.';
-    } else if (n === 1) {
-      servicesHint.textContent = '1 servicio seleccionado.';
-    } else {
-      servicesHint.textContent = n + ' servicios seleccionados.';
-    }
+    if (n === 0) servicesHint.textContent = 'Puedes elegir más de un servicio.';
+    else if (n === 1) servicesHint.textContent = '1 servicio seleccionado.';
+    else servicesHint.textContent = n + ' servicios seleccionados.';
   }
 
   /* =========================================================
-     6. SELECTOR DE MONEDA
+     11. MONEDA
      ========================================================= */
-
   function applyCurrency(code) {
     if (!CURRENCIES[code]) return;
     state.currency = code;
@@ -2070,11 +1003,9 @@ select{
       b.classList.toggle('is-active', active);
       b.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
-    // Re-renderiza los precios visibles
     renderServices();
     renderSummary();
   }
-
   currencyButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       if (state.currency === btn.dataset.currency) return;
@@ -2083,20 +1014,17 @@ select{
   });
 
   /* =========================================================
-     7. CALENDARIO
+     12. CALENDARIO
      ========================================================= */
-
   function renderCalendar() {
     const year  = state.view.getFullYear();
     const month = state.view.getMonth();
-
     monthLabel.textContent = `${MONTHS[month]} ${year}`;
 
     const now = new Date();
     prevBtn.disabled = (year === now.getFullYear() && month === now.getMonth());
 
     calGrid.innerHTML = '';
-
     DOW_LABELS.forEach((label) => {
       const cell = document.createElement('div');
       cell.className = 'cal-dow';
@@ -2104,15 +1032,11 @@ select{
       calGrid.appendChild(cell);
     });
 
-    // Celdas vacías antes del día 1 (semana inicia en lunes)
     const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
-    for (let i = 0; i < firstWeekday; i++) {
-      calGrid.appendChild(document.createElement('span'));
-    }
+    for (let i = 0; i < firstWeekday; i++) calGrid.appendChild(document.createElement('span'));
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = new Date(); today.setHours(0,0,0,0);
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
@@ -2123,11 +1047,7 @@ select{
       btn.setAttribute('aria-label', formatDate(date));
 
       const unavailable = date < today || isClosedDay(date);
-
-      if (unavailable) {
-        btn.classList.add('is-off');
-        btn.disabled = true;
-      }
+      if (unavailable) { btn.classList.add('is-off'); btn.disabled = true; }
       if (sameDay(date, today)) btn.classList.add('is-today');
       if (sameDay(date, state.date)) {
         btn.classList.add('is-selected');
@@ -2137,12 +1057,11 @@ select{
       btn.addEventListener('click', () => {
         state.date = date;
         state.time = null;
-
-        // Si el especialista elegido no trabaja ese día, se limpia la selección
         if (state.specialist && state.specialist.days.indexOf(date.getDay()) === -1) {
           state.specialist = null;
         }
-
+        // Invalidar cache de disponibilidad para el nuevo día
+        state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
         renderCalendar();
         renderSlots();
         renderSpecialists();
@@ -2160,26 +1079,22 @@ select{
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() - 1, 1);
     renderCalendar();
   });
-
   nextBtn.addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() + 1, 1);
     renderCalendar();
   });
 
   /* =========================================================
-     8. HORARIOS
+     13. HORARIOS
      ========================================================= */
-
   function renderSlots() {
     slotsEl.innerHTML = '';
-
     if (!state.date) {
       slotsDate.textContent = 'Selecciona un día';
       slotsDate.classList.add('empty');
       slotsEl.innerHTML = '<p class="slots-empty">Elige un día en el calendario para ver los horarios.</p>';
       return;
     }
-
     slotsDate.textContent = formatDate(state.date);
     slotsDate.classList.remove('empty');
 
@@ -2198,9 +1113,8 @@ select{
       btn.className = 'slot';
       btn.textContent = time;
 
-      const taken = isSlotTaken(state.date, time) || (isToday && isPastTime(time, now));
-
-      if (taken) {
+      const past = isToday && isPastTime(time, now);
+      if (past) {
         btn.classList.add('is-taken');
         btn.disabled = true;
         btn.setAttribute('aria-disabled', 'true');
@@ -2209,30 +1123,33 @@ select{
         btn.classList.add('is-selected');
         btn.setAttribute('aria-pressed', 'true');
       }
-
       btn.addEventListener('click', () => {
         state.time = time;
         renderSlots();
+        renderSpecialists();
         renderSummary();
         syncControls();
         formNote.textContent = '';
         formNote.classList.remove('is-error');
       });
-
       slotsEl.appendChild(btn);
     });
   }
 
   /* =========================================================
-     9. SERVICIOS (selección múltiple)
+     14. SERVICIOS
      ========================================================= */
-
   const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
 
   function renderServices() {
     serviceList.innerHTML = '';
 
-    SERVICES.forEach((service) => {
+    if (state.servicesCatalog.length === 0) {
+      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);">No hay servicios configurados. Contacta al negocio.</li>';
+      return;
+    }
+
+    state.servicesCatalog.forEach((service) => {
       const li = document.createElement('li');
       li.className = 'service-item';
 
@@ -2245,7 +1162,7 @@ select{
       btn.innerHTML =
         '<span class="service-main">' +
           '<span class="service-name">' + escapeHtml(service.name) + '</span>' +
-          '<span class="service-desc">' + escapeHtml(service.desc) + '</span>' +
+          (service.desc ? '<span class="service-desc">' + escapeHtml(service.desc) + '</span>' : '') +
         '</span>' +
         '<span class="service-dur">' + service.duration + ' min</span>' +
         '<span class="service-price">' + money(service.price) + '</span>' +
@@ -2253,11 +1170,8 @@ select{
 
       btn.addEventListener('click', () => {
         const idx = state.services.findIndex((s) => s.id === service.id);
-        if (idx >= 0) {
-          state.services.splice(idx, 1);
-        } else {
-          state.services.push(service);
-        }
+        if (idx >= 0) state.services.splice(idx, 1);
+        else state.services.push(service);
 
         const nowSelected = isServiceSelected(service.id);
         btn.classList.toggle('is-selected', nowSelected);
@@ -2276,17 +1190,23 @@ select{
   }
 
   /* =========================================================
-     10. ESPECIALISTAS
+     15. ESPECIALISTAS
      ========================================================= */
-
   function renderSpecialists() {
     specialistList.innerHTML = '';
 
+    if (state.specialistsCatalog.length === 0) {
+      specialistList.innerHTML = '<p class="slots-empty">No hay especialistas configurados. Contacta al negocio.</p>';
+      return;
+    }
+
     const weekday = state.date ? state.date.getDay() : null;
 
-    SPECIALISTS.forEach((spec) => {
-      const available = weekday === null || spec.days.indexOf(weekday) !== -1;
-      const selected  = !!(state.specialist && state.specialist.id === spec.id);
+    state.specialistsCatalog.forEach((spec) => {
+      const worksThisDay = weekday === null || spec.days.indexOf(weekday) !== -1;
+      const bookedAtTime = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
+      const available = worksThisDay && !bookedAtTime;
+      const selected = !!(state.specialist && state.specialist.id === spec.id);
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -2294,14 +1214,17 @@ select{
       btn.disabled = !available;
       btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
+      let hint;
+      if (!worksThisDay) hint = 'No disponible este día';
+      else if (bookedAtTime) hint = 'Ocupado a las ' + state.time;
+      else hint = 'Disponible ' + daysLabel(spec.days);
+
       btn.innerHTML =
         '<span class="spec-avatar" aria-hidden="true">' + escapeHtml(initials(spec.name)) + '</span>' +
         '<span class="spec-body">' +
           '<span class="spec-name">' + escapeHtml(spec.name) + '</span>' +
           '<span class="spec-role">' + escapeHtml(spec.role) + '</span>' +
-          '<span class="spec-days">' +
-            (available ? 'Disponible ' + daysLabel(spec.days) : 'No disponible este día') +
-          '</span>' +
+          '<span class="spec-days">' + escapeHtml(hint) + '</span>' +
         '</span>';
 
       btn.addEventListener('click', () => {
@@ -2318,17 +1241,12 @@ select{
   }
 
   /* =========================================================
-     11. RESUMEN
+     16. RESUMEN
      ========================================================= */
-
   function renderSummary() {
-    if (state.services.length === 0) {
-      sumServices.textContent = '—';
-    } else {
-      sumServices.innerHTML = state.services
-        .map((s) => escapeHtml(s.name))
-        .join('<br>');
-    }
+    if (state.services.length === 0) sumServices.textContent = '—';
+    else sumServices.innerHTML = state.services.map((s) => escapeHtml(s.name)).join('<br>');
+
     sumSpecialist.textContent = state.specialist ? state.specialist.name : '—';
     sumDate.textContent       = state.date ? formatDate(state.date) : '—';
     sumTime.textContent       = state.time || '—';
@@ -2337,9 +1255,8 @@ select{
   }
 
   /* =========================================================
-     12. VALIDACIÓN DEL FORMULARIO
+     17. VALIDACIÓN
      ========================================================= */
-
   function isNameOk()  { return nameInput.value.trim().length >= 2; }
   function isEmailOk() { return EMAIL_RE.test(emailInput.value.trim()); }
   function isPhoneOk() {
@@ -2351,13 +1268,10 @@ select{
   function validateField(fieldName) {
     const field = form.querySelector('[data-field="' + fieldName + '"]');
     if (!field) return true;
-
-    const input   = field.querySelector('input');
+    const input = field.querySelector('input');
     const errorEl = field.querySelector('.field-error');
-    const value   = input.value.trim();
-
-    let valid = true;
-    let message = '';
+    const value = input.value.trim();
+    let valid = true, message = '';
 
     if (fieldName === 'name') {
       valid = value.length >= 2;
@@ -2373,10 +1287,7 @@ select{
 
     field.classList.toggle('is-invalid', !valid);
     field.classList.toggle('is-valid', valid && value !== '');
-    if (errorEl) {
-      errorEl.textContent = message;
-      errorEl.hidden = valid;
-    }
+    if (errorEl) { errorEl.textContent = message; errorEl.hidden = valid; }
     input.setAttribute('aria-invalid', valid ? 'false' : 'true');
     return valid;
   }
@@ -2385,11 +1296,9 @@ select{
     const ready = formReady();
     confirmBtn.hidden = !ready;
     formNote.classList.remove('is-error');
-    if (ready) {
-      formNote.textContent = 'Todo listo. Pulsa “Confirmar reserva” para revisar el resumen.';
-    } else {
-      formNote.textContent = 'Completa tu nombre y correo para habilitar la confirmación.';
-    }
+    formNote.textContent = ready
+      ? 'Todo listo. Pulsa “Confirmar reserva” para revisar el resumen.'
+      : 'Completa tu nombre y correo para habilitar la confirmación.';
   }
 
   [nameInput, emailInput, phoneInput].forEach((input) => {
@@ -2407,18 +1316,19 @@ select{
     });
   });
 
-  /* =========================================================
-     13. VALIDACIÓN DE PASOS
-     ========================================================= */
-
   function isStepComplete(step) {
     if (step === 1) return !!(state.date && state.time);
     if (step === 2) return state.services.length > 0;
-    if (step === 3) return !!state.specialist;
+    if (step === 3) {
+      if (!state.specialist) return false;
+      const wd = state.date ? state.date.getDay() : null;
+      const works = wd === null || state.specialist.days.indexOf(wd) !== -1;
+      const booked = !!(state.time && (state.availabilityBySpecialist[state.specialist.id] || []).includes(state.time));
+      return works && !booked;
+    }
     if (step === 4) return formReady();
     return false;
   }
-
   function maxReachableStep() {
     let s = 1;
     while (s < 4 && isStepComplete(s)) s++;
@@ -2444,28 +1354,54 @@ select{
   }
 
   /* =========================================================
-     14. NAVEGACIÓN ENTRE PASOS
+     18. NAVEGACIÓN
      ========================================================= */
-
   function goToStep(n, opts) {
     opts = opts || {};
     n = Math.max(1, Math.min(4, n));
     state.step = n;
-
     document.querySelectorAll('.step-panel').forEach((panel) => {
       panel.classList.toggle('is-active', Number(panel.dataset.step) === n);
     });
-
     renderStepsNav();
-
     if (opts.scroll !== false) {
       const target = document.getElementById('reserva');
       if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
     }
   }
 
+  async function goToStep3() {
+    if (state.date && !state.availabilityCache[dateToISO(state.date)]) {
+      const origText = next2.textContent;
+      next2.disabled = true;
+      next2.textContent = 'Cargando disponibilidad…';
+      try {
+        await loadAvailabilityForDate(state.date);
+      } catch (e) {
+        console.warn('Availability load failed:', e);
+      } finally {
+        next2.disabled = false;
+        next2.textContent = origText;
+      }
+    } else if (state.date) {
+      state.availabilityBySpecialist = state.availabilityCache[dateToISO(state.date)] || {};
+    }
+
+    // Re-validar especialista previo
+    if (state.specialist) {
+      const wd = state.date ? state.date.getDay() : null;
+      const works = wd === null || state.specialist.days.indexOf(wd) !== -1;
+      const booked = !!(state.time && (state.availabilityBySpecialist[state.specialist.id] || []).includes(state.time));
+      if (!works || booked) state.specialist = null;
+    }
+    renderSpecialists();
+    renderSummary();
+    syncControls();
+    goToStep(3);
+  }
+
   next1.addEventListener('click', () => goToStep(2));
-  next2.addEventListener('click', () => goToStep(3));
+  next2.addEventListener('click', goToStep3);
   next3.addEventListener('click', () => goToStep(4));
 
   document.querySelectorAll('[data-back]').forEach((btn) => {
@@ -2473,21 +1409,28 @@ select{
   });
 
   stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
-    btn.addEventListener('click', () => goToStep(Number(btn.dataset.goto)));
+    btn.addEventListener('click', () => {
+      const n = Number(btn.dataset.goto);
+      if (n === 3) goToStep3();
+      else goToStep(n);
+    });
   });
 
   document.querySelectorAll('[data-nav-step]').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
       const target = Number(link.dataset.navStep);
-      goToStep(Math.min(target, maxReachableStep()));
+      if (target === 3 && isStepComplete(1) && isStepComplete(2)) {
+        goToStep3();
+      } else {
+        goToStep(Math.min(target, maxReachableStep()));
+      }
     });
   });
 
   /* =========================================================
-     15. FORMULARIO + CONFIRMACIÓN
+     19. FORM + CONFIRMACIÓN
      ========================================================= */
-
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -2496,33 +1439,30 @@ select{
       formNote.classList.add('is-error');
       return;
     }
-
     const okName  = validateField('name');
     const okEmail = validateField('email');
     const okPhone = validateField('phone');
-
     if (!okName || !okEmail || !okPhone) {
       formNote.textContent = 'Revisa los campos marcados en rojo antes de continuar.';
       formNote.classList.add('is-error');
       return;
     }
-
     openConfirmModal();
   });
 
   const summaryRow = (label, value) =>
     '<div><dt>' + label + '</dt><dd>' + escapeHtml(value) + '</dd></div>';
 
-  function servicesListHtml(currencyCode) {
-    return state.services.map((s) => escapeHtml(s.name)).join('<br>');
-  }
-
   function openConfirmModal() {
     const currency = state.currency;
+    const servicesHtml = state.services.map((s) => escapeHtml(s.name)).join('<br>');
+
+    confirmError.hidden = true;
+    confirmError.textContent = '';
 
     confirmBody.innerHTML =
       '<dl class="summary">' +
-        '<div><dt>Servicios</dt><dd>' + servicesListHtml(currency) + '</dd></div>' +
+        '<div><dt>Servicios</dt><dd>' + servicesHtml + '</dd></div>' +
         summaryRow('Especialista', state.specialist.name) +
         summaryRow('Día', formatDate(state.date)) +
         summaryRow('Hora', state.time) +
@@ -2544,29 +1484,61 @@ select{
     if (returnFocus && !confirmBtn.hidden) confirmBtn.focus();
   }
 
-  confirmOk.addEventListener('click', () => {
-    closeConfirmModal(false);
+  confirmOk.addEventListener('click', async () => {
+    confirmOk.disabled = true;
+    const origText = confirmOk.textContent;
+    confirmOk.textContent = 'Confirmando…';
+    confirmError.hidden = true;
+    confirmError.textContent = '';
 
-    const booking = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      createdAt: new Date().toISOString(),
+    const payload = {
+      date: dateToISO(state.date),
+      time: state.time,
+      specialistId: state.specialist.id,
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
       phone: phoneInput.value.trim(),
-      dateISO: dateToISO(state.date),
-      dateLabel: formatDate(state.date),
-      time: state.time,
-      services: state.services.map((s) => ({ id:s.id, name:s.name, duration:s.duration, price:s.price })),
-      specialist: { id: state.specialist.id, name: state.specialist.name },
-      // Precio total guardado en MXN (base); la moneda elegida se usa sólo para mostrar
-      total: totalPrice(),
-      duration: totalDuration(),
-      currency: state.currency
+      services: state.services.map((s) => s.id).join(',')
     };
 
-    saveBooking(booking);
-    renderSuccess(booking);
-    renderHistory();
+    try {
+      const response = await gasPost('createBooking', { booking: payload });
+
+      if (!response || response.error) {
+        throw new Error((response && response.error) || 'Error desconocido al confirmar.');
+      }
+
+      // Invalidar caché del día (ya hay una reserva nueva)
+      delete state.availabilityCache[payload.date];
+
+      // Snapshot local para la pantalla de éxito y el historial local
+      const displayBooking = {
+        id: response.id || ('local-' + Date.now().toString(36)),
+        createdAt: new Date().toISOString(),
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        dateISO: payload.date,
+        dateLabel: formatDate(state.date),
+        time: payload.time,
+        services: state.services.map((s) => ({ id:s.id, name:s.name, duration:s.duration, price:s.price })),
+        specialist: { id: state.specialist.id, name: state.specialist.name },
+        total: totalPrice(),
+        duration: totalDuration(),
+        currency: state.currency
+      };
+
+      saveBookingLocal(displayBooking);
+      closeConfirmModal(false);
+      renderSuccess(displayBooking);
+      renderHistory();
+    } catch (e) {
+      confirmError.textContent = 'No se pudo confirmar: ' + e.message + '. Intenta con otro horario u otro especialista.';
+      confirmError.hidden = false;
+    } finally {
+      confirmOk.disabled = false;
+      confirmOk.textContent = origText;
+    }
   });
 
   confirmBack.addEventListener('click', () => closeConfirmModal(true));
@@ -2576,32 +1548,27 @@ select{
   });
 
   /* =========================================================
-     16. HISTORIAL (localStorage)
+     20. HISTORIAL LOCAL
      ========================================================= */
-
-  function loadHistory() {
+  function loadHistoryLocal() {
     try {
       const raw = localStorage.getItem(HISTORY_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
       return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
+    } catch (e) { return []; }
   }
 
-  function saveBooking(booking) {
+  function saveBookingLocal(booking) {
     try {
-      const list = loadHistory();
+      const list = loadHistoryLocal();
       list.unshift(booking);
       localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50)));
-    } catch (e) {
-      // Safari en modo privado o almacenamiento lleno: se ignora.
-    }
+    } catch (e) {}
   }
 
   function renderHistory() {
-    const list = loadHistory();
+    const list = loadHistoryLocal();
     clearHistoryBtn.hidden = list.length === 0;
 
     if (list.length === 0) {
@@ -2615,14 +1582,12 @@ select{
 
     historyList.innerHTML = list.map((b) => {
       const cur = b.currency && CURRENCIES[b.currency] ? b.currency : DEFAULT_CURRENCY;
-
       const servicesHtml = (b.services || []).map((s) =>
         '<li>' +
           '<span>' + escapeHtml(s.name) + '</span>' +
           '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price, cur) + '</span>' +
         '</li>'
       ).join('');
-
       return (
         '<article class="card history-card">' +
           '<div class="history-head">' +
@@ -2649,17 +1614,12 @@ select{
   });
 
   /* =========================================================
-     17. PANTALLA DE ÉXITO
+     21. PANTALLA DE ÉXITO
      ========================================================= */
-
   function renderSuccess(booking) {
     stepsNav.classList.add('is-hidden');
-
     const cur = booking.currency && CURRENCIES[booking.currency] ? booking.currency : DEFAULT_CURRENCY;
-
-    const servicesHtml = (booking.services || [])
-      .map((s) => escapeHtml(s.name))
-      .join('<br>');
+    const servicesHtml = (booking.services || []).map((s) => escapeHtml(s.name)).join('<br>');
 
     summaryPanel.innerHTML =
       '<div class="success">' +
@@ -2668,7 +1628,7 @@ select{
         '</div>' +
         '<p class="eyebrow">Reserva confirmada</p>' +
         '<h3 class="heading-lg">Gracias, ' + escapeHtml(booking.name) + '.</h3>' +
-        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(booking.email) + '. Te esperamos en Aevi Wellness.</p>' +
+        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(booking.email) + '. Te esperamos.</p>' +
         '<dl class="summary">' +
           '<div><dt>Servicios</dt><dd>' + servicesHtml + '</dd></div>' +
           summaryRow('Especialista', booking.specialist.name) +
@@ -2684,26 +1644,15 @@ select{
         '</div>' +
       '</div>';
 
-    document.getElementById('newBookingBtn').addEventListener('click', () => window.location.reload());
+    const nb = document.getElementById('newBookingBtn');
+    if (nb) nb.addEventListener('click', () => window.location.reload());
   }
 
   /* =========================================================
-     18. MODAL DE SOPORTE
+     22. MODAL SOPORTE
      ========================================================= */
-
-  const supportModal = $('#supportModal');
-  const supportBtn   = $('#supportBtn');
-  const supportClose = $('#supportClose');
-
-  function openSupport() {
-    supportModal.classList.add('is-open');
-    supportClose.focus();
-  }
-  function closeSupport() {
-    supportModal.classList.remove('is-open');
-    supportBtn.focus();
-  }
-
+  function openSupport() { supportModal.classList.add('is-open'); supportClose.focus(); }
+  function closeSupport() { supportModal.classList.remove('is-open'); supportBtn.focus(); }
   supportBtn.addEventListener('click', openSupport);
   supportClose.addEventListener('click', closeSupport);
   supportModal.addEventListener('click', (event) => {
@@ -2712,17 +1661,13 @@ select{
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    if (confirmModal.classList.contains('is-open')) {
-      closeConfirmModal(true);
-    } else if (supportModal.classList.contains('is-open')) {
-      closeSupport();
-    }
+    if (confirmModal.classList.contains('is-open')) closeConfirmModal(true);
+    else if (supportModal.classList.contains('is-open')) closeSupport();
   });
 
   /* =========================================================
-     19. INICIALIZACIÓN
+     23. INICIALIZACIÓN
      ========================================================= */
-
   function findNextOpenDay() {
     const cursor = new Date();
     cursor.setHours(0, 0, 0, 0);
@@ -2733,30 +1678,44 @@ select{
     return null;
   }
 
-  function init() {
+  async function init() {
+    // Estado de carga inicial
+    serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);"><span class="loading">Cargando servicios…</span></li>';
+    specialistList.innerHTML = '<p class="slots-empty"><span class="loading">Cargando especialistas…</span></p>';
+
+    const ok = await loadBackendData();
+
+    if (!ok || state.servicesCatalog.length === 0) {
+      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:#c0392b;">No se pudieron cargar los servicios. Recarga la página o contacta al negocio.</li>';
+    }
+    if (!ok || state.specialistsCatalog.length === 0) {
+      specialistList.innerHTML = '<p class="slots-empty" style="color:#c0392b;">No se pudieron cargar los especialistas.</p>';
+    }
+
     const firstOpen = findNextOpenDay();
     if (firstOpen) {
       state.date = firstOpen;
       state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
     }
 
-    state.currency = DEFAULT_CURRENCY;
+    // Sincronizar botones de moneda
     currencyButtons.forEach((b) => {
-      const active = b.dataset.currency === DEFAULT_CURRENCY;
+      const active = b.dataset.currency === state.currency;
       b.classList.toggle('is-active', active);
       b.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
     renderCalendar();
     renderSlots();
-    renderServices();
-    renderSpecialists();
+    if (state.servicesCatalog.length > 0) renderServices();
+    if (state.specialistsCatalog.length > 0) renderSpecialists();
     renderSummary();
     updateServicesHint();
     syncControls();
     renderHistory();
 
-    $('#year').textContent = new Date().getFullYear();
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 
   init();
