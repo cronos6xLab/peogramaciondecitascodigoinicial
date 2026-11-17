@@ -291,8 +291,8 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 .support-fab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
 
 /* ============ MODALES ============ */
-.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:var(--spacing-24);background:rgba(21,21,21,.55);}
-.modal.is-open{display:flex;}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:var(--spacing-24);background:rgba(21,21,21,.55);pointer-events:none;}
+.modal.is-open{display:flex;pointer-events:auto;}
 .modal-panel{width:100%;max-width:460px;max-height:88vh;overflow:auto;padding:var(--spacing-32);background:var(--color-paper);border-radius:var(--radius-2xl);border:1px solid var(--color-mist);animation:panelIn .25s ease both;}
 .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-24);}
 .modal-close{width:36px;height:36px;display:grid;place-items:center;font-size:22px;line-height:1;color:var(--color-ink);background:var(--color-bone);border:0;border-radius:50%;transition:background .15s ease;flex-shrink:0;}
@@ -1767,6 +1767,10 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
         btn.type = 'button';
         btn.className = 'slot';
         btn.textContent = time;
+        const origSpecId = activeClientModalBooking && activeClientModalBooking.specialist ? activeClientModalBooking.specialist.id : '';
+        if (activeClientModalBooking && activeClientModalBooking.dateISO === dateVal && origSpecId === specId) {
+          takenSet.delete(activeClientModalBooking.time);
+        }
         const disabled = takenSet.has(time) || (isToday && isPastTime(time, now));
         if (disabled) {
           btn.classList.add('is-taken');
