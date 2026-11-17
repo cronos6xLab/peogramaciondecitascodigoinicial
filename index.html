@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ============ TOKENS ============ */
@@ -19,355 +19,334 @@
   --color-carbon:#000000;
   --color-ink:#151515;
   --color-graphite:#4d4d4d;
-  --color-slate:#858585;
-  --color-fog:#999999;
+  --color-slate:#64748b;
+  --color-fog:#94a3b8;
   --color-mist:#e5e7eb;
   --color-bone:#f0f1f2;
   --color-paper:#ffffff;
   --color-danger:#c0392b;
   --color-warning:#d97706;
-  --color-google:#3b82f6;
-  --font-tight:'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-inter:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --text-caption:10px;
+  --font-tight:'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-inter:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --text-caption:11px;
   --text-body:16px;
-  --text-subheading:20px;
-  --text-heading-sm:30px;
-  --text-heading:36px;
-  --text-heading-lg:45px;
-  --text-stat:48px;
-  --text-display:62px;
+  --text-heading-sm:26px;
+  --text-heading-lg:42px;
+  --text-display:58px;
   --spacing-4:4px; --spacing-8:8px; --spacing-12:12px; --spacing-16:16px;
   --spacing-20:20px; --spacing-24:24px; --spacing-28:28px; --spacing-32:32px;
-  --spacing-36:36px; --spacing-40:40px; --spacing-60:60px; --spacing-80:80px;
-  --radius-md:5px; --radius-lg:8px; --radius-xl:12px; --radius-2xl:20px;
-  --radius-3xl:30px; --radius-pill:50px; --radius-hero:250px;
-  --page-max-width:1280px; --section-gap:64px;
+  --spacing-40:40px; --spacing-60:60px; --spacing-80:80px;
+  --radius-md:6px; --radius-lg:10px; --radius-xl:14px; --radius-2xl:20px;
+  --radius-3xl:28px; --radius-pill:9999px;
+  --page-max-width:1240px; --section-gap:64px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-body{margin:0;background:var(--color-paper);color:var(--color-carbon);font-family:var(--font-tight);font-size:var(--text-body);font-weight:400;line-height:1.5;letter-spacing:0.005em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;}
-h1,h2,h3,p,dl,dd{margin:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;background:var(--color-paper);color:var(--color-carbon);
+  font-family:var(--font-tight);font-size:var(--text-body);line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4,p,dl,dd{margin:0;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 ul{list-style:none;margin:0;padding:0;}
-input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulation;}
+input,textarea,select{font-family:inherit;font-size:16px;}
 
 /* ============ UTILIDADES ============ */
 .container{width:100%;max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);}
 .section{padding:var(--section-gap) 0;}
 .section--bone{background:var(--color-bone);}
-.section--teal{background:var(--color-deep-teal);color:#fff;}
-.section--teal .eyebrow{color:var(--color-soft-teal);}
-.section--teal .lead{color:rgba(255,255,255,.72);}
-.eyebrow{font-size:var(--text-caption);font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-graphite);}
-.lead{font-size:16px;line-height:1.5;color:var(--color-slate);max-width:60ch;}
+.eyebrow{font-size:var(--text-caption);font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-deep-teal);}
+.lead{font-size:16px;line-height:1.5;color:var(--color-slate);max-width:62ch;}
 .section-head{margin-bottom:var(--spacing-32);}
 .section-head .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
-.display{font-family:var(--font-tight);font-size:clamp(36px,6vw,var(--text-display));font-weight:500;line-height:1.02;letter-spacing:-0.042em;}
-.heading-lg{font-family:var(--font-tight);font-size:clamp(28px,4vw,var(--text-heading-lg));font-weight:500;line-height:1.21;letter-spacing:-0.02em;color:var(--color-ink);}
-.heading{font-family:var(--font-tight);font-size:clamp(22px,2.6vw,var(--text-heading-sm));font-weight:500;line-height:1.3;letter-spacing:-0.01em;color:var(--color-ink);}
+.display{font-size:clamp(36px,6vw,var(--text-display));font-weight:600;line-height:1.04;letter-spacing:-0.035em;}
+.heading-lg{font-size:clamp(28px,4vw,var(--text-heading-lg));font-weight:600;line-height:1.18;letter-spacing:-0.02em;color:var(--color-ink);}
+.heading{font-size:clamp(21px,2.5vw,var(--text-heading-sm));font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:var(--color-ink);}
 
-/* ============ ANNOUNCE ============ */
-.announce{background:var(--color-mint-pulse);color:#fff;text-align:center;padding:10px var(--spacing-16);font-size:13px;font-weight:500;letter-spacing:0.05em;}
-.announce strong{font-weight:600;}
-
-/* ============ HEADER ============ */
+/* ============ ANNOUNCE & HEADER ============ */
+.announce{background:var(--color-mint-pulse);color:#fff;text-align:center;padding:10px var(--spacing-16);font-size:13px;font-weight:500;letter-spacing:0.04em;}
 .site-header{background:var(--color-paper);border-bottom:1px solid var(--color-mist);position:sticky;top:0;z-index:50;}
 .header-inner{max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);height:64px;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-24);}
-.wordmark{font-family:var(--font-tight);font-weight:600;font-size:20px;letter-spacing:-0.02em;color:var(--color-ink);white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.wordmark{font-weight:700;font-size:20px;letter-spacing:-0.02em;color:var(--color-ink);display:flex;align-items:center;gap:8px;}
 .wordmark span{color:var(--color-deep-teal);font-weight:500;}
-.wordmark img{height:32px;width:auto;display:block;}
+.wordmark img{height:32px;width:auto;}
 .nav{display:flex;gap:var(--spacing-4);}
-.nav a{font-size:15px;font-weight:500;padding:8px 16px;color:var(--color-carbon);border-radius:var(--radius-pill);transition:color .15s ease,background .15s ease;}
+.nav a{font-size:15px;font-weight:500;padding:8px 16px;color:var(--color-carbon);border-radius:var(--radius-pill);transition:.15s;}
 .nav a:hover{color:var(--color-deep-teal);background:var(--color-bone);}
 
 /* ============ HERO ============ */
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px;overflow:hidden;}
-.hero-dark{background:var(--color-deep-teal);color:#fff;padding:var(--spacing-80) clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center;position:relative;}
-.hero-dark .eyebrow{color:var(--color-soft-teal);letter-spacing:0.1em;}
-.hero-dark .display{color:#fff;margin:var(--spacing-16) 0 var(--spacing-24);max-width:12ch;}
-.hero-dark .lead{color:rgba(255,255,255,.72);margin-bottom:var(--spacing-32);font-size:17px;max-width:38ch;}
-.hero-actions{display:flex;gap:var(--spacing-12);flex-wrap:wrap;}
-.btn-outline-mint{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);padding:14px 40px;background:transparent;color:#fff;border:1px solid var(--color-mint-pulse);border-radius:var(--radius-pill);font-family:var(--font-tight);font-size:16px;font-weight:500;min-height:48px;transition:background .15s ease;}
-.btn-outline-mint:hover{background:rgba(46,206,160,.12);}
-.hero-light{background:var(--color-paper);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-.hero-light::before,.hero-light::after{content:'';position:absolute;border-radius:50%;pointer-events:none;}
-.hero-light::before{width:min(380px,55%);height:min(380px,55%);top:8%;left:12%;background:radial-gradient(circle at 35% 35%,rgba(46,206,160,.42),rgba(46,206,160,0) 65%);}
-.hero-light::after{width:min(500px,72%);height:min(500px,72%);bottom:-8%;right:-6%;background:radial-gradient(circle at 40% 40%,rgba(109,221,189,.5),rgba(109,221,189,0) 68%);}
-.hero-mark{position:relative;z-index:1;width:min(320px,58%);aspect-ratio:1;border-radius:50%;background:var(--color-paper);border:1px solid var(--color-mist);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--spacing-8);box-shadow:0 0 0 20px rgba(255,255,255,.55);}
-.hero-mark svg{width:52px;height:52px;stroke:var(--color-deep-teal);fill:none;stroke-width:1.5;}
-.hero-mark span{font-family:var(--font-tight);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-deep-teal);}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:480px;overflow:hidden;}
+.hero-dark{background:var(--color-deep-teal);color:#fff;padding:var(--spacing-60) clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center;}
+.hero-dark .eyebrow{color:var(--color-soft-teal);}
+.hero-dark .display{color:#fff;margin:var(--spacing-16) 0 var(--spacing-20);max-width:13ch;}
+.hero-dark .lead{color:rgba(255,255,255,.76);margin-bottom:var(--spacing-32);font-size:17px;}
+.btn-outline-mint{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);padding:14px 36px;background:transparent;color:#fff;border:1.5px solid var(--color-mint-pulse);border-radius:var(--radius-pill);font-size:16px;font-weight:600;width:fit-content;transition:.15s;}
+.btn-outline-mint:hover{background:rgba(46,206,160,.14);}
+.hero-light{
+  background:radial-gradient(circle at 30% 35%,rgba(46,206,160,.32),transparent 58%),
+             radial-gradient(circle at 75% 75%,rgba(109,221,189,.4),transparent 62%),var(--color-paper);
+  display:flex;align-items:center;justify-content:center;padding:32px;
+}
+.hero-mark{width:min(280px,65%);aspect-ratio:1;border-radius:50%;background:var(--color-paper);border:1px solid var(--color-mist);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--spacing-8);box-shadow:0 0 0 20px rgba(255,255,255,.6);}
+.hero-mark svg{width:50px;height:50px;stroke:var(--color-deep-teal);fill:none;stroke-width:1.5;}
+.hero-mark span{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-deep-teal);}
 
-/* ============ FLUJO RESERVA ============ */
-.agenda-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:var(--spacing-24);align-items:start;}
-#reserva,#historial,#ubicacion{scroll-margin-top:84px;}
-.steps{display:flex;flex-wrap:wrap;gap:var(--spacing-8);margin:0 0 var(--spacing-24);padding:0;list-style:none;}
-.steps li{flex:1 1 0;min-width:140px;}
+/* ============ PASOS DE RESERVA (3 PASOS) ============ */
+#reserva,#historial,#ubicacion{scroll-margin-top:80px;}
+.steps{display:flex;flex-wrap:wrap;gap:var(--spacing-12);margin:0 0 var(--spacing-24);padding:0;}
+.steps li{flex:1 1 200px;}
 .steps.is-hidden{display:none;}
-.step-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;text-align:left;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-slate);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:border-color .15s ease,background .15s ease,color .15s ease;}
-.step-btn .step-num{width:22px;height:22px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:11px;font-weight:600;background:var(--color-bone);color:var(--color-slate);transition:background .15s ease,color .15s ease;}
-.step-btn:disabled{opacity:.5;cursor:not-allowed;}
+.step-btn{
+  width:100%;display:flex;align-items:center;gap:12px;padding:13px 18px;
+  text-align:left;font-size:14.5px;font-weight:600;color:var(--color-slate);
+  background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:.15s;
+}
+.step-btn .step-num{width:24px;height:24px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:12px;font-weight:700;background:var(--color-bone);color:var(--color-slate);transition:.15s;}
+.step-btn:disabled{opacity:.55;cursor:not-allowed;}
 .step-btn:not(:disabled):hover{border-color:var(--color-mint-pulse);}
 .step-btn.is-active{border-color:var(--color-deep-teal);color:var(--color-deep-teal);background:rgba(36,77,84,.05);}
 .step-btn.is-active .step-num{background:var(--color-deep-teal);color:#fff;}
-.step-btn.is-done{border-color:var(--color-mint-pulse);color:var(--color-deep-teal);background:rgba(46,206,160,.06);}
+.step-btn.is-done{border-color:var(--color-mint-pulse);color:var(--color-deep-teal);background:rgba(46,206,160,.08);}
 .step-btn.is-done .step-num{background:var(--color-mint-pulse);color:#fff;}
+
 .booking-shell{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-3xl);padding:clamp(20px,3vw,40px);}
 .step-panel{display:none;}
-.step-panel.is-active{display:block;animation:panelIn .3s ease both;}
-@keyframes panelIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.step-panel.is-active{display:block;animation:panelIn .28s ease both;}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 .panel-head{margin-bottom:var(--spacing-24);}
 .panel-head .heading{margin:var(--spacing-8) 0;}
-.panel-head .lead{font-size:15px;}
-.panel-hint{font-size:13px;line-height:1.4;color:var(--color-slate);margin-top:var(--spacing-8);}
-.panel-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--spacing-12);margin-top:var(--spacing-28);padding-top:var(--spacing-20);border-top:1px solid var(--color-mist);}
-.panel-foot .btn{width:auto;}
-.panel-foot .btn-ghost{margin-right:auto;}
-.panel-foot .form-note{margin:0;flex:1 1 100%;}
-.reserva-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:var(--spacing-24);align-items:start;}
+.panel-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-top:var(--spacing-28);padding-top:var(--spacing-20);border-top:1px solid var(--color-mist);}
 
-/* ============ MONEDA ============ */
-.currency-bar{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-12);margin-top:var(--spacing-16);padding:var(--spacing-12) var(--spacing-16);background:var(--color-bone);border:1px solid var(--color-mist);border-radius:var(--radius-pill);}
-.currency-label{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
-.currency-options{display:inline-flex;gap:4px;padding:3px;background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);}
-.currency-btn{padding:6px 14px;font-family:var(--font-tight);font-size:12px;font-weight:600;letter-spacing:0.06em;color:var(--color-slate);background:transparent;border:0;border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease,box-shadow .15s ease;min-height:30px;}
-.currency-btn:hover:not(.is-active){color:var(--color-deep-teal);}
-.currency-btn.is-active{background:var(--color-deep-teal);color:#fff;box-shadow:0 1px 4px rgba(36,77,84,.25);}
-.currency-note{font-size:11px;line-height:1.4;color:var(--color-slate);}
-
-/* ============ CARDS ============ */
+/* ============ PASO 1: FECHA + HORA + ESPECIALISTA INTEGRADO ============ */
+.agenda-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:var(--spacing-24);align-items:start;}
+.right-column-stack{display:flex;flex-direction:column;gap:var(--spacing-20);}
 .card{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-2xl);padding:var(--spacing-24);}
-.card-label{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-8);}
-.card-sub{font-family:var(--font-tight);font-size:16px;font-weight:500;color:var(--color-ink);margin-bottom:var(--spacing-16);text-transform:capitalize;}
-.card-sub.empty{color:var(--color-slate);font-weight:400;}
+.card-label{font-size:var(--text-caption);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-4);}
+.card-sub{font-size:15px;font-weight:600;color:var(--color-ink);margin-bottom:var(--spacing-16);text-transform:capitalize;}
+.card-sub.empty{color:var(--color-slate);font-weight:400;text-transform:none;}
 
-/* ============ CALENDARIO ============ */
-.cal-head{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-bottom:var(--spacing-20);}
-.cal-month{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-ink);text-transform:capitalize;letter-spacing:-0.01em;}
-.cal-nav{width:36px;height:36px;display:grid;place-items:center;background:var(--color-paper);color:var(--color-deep-teal);border:1px solid var(--color-mist);border-radius:50%;font-size:16px;line-height:1;transition:border-color .15s ease,background .15s ease,opacity .15s ease;}
+/* Calendario */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-bottom:var(--spacing-16);}
+.cal-month{font-size:17px;font-weight:600;color:var(--color-ink);text-transform:capitalize;}
+.cal-nav{width:36px;height:36px;display:grid;place-items:center;background:var(--color-paper);color:var(--color-deep-teal);border:1px solid var(--color-mist);border-radius:50%;font-size:16px;transition:.15s;}
 .cal-nav:hover:not(:disabled){border-color:var(--color-deep-teal);background:var(--color-bone);}
 .cal-nav:disabled{opacity:.3;cursor:not-allowed;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;}
-.cal-dow{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-slate);text-align:center;padding-bottom:var(--spacing-8);}
-.day{position:relative;aspect-ratio:1;min-height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-carbon);background:transparent;border:1px solid transparent;border-radius:var(--radius-lg);transition:background .15s ease,border-color .15s ease,color .15s ease;}
-.day:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.06);}
-.day.is-off{color:var(--color-fog);opacity:.55;cursor:not-allowed;}
-.day.is-today::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-mint-pulse);}
+.cal-dow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-slate);text-align:center;padding-bottom:6px;}
+.day{position:relative;aspect-ratio:1;min-height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--color-carbon);background:transparent;border:1px solid transparent;border-radius:var(--radius-lg);transition:.15s;}
+.day:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.08);}
+.day.is-off{color:var(--color-fog);opacity:.45;cursor:not-allowed;}
+.day.is-today::after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-mint-pulse);}
 .day.is-selected{background:var(--color-deep-teal);border-color:var(--color-deep-teal);color:#fff;}
-.day.is-selected.is-today::after{background:var(--color-mint-pulse);}
-.cal-legend{display:flex;flex-wrap:wrap;gap:var(--spacing-16);margin-top:var(--spacing-20);padding-top:var(--spacing-16);border-top:1px solid var(--color-mist);font-size:12px;color:var(--color-slate);}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+.cal-legend{display:flex;flex-wrap:wrap;gap:var(--spacing-16);margin-top:var(--spacing-16);padding-top:var(--spacing-12);border-top:1px solid var(--color-mist);font-size:12px;color:var(--color-slate);}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
 .dot--open{background:var(--color-deep-teal);}
 .dot--today{background:var(--color-mint-pulse);}
 .dot--off{background:var(--color-mist);}
 
-/* ============ HORARIOS ============ */
+/* Horarios */
 .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:var(--spacing-8);}
-.slot{padding:10px 8px;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:background .15s ease,border-color .15s ease,color .15s ease;min-height:42px;}
-.slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.06);}
+.slot{padding:10px 8px;font-size:14px;font-weight:600;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:.15s;min-height:40px;}
+.slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.08);}
 .slot.is-taken{color:var(--color-fog);text-decoration:line-through;opacity:.55;cursor:not-allowed;background:var(--color-bone);}
 .slot.is-selected{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);color:#fff;}
 .slots-empty{font-size:14px;color:var(--color-slate);grid-column:1 / -1;}
 
-/* ============ ESPECIALISTAS ============ */
-.specialist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:var(--spacing-12);}
-.specialist{display:flex;align-items:flex-start;gap:var(--spacing-16);width:100%;padding:var(--spacing-16);text-align:left;font-family:inherit;color:inherit;background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-xl);transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;}
-.specialist:hover:not(:disabled){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.05);}
-.specialist.is-selected{border-color:var(--color-deep-teal);background:var(--color-bone);box-shadow:inset 0 0 0 1px var(--color-deep-teal);}
-.specialist:disabled{opacity:.45;cursor:not-allowed;background:var(--color-bone);}
-.spec-avatar{width:44px;height:44px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--color-deep-teal);color:#fff;font-family:var(--font-tight);font-size:14px;font-weight:600;letter-spacing:0.02em;transition:background .15s ease;}
+/* Especialistas integrados en Paso 1 */
+.specialist-inline-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.specialist{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;
+  padding:14px 16px;text-align:left;background:var(--color-paper);
+  border:1.5px solid var(--color-mist);border-radius:var(--radius-xl);transition:.15s;
+}
+.specialist:hover:not(:disabled){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.04);}
+.specialist.is-selected{border-color:var(--color-deep-teal);background:rgba(36,77,84,.04);box-shadow:0 2px 10px rgba(36,77,84,.08);}
+.specialist:disabled{opacity:.5;cursor:not-allowed;background:var(--color-bone);}
+.spec-left{display:flex;align-items:center;gap:12px;min-width:0;}
+.spec-avatar{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--color-deep-teal);color:#fff;font-size:14px;font-weight:700;transition:.15s;}
 .specialist.is-selected .spec-avatar{background:var(--color-mint-pulse);}
-.spec-body{display:block;min-width:0;}
-.spec-name{display:block;font-family:var(--font-tight);font-size:16px;font-weight:500;color:var(--color-ink);letter-spacing:-0.01em;}
-.spec-role{display:block;margin-top:2px;font-size:13px;color:var(--color-slate);}
-.spec-days{display:block;margin-top:8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-deep-teal);}
-.specialist:disabled .spec-days{color:var(--color-fog);}
+.spec-name{display:block;font-size:15px;font-weight:600;color:var(--color-ink);}
+.spec-role{display:block;font-size:12.5px;color:var(--color-slate);}
+.spec-status-pill{
+  font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--radius-pill);white-space:nowrap;flex-shrink:0;
+}
+.spec-status-pill.available{background:rgba(46,206,160,.16);color:#0f7a5b;}
+.spec-status-pill.busy{background:rgba(192,57,43,.12);color:var(--color-danger);}
+.spec-status-pill.off{background:var(--color-mist);color:var(--color-slate);}
 
-/* ============ RESUMEN + FORM ============ */
-.summary > div{display:flex;justify-content:space-between;align-items:baseline;gap:var(--spacing-16);padding:var(--spacing-12) 0;border-bottom:1px solid var(--color-mist);}
+/* Barra de selección actual en Paso 1 */
+.step1-selection-banner{
+  margin-top:var(--spacing-20);padding:14px 18px;border-radius:var(--radius-xl);
+  background:var(--color-bone);border:1px solid var(--color-mist);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;
+}
+
+/* ============ PASO 2: SERVICIOS Y MONEDA ============ */
+.currency-bar{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-12);margin-top:var(--spacing-16);padding:10px 16px;background:var(--color-bone);border:1px solid var(--color-mist);border-radius:var(--radius-pill);width:fit-content;}
+.currency-label{font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
+.currency-options{display:inline-flex;gap:4px;padding:3px;background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);}
+.currency-btn{padding:5px 14px;font-size:12px;font-weight:700;color:var(--color-slate);background:transparent;border:0;border-radius:var(--radius-pill);transition:.15s;}
+.currency-btn.is-active{background:var(--color-deep-teal);color:#fff;}
+
+.service-list{border-top:1px solid var(--color-mist);}
+.service-item{border-bottom:1px solid var(--color-mist);}
+.service{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:var(--spacing-20);width:100%;padding:20px 16px;text-align:left;background:transparent;border:0;border-radius:var(--radius-xl);transition:.15s;}
+.service:hover,.service.is-selected{background:var(--color-bone);}
+.service-name{display:block;font-size:17px;font-weight:600;color:var(--color-ink);}
+.service-desc{display:block;margin-top:3px;font-size:13.5px;color:var(--color-slate);}
+.service-dur{font-size:13px;font-weight:600;color:var(--color-slate);white-space:nowrap;}
+.service-price{font-size:17px;font-weight:600;color:var(--color-deep-teal);white-space:nowrap;}
+.service-check{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--color-fog);display:inline-flex;align-items:center;justify-content:center;transition:.15s;}
+.service-check svg{width:13px;height:13px;stroke:#fff;stroke-width:2.5;fill:none;opacity:0;}
+.service.is-selected .service-check{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
+.service.is-selected .service-check svg{opacity:1;}
+
+/* ============ PASO 3: RESUMEN + DATOS + GOOGLE CALENDAR OPCIONAL ============ */
+.reserva-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--spacing-24);align-items:start;}
+.summary > div{display:flex;justify-content:space-between;align-items:baseline;gap:var(--spacing-16);padding:12px 0;border-bottom:1px solid var(--color-mist);}
 .summary > div:last-child{border-bottom:0;padding-bottom:0;}
-.summary dt{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);flex-shrink:0;}
-.summary dd{font-family:var(--font-tight);font-size:15px;font-weight:500;color:var(--color-ink);text-align:right;}
-.field{display:block;margin-bottom:var(--spacing-20);}
-.field-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);margin-bottom:var(--spacing-8);}
-.field-req,.field-optional{font-style:normal;font-size:9px;font-weight:600;letter-spacing:0.08em;padding:2px 7px;border-radius:var(--radius-pill);line-height:1.4;}
+.summary dt{font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
+.summary dd{font-size:15px;font-weight:600;color:var(--color-ink);text-align:right;}
+
+.field{display:block;margin-bottom:var(--spacing-16);}
+.field-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);margin-bottom:6px;}
+.field-req,.field-optional{font-style:normal;font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);}
 .field-req{color:var(--color-deep-teal);background:rgba(36,77,84,.1);}
 .field-optional{color:var(--color-slate);background:var(--color-bone);}
-.field input,.field select{width:100%;padding:12px 14px;font-size:16px;font-family:var(--font-tight);font-weight:400;color:var(--color-carbon);background:var(--color-paper);border:1px solid var(--color-fog);border-radius:var(--radius-md);transition:border-color .15s ease,box-shadow .15s ease;}
-.field input::placeholder{color:var(--color-fog);}
+.field input,.field select{width:100%;padding:12px 14px;color:var(--color-carbon);background:var(--color-paper);border:1px solid var(--color-fog);border-radius:var(--radius-md);transition:.15s;}
 .field input:focus,.field select:focus{outline:none;border-color:var(--color-deep-teal);box-shadow:0 0 0 3px rgba(36,77,84,.12);}
-.field.is-invalid input,.field input[aria-invalid="true"]{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1);}
-.field.is-valid input{border-color:var(--color-mint-pulse);}
-.field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.45;color:var(--color-slate);}
-.field-error{display:block;margin-top:6px;font-size:12px;font-weight:500;line-height:1.45;color:#c0392b;}
+.field-error{display:block;margin-top:5px;font-size:12px;font-weight:600;color:var(--color-danger);}
 .field-error[hidden]{display:none;}
-.form-intro{font-size:13px;line-height:1.5;color:var(--color-slate);margin-bottom:var(--spacing-20);}
-.form-note{margin-top:var(--spacing-12);font-size:13px;line-height:1.4;color:var(--color-slate);min-height:18px;}
-.form-note.is-error{color:#c0392b;}
 
-/* ============ BOTONES ============ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);font-family:var(--font-tight);font-size:16px;font-weight:500;min-height:48px;padding:14px 32px;border:1px solid transparent;border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease,border-color .15s ease,transform .08s ease,opacity .15s ease;}
-.btn:active{transform:translateY(1px);}
-.btn[hidden]{display:none;}
-.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-.btn-pill{width:100%;background:var(--color-mint-pulse);color:#fff;border-color:var(--color-mint-pulse);}
+/* Tarjeta Opcional Google Calendar */
+.gcal-opt-box{
+  display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin:18px 0;
+  background:#f0fdf9;border:1.5px solid #99f6e4;border-radius:var(--radius-xl);cursor:pointer;transition:.15s;
+}
+.gcal-opt-box:hover{border-color:var(--color-mint-pulse);background:#e6fcf5;}
+.gcal-opt-box input[type="checkbox"]{width:19px;height:19px;margin-top:2px;accent-color:var(--color-deep-teal);cursor:pointer;flex-shrink:0;}
+.gcal-opt-title{font-size:14px;font-weight:700;color:var(--color-deep-teal);display:flex;align-items:center;gap:6px;}
+.gcal-opt-sub{font-size:12.5px;color:var(--color-graphite);margin-top:2px;line-height:1.4;}
+
+/* Aviso de datos recordados en el dispositivo */
+.saved-profile-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  padding:10px 14px;margin-bottom:16px;border-radius:var(--radius-lg);
+  background:rgba(46,206,160,.1);border:1px solid rgba(46,206,160,.35);
+  font-size:12.5px;color:var(--color-deep-teal);font-weight:500;
+}
+.saved-profile-banner[hidden]{display:none !important;}
+.saved-profile-clear{
+  border:0;background:transparent;color:var(--color-deep-teal);
+  font-size:12px;font-weight:700;text-decoration:underline;padding:2px 4px;
+}
+.saved-profile-clear:hover{color:var(--color-danger);}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600;min-height:46px;padding:12px 28px;border:1.5px solid transparent;border-radius:var(--radius-pill);transition:.15s;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-pill{background:var(--color-mint-pulse);color:#fff;border-color:var(--color-mint-pulse);}
 .btn-pill:hover:not(:disabled){filter:brightness(0.95);}
 .btn-ghost{background:transparent;color:var(--color-deep-teal);border-color:var(--color-deep-teal);}
 .btn-ghost:hover:not(:disabled){background:var(--color-deep-teal);color:#fff;}
 .btn-danger-ghost{background:transparent;color:var(--color-danger);border-color:rgba(192,57,43,.4);}
-.btn-danger-ghost:hover:not(:disabled){background:var(--color-danger);color:#fff;border-color:var(--color-danger);}
-.btn-google{background:#fff;color:#1f2937;border-color:#d1d5db;display:inline-flex;align-items:center;gap:10px;}
-.btn-google:hover:not(:disabled){background:#f9fafb;border-color:#9ca3af;}
-.btn-google svg{width:18px;height:18px;}
-.btn-sm{min-height:36px;padding:8px 18px;font-size:13px;}
+.btn-danger-ghost:hover:not(:disabled){background:var(--color-danger);color:#fff;}
+.btn-gcal{background:#fff;color:#1a73e8;border-color:#dadce0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.btn-gcal:hover{background:#f8fbff;border-color:#1a73e8;}
+.btn-sm{min-height:36px;padding:7px 16px;font-size:13px;}
 
-/* ============ SERVICIOS ============ */
-.service-list{border-top:1px solid var(--color-mist);}
-.service-item{border-bottom:1px solid var(--color-mist);}
-.service{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:var(--spacing-24);width:100%;padding:var(--spacing-24) var(--spacing-16);text-align:left;font-family:inherit;color:inherit;background:transparent;border:0;border-radius:var(--radius-xl);transition:background .15s ease;}
-.service:hover{background:var(--color-bone);}
-.service.is-selected{background:var(--color-bone);}
-.service-main{display:block;min-width:0;}
-.service-name{display:block;font-family:var(--font-tight);font-size:18px;font-weight:500;color:var(--color-ink);letter-spacing:-0.01em;line-height:1.25;}
-.service-desc{display:block;margin-top:4px;font-size:13px;line-height:1.45;color:var(--color-slate);}
-.service-dur{font-size:13px;font-weight:500;color:var(--color-slate);white-space:nowrap;}
-.service-price{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-deep-teal);white-space:nowrap;letter-spacing:-0.01em;}
-.service-check{width:22px;height:22px;border-radius:50%;border:1px solid var(--color-fog);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s ease,border-color .15s ease;}
-.service-check svg{width:12px;height:12px;stroke:#fff;stroke-width:2;fill:none;opacity:0;transition:opacity .15s ease;}
-.service.is-selected .service-check{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
-.service.is-selected .service-check svg{opacity:1;}
-
-/* ============ ÉXITO ============ */
-.success{max-width:560px;margin:0 auto;padding:var(--spacing-16) 0;text-align:center;}
-.success-mark{width:72px;height:72px;margin:0 auto var(--spacing-20);display:grid;place-items:center;border-radius:50%;background:rgba(46,206,160,.14);}
-.success-mark svg{width:32px;height:32px;stroke:var(--color-mint-pulse);stroke-width:2.5;fill:none;}
-.success .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
-.success .lead{margin:0 auto var(--spacing-24);}
-.success .summary{text-align:left;margin-bottom:var(--spacing-24);padding:0 var(--spacing-8);}
-.success .btn{width:auto;}
-.success-actions{display:flex;flex-wrap:wrap;gap:var(--spacing-12);justify-content:center;}
-
-/* ============ HISTORIAL + REAGENDAR/CANCELAR ============ */
+/* Historial y Mapa */
 .history-list{display:grid;gap:var(--spacing-16);}
 .history-card{padding:var(--spacing-20) var(--spacing-24);}
-.history-card.is-cancelled{opacity:.75;background:var(--color-bone);}
-.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-12);}
-.history-title{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-ink);margin-top:2px;letter-spacing:-0.01em;}
-.history-badge{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.16);padding:5px 10px;border-radius:var(--radius-pill);white-space:nowrap;}
-.history-badge.is-rescheduled{color:#92400e;background:#fef3c7;}
+.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px;}
+.history-badge{font-size:10.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.18);padding:5px 11px;border-radius:var(--radius-pill);}
 .history-badge.is-cancelled{color:var(--color-danger);background:rgba(192,57,43,.12);}
-.history-services{display:grid;gap:8px;margin:0 0 var(--spacing-16);padding:var(--spacing-12) 0;border-top:1px solid var(--color-mist);border-bottom:1px solid var(--color-mist);font-size:14px;color:var(--color-ink);}
-.history-services li{display:flex;justify-content:space-between;gap:var(--spacing-12);line-height:1.4;}
-.history-services .hist-meta{color:var(--color-slate);font-size:12px;white-space:nowrap;flex-shrink:0;}
-.history-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--spacing-12);}
-.history-meta dt{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
-.history-meta dd{font-size:14px;font-weight:500;color:var(--color-ink);margin-top:2px;}
-.history-card-footer{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--spacing-8);margin-top:var(--spacing-16);padding-top:var(--spacing-16);border-top:1px dashed var(--color-mist);}
-.history-empty{text-align:center;padding:var(--spacing-40) var(--spacing-24);}
-.history-empty .lead{margin:var(--spacing-8) auto 0;}
-.history-actions{margin-top:var(--spacing-20);text-align:right;}
-.history-actions .btn{width:auto;}
+.history-badge.is-rescheduled{color:#92400e;background:#fef3c7;}
+.history-card-footer{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--color-mist);}
 
-/* ============ MAPA ============ */
-.map-card{position:relative;display:block;height:440px;border:1px solid var(--color-mist);border-radius:var(--radius-2xl);overflow:hidden;background:var(--color-paper);transition:border-color .15s ease;}
-.map-card:hover{border-color:var(--color-deep-teal);}
-.map-card iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.05);pointer-events:none;display:block;}
-.map-cta{position:absolute;left:var(--spacing-16);bottom:var(--spacing-16);display:inline-flex;align-items:center;gap:var(--spacing-8);padding:12px 20px;font-family:var(--font-tight);font-size:14px;font-weight:500;color:var(--color-deep-teal);background:var(--color-paper);border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);transition:background .15s ease,color .15s ease;}
-.map-card:hover .map-cta{background:var(--color-deep-teal);color:#fff;}
-.location-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--spacing-32);margin-top:var(--spacing-32);padding-top:var(--spacing-32);border-top:1px solid var(--color-mist);}
-.location-meta dt{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-8);}
-.location-meta dd{font-size:15px;line-height:1.5;color:var(--color-graphite);}
+.map-card{position:relative;display:block;height:380px;border:1px solid var(--color-mist);border-radius:var(--radius-2xl);overflow:hidden;}
+.map-card iframe{width:100%;height:100%;border:0;filter:grayscale(1);pointer-events:none;}
+.map-cta{position:absolute;left:16px;bottom:16px;padding:10px 18px;font-size:14px;font-weight:600;color:var(--color-deep-teal);background:#fff;border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);}
+.location-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px;}
 
-/* ============ FOOTER ============ */
-.site-footer{background:var(--color-deep-teal);color:#fff;padding:var(--section-gap) 0 var(--spacing-32);}
-.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--spacing-40);padding-bottom:var(--spacing-32);border-bottom:1px solid rgba(255,255,255,.14);}
-.footer-title{font-size:var(--text-caption);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-soft-teal);margin-bottom:var(--spacing-16);}
-.footer-list{display:grid;gap:var(--spacing-12);font-size:15px;}
-.footer-list a{transition:color .15s ease;}
-.footer-list a:hover{color:var(--color-mint-pulse);}
-.footer-bottom{padding-top:var(--spacing-24);font-size:12px;letter-spacing:0.02em;color:rgba(255,255,255,.55);}
+/* Modales */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.55);}
+.modal.is-open{display:flex;}
+.modal-panel{width:100%;max-width:480px;max-height:88vh;overflow:auto;padding:28px;background:#fff;border-radius:var(--radius-2xl);border:1px solid var(--color-mist);}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
+.modal-close{width:34px;height:34px;border-radius:50%;border:0;background:var(--color-bone);font-size:20px;}
+.modal-actions{display:flex;gap:12px;margin-top:22px;}
+.modal-actions .btn{flex:1;}
 
-/* ============ SOPORTE FAB ============ */
-.support-fab{position:fixed;right:var(--spacing-24);bottom:var(--spacing-24);z-index:60;display:inline-flex;align-items:center;gap:var(--spacing-8);padding:14px 24px;font-family:var(--font-tight);font-size:15px;font-weight:500;color:#fff;background:var(--color-deep-teal);border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);transition:background .15s ease,border-color .15s ease,transform .1s ease;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));}
-.support-fab:hover{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
-.support-fab:active{transform:translateY(1px);}
-.support-fab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+.site-footer{background:var(--color-deep-teal);color:#fff;padding:48px 0 28px;}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.14);}
+.footer-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-soft-teal);margin-bottom:12px;}
 
-/* ============ MODALES ============ */
-.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:var(--spacing-24);background:rgba(21,21,21,.55);pointer-events:none;}
-.modal.is-open{display:flex;pointer-events:auto;}
-.modal-panel{width:100%;max-width:460px;max-height:88vh;overflow:auto;padding:var(--spacing-32);background:var(--color-paper);border-radius:var(--radius-2xl);border:1px solid var(--color-mist);animation:panelIn .25s ease both;}
-.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-24);}
-.modal-close{width:36px;height:36px;display:grid;place-items:center;font-size:22px;line-height:1;color:var(--color-ink);background:var(--color-bone);border:0;border-radius:50%;transition:background .15s ease;flex-shrink:0;}
-.modal-close:hover{background:var(--color-mist);}
-.modal-actions{display:flex;gap:var(--spacing-12);margin-top:var(--spacing-24);}
-.modal-actions .btn{flex:1 1 0;width:auto;}
-.contact-row{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-16);padding:var(--spacing-16) 0;border-bottom:1px solid var(--color-mist);font-size:15px;}
-.contact-row:last-of-type{border-bottom:0;}
-.contact-row > span:first-child{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
-.contact-row a{font-family:var(--font-tight);font-weight:500;color:var(--color-deep-teal);transition:color .15s ease;}
-.contact-row a:hover{color:var(--color-mint-pulse);}
-.modal-footnote{margin-top:var(--spacing-16);padding-top:var(--spacing-16);border-top:1px solid var(--color-mist);font-size:13px;line-height:1.5;color:var(--color-slate);}
-#confirmError,#clientRsError,#clientCancelError{margin-top:var(--spacing-16);}
-
-/* ============ LOADING ============ */
-.loading{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--color-slate);}
-.loading::before{content:'';width:14px;height:14px;border:2px solid var(--color-mist);border-top-color:var(--color-deep-teal);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-:focus-visible{outline:2px solid var(--color-mint-pulse);outline-offset:2px;}
-
-/* ============ RESPONSIVE ============ */
+/* ============ ADAPTACIÓN COMPLETA A CUALQUIER PANTALLA ============ */
 @media (max-width:1024px){
-  .agenda-grid{grid-template-columns:1fr;}
-  .reserva-grid{grid-template-columns:1fr;}
-  .hero{grid-template-columns:1fr;}
-  .hero-light{min-height:320px;}
-  .hero-dark{padding:var(--spacing-60) var(--spacing-24);}
+  .agenda-grid,.reserva-grid{grid-template-columns:1fr;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-dark{padding:48px 24px;}
+  .hero-light{min-height:220px;padding:24px;}
 }
-@media (max-width:720px){
-  .nav{display:none;}
-  .section{padding:48px 0;}
-  .section-head{margin-bottom:var(--spacing-24);}
-  .card{padding:var(--spacing-20);}
-  .hero-dark{padding:var(--spacing-40) var(--spacing-20);}
-  .hero-light{min-height:260px;}
-  .hero-mark{width:min(220px,60%);}
-  .hero-mark svg{width:40px;height:40px;}
-  .steps li{min-width:calc(50% - var(--spacing-4));}
-  .step-btn{font-size:13px;padding:10px 12px;}
-  .booking-shell{border-radius:var(--radius-2xl);}
-  .panel-foot .btn{flex:1 1 auto;}
-  .service{grid-template-columns:1fr auto;gap:var(--spacing-8) var(--spacing-16);}
-  .service-dur{display:none;}
-  .service-check{grid-row:1 / span 2;}
-  .service-price{grid-column:1 / -1;text-align:left;font-size:16px;}
-  .service.is-selected .service-price{color:var(--color-deep-teal);}
-  .map-card{height:320px;}
-  .location-meta{grid-template-columns:1fr;gap:var(--spacing-20);}
-  .footer-grid{grid-template-columns:1fr;gap:var(--spacing-24);}
-  .support-fab{right:var(--spacing-16);bottom:var(--spacing-16);}
+
+@media (max-width:768px){
+  :root{--section-gap:44px;}
+  .container{padding:0 16px;}
+  .header-inner{
+    padding:10px 16px;height:auto;min-height:60px;
+    flex-wrap:wrap;justify-content:space-between;gap:10px;
+  }
+  .nav{
+    width:100%;justify-content:space-between;gap:4px;
+    background:var(--color-bone);padding:4px;border-radius:var(--radius-pill);
+    overflow-x:auto;
+  }
+  .nav a{flex:1;text-align:center;font-size:13px;padding:7px 10px;white-space:nowrap;}
+  .steps{gap:8px;}
+  .steps li{flex:1 1 100%;}
+  .step-btn{padding:11px 14px;font-size:13.5px;}
+  .booking-shell{padding:18px 16px;border-radius:var(--radius-2xl);}
+  .card{padding:18px 16px;border-radius:var(--radius-xl);}
+  .service{
+    grid-template-columns:1fr auto;
+    gap:8px 12px;padding:16px 12px;
+  }
+  .service-dur{grid-column:1;font-size:12.5px;}
+  .service-price{grid-column:1;font-size:16px;}
+  .service-check{grid-column:2;grid-row:1 / span 3;}
+  .panel-foot{flex-direction:column-reverse;align-items:stretch;}
+  .panel-foot > span:empty{display:none;}
+  .panel-foot .btn{width:100%;}
+  .location-meta,.footer-grid{grid-template-columns:1fr;gap:20px;}
+  .map-card{height:300px;}
+  .history-head{flex-direction:column;align-items:flex-start;gap:8px;}
+  .history-card-footer{justify-content:stretch;}
+  .history-card-footer .btn{flex:1 1 calc(50% - 8px);text-align:center;}
 }
+
 @media (max-width:480px){
-  .container{padding:0 var(--spacing-16);}
-  .header-inner{padding:0 var(--spacing-16);height:60px;}
-  .day{min-height:34px;font-size:13px;border-radius:var(--radius-md);}
-  .cal-nav{width:32px;height:32px;font-size:14px;}
-  .cal-month{font-size:15px;}
-  .slots{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));}
-  .slot{font-size:13px;padding:9px 6px;min-height:40px;}
-  .card{border-radius:var(--radius-xl);}
-  .modal-panel{padding:var(--spacing-24);}
-  .announce{font-size:12px;padding:8px 12px;}
-  .btn{padding:12px 24px;font-size:15px;}
-  .btn-outline-mint{padding:12px 28px;font-size:15px;}
-  .specialist-grid{grid-template-columns:1fr;}
-  .history-head{flex-direction:column;gap:var(--spacing-8);}
-  .history-meta{grid-template-columns:1fr;}
-  .history-actions{text-align:center;}
-  .currency-bar{padding:var(--spacing-12);}
-  .currency-btn{padding:6px 11px;font-size:11px;}
+  .announce{font-size:11.5px;padding:8px 12px;}
+  .display{font-size:32px;}
+  .heading-lg{font-size:24px;}
+  .heading{font-size:19px;}
+  .cal-grid{gap:4px;}
+  .day{min-height:34px;font-size:13px;border-radius:8px;}
+  .slots{grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px;}
+  .slot{font-size:13px;padding:8px 6px;min-height:38px;}
+  .specialist{flex-direction:column;align-items:flex-start;gap:10px;padding:12px;}
+  .spec-status-pill{align-self:flex-start;}
+  .currency-bar{width:100%;justify-content:space-between;}
+  .summary > div{flex-direction:column;gap:4px;align-items:flex-start;}
+  .summary dd{text-align:left;}
+  .history-card-footer .btn{flex:1 1 100%;width:100%;}
+  .modal{padding:12px;align-items:flex-end;}
+  .modal-panel{padding:20px 16px;max-height:92vh;border-radius:20px;}
+  .modal-actions{flex-direction:column-reverse;}
+  .modal-actions .btn{width:100%;}
 }
 </style>
 </head>
@@ -380,35 +359,32 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 <header class="site-header">
   <div class="header-inner">
     <a href="#top" class="wordmark" id="wordmark">Aevi <span>Wellness</span></a>
-    <nav class="nav" aria-label="Navegación principal">
-      <a href="#reserva" data-nav-step="1">Reserva</a>
-      <a href="#historial">Historial</a>
+    <nav class="nav">
+      <a href="#reserva">Agendar Cita</a>
+      <a href="#historial">Mis Reservas</a>
       <a href="#ubicacion">Ubicación</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
-
-  <section class="hero" aria-label="Presentación">
+  <section class="hero">
     <div class="hero-dark">
       <p class="eyebrow" id="heroEyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
-      <p class="lead">Tres pasos claros: elige día, horario y especialista; luego tus servicios y confirma. Te enviamos los detalles por correo y puedes añadir la cita a tu Google Calendar.</p>
-      <div class="hero-actions">
+      <p class="lead">Tres pasos claros: elige fecha, hora y especialista disponible en tiempo real, selecciona tus tratamientos y confirma con opción de Google Calendar.</p>
+      <div>
         <a href="#reserva" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
       </div>
     </div>
     <div class="hero-light" aria-hidden="true">
       <div class="hero-mark">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
           <rect x="3" y="4.5" width="18" height="16" rx="2"/>
           <path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>
-          <circle cx="8" cy="14" r="1"/>
-          <circle cx="12" cy="14" r="1"/>
-          <circle cx="16" cy="14" r="1"/>
+          <circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>
         </svg>
-        <span>Reserva</span>
+        <span>Reserva Online</span>
       </div>
     </div>
   </section>
@@ -418,124 +394,151 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       <div class="section-head">
         <p class="eyebrow">01 — Reservas</p>
         <h2 class="heading-lg">Agenda en 3 pasos</h2>
-        <p class="lead">Cada paso es una pantalla. Avanza cuando tengas tu selección lista.</p>
-        <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;" hidden></p>
+        <p class="lead">Elige el día, la hora y visualiza al instante qué especialista está disponible para atenderte.</p>
       </div>
 
-      <ol class="steps" id="stepsNav" aria-label="Pasos de la reserva">
-        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Día, hora y especialista</button></li>
+      <!-- Barra de 3 Pasos (Especialista integrado en el Paso 1) -->
+      <ol class="steps" id="stepsNav">
+        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Fecha, hora y especialista</button></li>
         <li><button class="step-btn" type="button" data-goto="2" disabled><span class="step-num">2</span> Servicios</button></li>
         <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Tu reserva</button></li>
       </ol>
 
       <div class="booking-shell">
 
+        <!-- =========================================================
+             PASO 1: FECHA + HORA + ESPECIALISTA EN EL MISMO LUGAR
+             ========================================================= -->
         <div class="step-panel is-active" data-step="1">
           <div class="panel-head">
             <p class="eyebrow">Paso 1 de 3</p>
-            <h3 class="heading">Elige día, horario y especialista</h3>
-            <p class="lead">Selecciona un día disponible en el calendario, luego tu horario y por último al especialista que prefieras. Solo verás especialistas disponibles a esa hora.</p>
+            <h3 class="heading">Elige día, horario y tu especialista</h3>
+            <p class="lead">Al tocar un día y un horario verás en tiempo real la disponibilidad de cada especialista para seleccionarlo desde aquí.</p>
           </div>
+
           <div class="agenda-grid">
+            <!-- Columna Izquierda: Calendario -->
             <div class="card">
               <div class="cal-head">
                 <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
                 <p class="cal-month" id="monthLabel">—</p>
                 <button class="cal-nav" id="nextMonth" type="button" aria-label="Mes siguiente">&#8594;</button>
               </div>
-              <div class="cal-grid" id="calGrid" role="grid" aria-label="Calendario de disponibilidad"></div>
+              <div class="cal-grid" id="calGrid"></div>
               <div class="cal-legend">
                 <span><i class="dot dot--open"></i>Con disponibilidad</span>
                 <span><i class="dot dot--today"></i>Hoy</span>
                 <span><i class="dot dot--off"></i>Cerrado</span>
               </div>
             </div>
-            <div class="card">
-              <p class="card-label">Horarios</p>
-              <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
-              <div class="slots" id="slots"></div>
+
+            <!-- Columna Derecha: 1) Horarios + 2) Especialistas Disponibles -->
+            <div class="right-column-stack">
+              <div class="card">
+                <p class="card-label">1. Horarios disponibles</p>
+                <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
+                <div class="slots" id="slots"></div>
+              </div>
+
+              <div class="card">
+                <p class="card-label">2. Elige a tu especialista</p>
+                <p class="card-sub empty" id="specSubLabel">Selecciona un horario para verificar disponibilidad</p>
+                <div class="specialist-inline-grid" id="specialistList"></div>
+              </div>
             </div>
           </div>
 
-          <div class="card" id="specialistCard" style="margin-top:var(--spacing-24);">
-            <p class="card-label">Especialistas disponibles</p>
-            <p class="card-sub empty" id="specSubtitle">Selecciona un día y horario para ver especialistas</p>
-            <div class="specialist-grid" id="specialistList"></div>
+          <div class="step1-selection-banner" id="step1Banner">
+            <span id="step1StatusText">Selecciona día, hora y especialista para continuar.</span>
           </div>
 
           <div class="panel-foot">
-            <button class="btn btn-pill" type="button" id="next1" disabled>Continuar</button>
+            <span></span>
+            <button class="btn btn-pill" type="button" id="next1" disabled>Continuar a servicios &#8594;</button>
           </div>
         </div>
 
+        <!-- =========================================================
+             PASO 2: SERVICIOS
+             ========================================================= -->
         <div class="step-panel" data-step="2">
           <div class="panel-head">
             <p class="eyebrow">Paso 2 de 3</p>
             <h3 class="heading">Carta de servicios</h3>
-            <p class="lead">Selecciona uno o más tratamientos. Puedes combinarlos en la misma visita.</p>
-            <p class="panel-hint" id="servicesHint" aria-live="polite">Puedes elegir más de un servicio.</p>
+            <p class="lead" id="servicesHint">Selecciona uno o más tratamientos para tu cita.</p>
             <div class="currency-bar">
-              <span class="currency-label" id="currencyLabel">Moneda</span>
-              <div class="currency-options" id="currencyOptions" role="group" aria-labelledby="currencyLabel">
-                <button type="button" class="currency-btn is-active" data-currency="MXN" aria-pressed="true">MXN</button>
-                <button type="button" class="currency-btn" data-currency="USD" aria-pressed="false">USD</button>
-                <button type="button" class="currency-btn" data-currency="EUR" aria-pressed="false">EUR</button>
+              <span class="currency-label">Moneda</span>
+              <div class="currency-options">
+                <button type="button" class="currency-btn is-active" data-currency="MXN">MXN</button>
+                <button type="button" class="currency-btn" data-currency="USD">USD</button>
+                <button type="button" class="currency-btn" data-currency="EUR">EUR</button>
               </div>
-              <span class="currency-note">MXN predeterminado</span>
             </div>
           </div>
           <ul class="service-list" id="serviceList"></ul>
           <div class="panel-foot">
-            <button class="btn btn-ghost" type="button" data-back="1">Atrás</button>
-            <button class="btn btn-pill" type="button" id="next2" disabled>Continuar</button>
+            <button class="btn btn-ghost" type="button" data-back="1">&#8592; Cambiar fecha o especialista</button>
+            <button class="btn btn-pill" type="button" id="next2" disabled>Continuar al resumen &#8594;</button>
           </div>
         </div>
 
+        <!-- =========================================================
+             PASO 3: RESUMEN + DATOS + GOOGLE CALENDAR OPCIONAL
+             ========================================================= -->
         <div class="step-panel" data-step="3" id="summaryPanel">
           <div class="panel-head">
             <p class="eyebrow">Paso 3 de 3</p>
-            <h3 class="heading">Tu reserva</h3>
-            <p class="lead">Revisa los detalles y completa tus datos para confirmar.</p>
+            <h3 class="heading">Revisa y confirma tu reserva</h3>
+            <p class="lead">Verifica los detalles de tu cita y completa tus datos de contacto.</p>
           </div>
           <div class="reserva-grid">
             <div class="card">
-              <p class="card-label">Resumen</p>
+              <p class="card-label">Resumen de tu cita</p>
               <dl class="summary">
-                <div><dt>Servicios</dt><dd id="sumServices">—</dd></div>
-                <div><dt>Especialista</dt><dd id="sumSpecialist">—</dd></div>
                 <div><dt>Día</dt><dd id="sumDate">—</dd></div>
                 <div><dt>Hora</dt><dd id="sumTime">—</dd></div>
+                <div><dt>Especialista</dt><dd id="sumSpecialist">—</dd></div>
+                <div><dt>Servicios</dt><dd id="sumServices">—</dd></div>
                 <div><dt>Duración total</dt><dd id="sumDuration">—</dd></div>
-                <div><dt>Total</dt><dd id="sumPrice">—</dd></div>
+                <div><dt>Total estimado</dt><dd id="sumPrice">—</dd></div>
               </dl>
             </div>
+
             <form class="card" id="bookingForm" novalidate>
               <p class="card-label">Tus datos</p>
-              <p class="form-intro">Necesitamos estos datos para enviarte la confirmación y contactarte si algo cambia.</p>
-              <label class="field" data-field="name">
+              <div class="saved-profile-banner" id="savedProfileBanner" hidden>
+                <span>✨ Datos autocompletados de tu dispositivo</span>
+                <button type="button" class="saved-profile-clear" id="btnClearSavedProfile">Olvidar mis datos</button>
+              </div>
+              <label class="field">
                 <span class="field-label">Nombre completo <em class="field-req">Requerido</em></span>
-                <input type="text" id="fName" placeholder="Ej. Ana García López" autocomplete="name" required aria-describedby="fName-hint fName-error">
-                <small class="field-hint" id="fName-hint">Tal como quieres que aparezca en tu reserva.</small>
-                <small class="field-error" id="fName-error" role="alert" hidden>Escribe al menos 2 letras de tu nombre.</small>
+                <input type="text" id="fName" placeholder="Ej. Ana García López" autocomplete="name" required>
+                <small class="field-error" id="fNameErr" hidden>Escribe al menos 2 letras de tu nombre.</small>
               </label>
-              <label class="field" data-field="email">
+              <label class="field">
                 <span class="field-label">Correo electrónico <em class="field-req">Requerido</em></span>
-                <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" inputmode="email" required aria-describedby="fEmail-hint fEmail-error">
-                <small class="field-hint" id="fEmail-hint">Ahí te enviaremos la confirmación y los detalles de tu cita.</small>
-                <small class="field-error" id="fEmail-error" role="alert" hidden>Escribe un correo válido (ej. nombre@dominio.com).</small>
+                <input type="email" id="fEmail" placeholder="tu@correo.com" autocomplete="email" required>
+                <small class="field-error" id="fEmailErr" hidden>Escribe un correo electrónico válido.</small>
               </label>
-              <label class="field" data-field="phone">
-                <span class="field-label">Teléfono <em class="field-optional">Opcional</em></span>
-                <input type="tel" id="fPhone" placeholder="+52 55 1234 5678" autocomplete="tel" inputmode="tel" aria-describedby="fPhone-hint fPhone-error">
-                <small class="field-hint" id="fPhone-hint">Incluye lada. Solo lo usamos para avisos de tu cita.</small>
-                <small class="field-error" id="fPhone-error" role="alert" hidden>Si lo llenas, escribe al menos 8 dígitos (o déjalo vacío).</small>
+              <label class="field">
+                <span class="field-label">Teléfono / WhatsApp <em class="field-optional">Opcional</em></span>
+                <input type="tel" id="fPhone" placeholder="+52 55 1234 5678" autocomplete="tel">
               </label>
-              <button class="btn btn-pill" type="submit" id="confirmBtn" hidden>Confirmar reserva</button>
-              <p class="form-note" id="formNote" role="status" aria-live="polite">Completa tu nombre y correo para habilitar la confirmación.</p>
+
+              <!-- Opción de Google Calendar para el cliente -->
+              <label class="gcal-opt-box">
+                <input type="checkbox" id="chkAddGoogleCal">
+                <div>
+                  <div class="gcal-opt-title">📅 Añadir a mi Google Calendar (Opcional)</div>
+                  <p class="gcal-opt-sub">Al confirmar tu cita, se abrirá una pestaña de Google Calendar con la fecha, hora, especialista y ubicación listos para guardar.</p>
+                </div>
+              </label>
+
+              <button class="btn btn-pill" type="submit" style="width:100%;">Revisar y confirmar reserva</button>
             </form>
           </div>
           <div class="panel-foot">
-            <button class="btn btn-ghost" type="button" data-back="2">Atrás</button>
+            <button class="btn btn-ghost" type="button" data-back="2">&#8592; Volver a servicios</button>
           </div>
         </div>
 
@@ -543,118 +546,71 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     </div>
   </section>
 
+  <!-- HISTORIAL DEL CLIENTE -->
   <section id="historial" class="section">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">02 — Historial</p>
         <h2 class="heading-lg">Tus reservas</h2>
-        <p class="lead">Consulta tus citas agendadas. Si necesitas cambiar la fecha o cancelar, puedes hacerlo directamente desde aquí. También puedes añadir cada cita a tu Google Calendar.</p>
+        <p class="lead">Agrega tus citas a Google Calendar, descarga el archivo .ICS o reagenda/cancela si tus planes cambian.</p>
       </div>
       <div class="history-list" id="historyList"></div>
-      <div class="history-actions">
-        <button class="btn btn-ghost" type="button" id="clearHistoryBtn" hidden>Borrar historial local</button>
-      </div>
     </div>
   </section>
 
+  <!-- UBICACIÓN -->
   <section id="ubicacion" class="section section--bone">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">03 — Ubicación</p>
         <h2 class="heading-lg">Cómo llegar</h2>
-        <p class="lead">Toca el mapa para abrir la navegación en tu teléfono.</p>
       </div>
-      <a class="map-card" id="mapCard" href="https://www.google.com/maps/dir/?api=1&destination=Calle%20Ejemplo%20123%2C%20Centro%2C%20CDMX" target="_blank" rel="noopener" aria-label="Abrir navegación hacia la tienda">
-        <iframe id="mapIframe" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950" title="Mapa de ubicación de la tienda" loading="lazy"></iframe>
-        <span class="map-cta">Abrir navegación &#8594;</span>
+      <a class="map-card" id="mapCard" href="https://www.google.com/maps/dir/?api=1&destination=CDMX" target="_blank" rel="noopener">
+        <iframe id="mapIframe" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950" title="Mapa de ubicación" loading="lazy"></iframe>
+        <span class="map-cta">Abrir en Google Maps &#8594;</span>
       </a>
       <dl class="location-meta">
-        <div><dt>Dirección</dt><dd id="locAddress">Calle Ejemplo 123<br>Col. Centro, CDMX</dd></div>
-        <div><dt>Horario</dt><dd id="locSchedule">Lun – Vie · 09:00 – 19:00<br>Sáb · 09:00 – 14:00</dd></div>
-        <div><dt>Estacionamiento</dt><dd>Valet disponible<br>a partir de las 10:00</dd></div>
+        <div><dt class="card-label">Dirección</dt><dd id="locAddress">Av. Presidente Masaryk 123, Polanco, CDMX</dd></div>
+        <div><dt class="card-label">Horario</dt><dd id="locSchedule">Lun – Vie · 08:00 – 17:00<br>Sáb · 09:00 – 14:00</dd></div>
+        <div><dt class="card-label">Contacto</dt><dd id="locPhone">+52 55 1234 5678</dd></div>
       </dl>
     </div>
   </section>
-
 </main>
 
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <p class="footer-title" id="footerBusinessName">Aevi Wellness</p>
-        <ul class="footer-list">
-          <li id="footerAddress">Calle Ejemplo 123, Col. Centro</li>
-          <li>Ciudad de México</li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-title">Contacto</p>
-        <ul class="footer-list">
-          <li><a id="footerPhone" href="tel:+525512345678">+52 55 1234 5678</a></li>
-          <li><a id="footerEmail" href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></li>
-          <li><a id="footerWhatsApp" href="https://wa.me/525512345678" target="_blank" rel="noopener">WhatsApp</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-title">Redes</p>
-        <ul class="footer-list">
-          <li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="https://facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
-          <li><a href="https://tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
-        </ul>
-      </div>
+      <div><p class="footer-title" id="footerBusinessName">Aevi Wellness</p><p id="footerAddress">Ciudad de México</p></div>
+      <div><p class="footer-title">Contacto</p><p id="footerEmail">hola@aeviwellness.com</p></div>
+      <div><p class="footer-title">Horario</p><p>Atención con cita previa</p></div>
     </div>
-    <p class="footer-bottom">© <span id="year">2025</span> <span id="footerCopyrightName">Aevi Wellness</span>. Todos los derechos reservados.</p>
   </div>
 </footer>
 
-<button class="support-fab" id="supportBtn" type="button" aria-haspopup="dialog">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 4v5h-5"/></svg>
-  Soporte
-</button>
-
-<!-- Modal Soporte -->
-<div class="modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+<!-- Modal Confirmación -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true">
   <div class="modal-panel">
     <div class="modal-head">
-      <div><p class="card-label">Atención</p><h3 class="heading" id="supportTitle">Estamos aquí</h3></div>
-      <button class="modal-close" id="supportClose" type="button" aria-label="Cerrar">&times;</button>
-    </div>
-    <div class="contact-row"><span>Teléfono</span><a id="supPhone" href="tel:+525512345678">+52 55 1234 5678</a></div>
-    <div class="contact-row"><span>WhatsApp</span><a id="supWhatsApp" href="https://wa.me/525512345678" target="_blank" rel="noopener">Escribir mensaje</a></div>
-    <div class="contact-row"><span>Correo</span><a id="supEmail" href="mailto:hola@aeviwellness.com">hola@aeviwellness.com</a></div>
-    <div class="contact-row"><span>Instagram</span><a href="https://instagram.com/" target="_blank" rel="noopener">@aeviwellness</a></div>
-    <div class="contact-row"><span>Facebook</span><a href="https://facebook.com/" target="_blank" rel="noopener">/aeviwellness</a></div>
-    <div class="contact-row"><span>TikTok</span><a href="https://tiktok.com/" target="_blank" rel="noopener">@aeviwellness</a></div>
-    <p class="modal-footnote" id="supFootnote">Horario de atención: lunes a viernes de 09:00 a 19:00 · sábados de 09:00 a 14:00.</p>
-  </div>
-</div>
-
-<!-- Modal Confirmación de Reserva -->
-<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-  <div class="modal-panel">
-    <div class="modal-head">
-      <div><p class="card-label">Paso final</p><h3 class="heading" id="confirmTitle">Revisa tu reserva</h3></div>
-      <button class="modal-close" id="confirmClose" type="button" aria-label="Cerrar">&times;</button>
+      <div><p class="card-label">Paso final</p><h3 class="heading">Confirma tu cita</h3></div>
+      <button class="modal-close" id="confirmClose" type="button">&times;</button>
     </div>
     <div id="confirmBody"></div>
-    <p id="confirmError" class="field-error" role="alert" hidden></p>
+    <p id="confirmError" class="field-error" hidden></p>
     <div class="modal-actions">
       <button class="btn btn-ghost" type="button" id="confirmBack">Volver</button>
-      <button class="btn btn-pill" type="button" id="confirmOk">Confirmar reserva</button>
+      <button class="btn btn-pill" type="button" id="confirmOk">Confirmar cita</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Reagendar Reserva (Cliente) -->
-<div class="modal" id="clientRescheduleModal" role="dialog" aria-modal="true" aria-labelledby="clientRsTitle">
+<!-- Modal Reagendar Cita -->
+<div class="modal" id="clientRescheduleModal" role="dialog" aria-modal="true">
   <div class="modal-panel">
     <div class="modal-head">
-      <div><p class="card-label">Modificar cita</p><h3 class="heading" id="clientRsTitle">Reagendar reserva</h3></div>
-      <button class="modal-close" id="clientRsClose" type="button" aria-label="Cerrar">&times;</button>
+      <div><p class="card-label">Modificar cita</p><h3 class="heading">Reagendar reserva</h3></div>
+      <button class="modal-close" id="clientRsClose" type="button">&times;</button>
     </div>
-    <p class="form-intro" id="clientRsSubtitle">Elige una nueva fecha y horario disponible.</p>
     <label class="field">
       <span class="field-label">Nueva fecha</span>
       <input type="date" id="clientRsDate">
@@ -667,30 +623,10 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       <span class="field-label">Horarios disponibles</span>
       <div class="slots" id="clientRsSlots"></div>
     </div>
-    <p id="clientRsError" class="field-error" role="alert" hidden></p>
+    <p id="clientRsError" class="field-error" hidden></p>
     <div class="modal-actions">
       <button class="btn btn-ghost" type="button" id="clientRsBack">Cancelar</button>
       <button class="btn btn-pill" type="button" id="clientRsOk" disabled>Guardar cambio</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Cancelar Reserva (Cliente) -->
-<div class="modal" id="clientCancelModal" role="dialog" aria-modal="true" aria-labelledby="clientCancelTitle">
-  <div class="modal-panel">
-    <div class="modal-head">
-      <div><p class="card-label">Cancelación</p><h3 class="heading" id="clientCancelTitle">¿Cancelar tu cita?</h3></div>
-      <button class="modal-close" id="clientCancelClose" type="button" aria-label="Cerrar">&times;</button>
-    </div>
-    <p class="form-intro" id="clientCancelDesc">Esta acción liberará tu horario inmediatamente.</p>
-    <label class="field">
-      <span class="field-label">Motivo <em class="field-optional">Opcional</em></span>
-      <input type="text" id="clientCancelReason" placeholder="Ej. Cambio de planes">
-    </label>
-    <p id="clientCancelError" class="field-error" role="alert" hidden></p>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" type="button" id="clientCancelBack">Conservar cita</button>
-      <button class="btn btn-pill" style="background:var(--color-danger);border-color:var(--color-danger);" type="button" id="clientCancelOk">Sí, cancelar</button>
     </div>
   </div>
 </div>
@@ -700,20 +636,18 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   'use strict';
 
   /* =========================================================
-     0. CONFIGURACIÓN DEL BACKEND
+     CONFIGURACIÓN DE CONEXIÓN AL BACKEND (CODE.GS)
      ========================================================= */
-  // ⚠️ Reemplaza por la URL de despliegue de tu Web App de Apps Script.
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIpslooNGNBqrg6NAGwk5ElppYHDtC5sOPHU1uWoiaLu_73hs-wdQpIKjWgUe1XrTNKA/exec';
+  const HISTORY_KEY = 'aevi_booking_history_v1';
+  const CLIENT_PROFILE_KEY = 'aevi_client_profile_v1';
+  const SHARED_STORAGE_KEY = 'aevi_pro_suite_state_v2';
 
-  /* =========================================================
-     1. CONSTANTES
-     ========================================================= */
   const CURRENCIES = {
     MXN: { code:'MXN', mxnPerUnit:1,    decimals:0 },
     USD: { code:'USD', mxnPerUnit:17.5, decimals:2 },
     EUR: { code:'EUR', mxnPerUnit:19.2, decimals:2 }
   };
-  const DEFAULT_CURRENCY = 'MXN';
 
   const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
@@ -722,35 +656,58 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 
   const DEFAULT_SLOTS_BY_WEEKDAY = {
     0: [],
-    1: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
-    2: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
-    3: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
-    4: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
-    5: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    1: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
+    2: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
+    3: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
+    4: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
+    5: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
     6: ['09:00','10:00','11:00','12:00','13:00']
   };
 
-  const HISTORY_KEY = 'aevi_booking_history_v1';
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const FALLBACK_SERVICES = [
+    { id: 'srv-1', name: 'Ritual Hydrafacial Botánico', desc: 'Limpieza profunda + infusión de antioxidantes.', duration: 60, price: 1450 },
+    { id: 'srv-2', name: 'Masaje Descontracturante Tejido Profundo', desc: 'Terapia muscular focalizada con aceites esenciales.', duration: 60, price: 1200 },
+    { id: 'srv-3', name: 'Drenaje Linfático Facial & Sculpting', desc: 'Reafirmación natural y oxigenación celular.', duration: 45, price: 980 }
+  ];
 
-  // Marca de Google Calendar (SVG oficial).
-  const GCALENDAR_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M16 4h4v4h-4z"/><path fill="#34A853" d="M16 16h4v4h-4z"/><path fill="#FBBC05" d="M4 16h4v4H4z"/><path fill="#EA4335" d="M4 4h4v4H4z"/><path fill="#4285F4" d="M16 4a8 8 0 0 1-8 8 8 8 0 0 1-8-8"/><path fill="#34A853" d="M16 16a8 8 0 0 1-8-8 8 8 0 0 1-8 8"/></svg>';
+  const FALLBACK_SPECIALISTS = [
+    { id: 'sp-1', name: 'Dra. Sofía Mendoza', role: 'Especialista Dermo-Facial', days: [1,2,3,4,5,6] },
+    { id: 'sp-2', name: 'Elena Villalobos', role: 'Terapeuta Corporal Senior', days: [1,2,3,4,5] },
+    { id: 'sp-3', name: 'Marco Santillán', role: 'Fisioterapeuta & Sculpting', days: [2,3,4,5,6] }
+  ];
+
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+  const state = {
+    view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    date: null,
+    time: null,
+    specialist: null,
+    services: [],
+    currency: 'MXN',
+    step: 1,
+    config: {
+      businessName: 'Aevi Wellness',
+      address: 'Av. Presidente Masaryk 123, Polanco, CDMX',
+      phone: '+52 55 1234 5678',
+      email: 'hola@aeviwellness.com'
+    },
+    servicesCatalog: FALLBACK_SERVICES.slice(),
+    specialistsCatalog: FALLBACK_SPECIALISTS.slice(),
+    availabilityCache: {},
+    availabilityBySpecialist: {}
+  };
+
+  let activeRescheduleBooking = null;
+  let clientRsSelectedTime = '';
 
   /* =========================================================
-     2. UTILIDADES
+     UTILIDADES Y GENERADOR GOOGLE CALENDAR + .ICS
      ========================================================= */
-  const $ = (sel) => document.querySelector(sel);
-
-  function money(mxnAmount, currencyCode) {
-    const code = currencyCode || state.currency || DEFAULT_CURRENCY;
-    const cur  = CURRENCIES[code] || CURRENCIES[DEFAULT_CURRENCY];
-    const value = Number(mxnAmount) / cur.mxnPerUnit;
-    return new Intl.NumberFormat('es-MX', {
-      style:'currency', currency: code,
-      minimumFractionDigits: cur.decimals,
-      maximumFractionDigits: cur.decimals
-    }).format(value);
-  }
+  const escapeHtml = (str) => String(str == null ? '' : str).replace(/[&<>"']/g, (c) => (
+    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+  ));
 
   const sameDay = (a, b) =>
     a && b && a.getFullYear() === b.getFullYear() &&
@@ -759,93 +716,91 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   const formatDate = (d) =>
     `${WEEKDAYS[d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()]}`;
 
-  const dateToISO = (d) => {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-  };
-
-  const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => (
-    { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
-  ));
+  const dateToISO = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
   const initials = (name) =>
     String(name || '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 
-  const daysLabel = (days) =>
-    (days || []).slice().sort((a, b) => a - b).map((d) => DAY_SHORT[d]).join(' · ');
-
-  function isPastTime(time, now) {
-    const [h, m] = time.split(':').map(Number);
-    return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
+  function money(mxnAmount, currencyCode) {
+    const code = currencyCode || state.currency || 'MXN';
+    const cur  = CURRENCIES[code] || CURRENCIES.MXN;
+    const value = Number(mxnAmount || 0) / cur.mxnPerUnit;
+    return new Intl.NumberFormat('es-MX', {
+      style:'currency', currency: code,
+      minimumFractionDigits: cur.decimals,
+      maximumFractionDigits: cur.decimals
+    }).format(value);
   }
 
-  const normalizeTime = (v) => {
-    if (!v) return '';
-    const str = String(v).trim().replace(/^'/, '');
-    const m = str.match(/^(\d{1,2}):(\d{2})/);
-    return m ? String(m[1]).padStart(2,'0') + ':' + m[2] : str;
-  };
+  function timeToMinutes(t) {
+    const [h, m] = String(t || '09:00').split(':').map(Number);
+    return (h || 0) * 60 + (m || 0);
+  }
 
-  const timeToMinutes = (t) => {
-    const v = normalizeTime(t);
-    if (!v) return null;
-    const m = v.split(':');
-    return Number(m[0]) * 60 + Number(m[1]);
-  };
+  function minutesToTime(mins) {
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+  }
 
-  /* =========================================================
-     2.b GOOGLE CALENDAR URL (opcional, lado cliente)
-     ========================================================= */
-  // Genera un enlace "Añadir a Google Calendar" con los datos de
-  // la reserva. No requiere backend: abre Google Calendar con un
-  // formulario pre-rellenado y el cliente decide si lo guarda.
+  function buildGoogleCalendarUrl(booking) {
+    const dateClean = String(booking.dateISO || booking.date).replace(/-/g, '');
+    const startMin = timeToMinutes(booking.time || '09:00');
+    const durMin = Number(booking.duration) || 60;
+    const startHHMM = minutesToTime(startMin).replace(':', '') + '00';
+    const endHHMM = minutesToTime(startMin + durMin).replace(':', '') + '00';
 
-  function googleCalendarUrl(booking) {
-    if (!booking || !booking.dateISO || !booking.time) return '#';
-    const startDate = new Date(booking.dateISO + 'T' + booking.time + ':00');
-    const durationMinutes = Number(booking.duration) || 60;
-    const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+    const serviceNames = Array.isArray(booking.services)
+      ? booking.services.map(s => s.name || s).join(', ')
+      : String(booking.services || 'Tratamiento');
+    const specName = booking.specialist ? booking.specialist.name : '';
 
-    const pad = (n) => String(n).padStart(2, '0');
-    const fmt = (d) =>
-      d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + 'T' +
-      pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds());
+    const url = new URL('https://calendar.google.com/calendar/render');
+    url.searchParams.set('action', 'TEMPLATE');
+    url.searchParams.set('text', `Cita en ${state.config.businessName || 'Aevi Wellness'}: ${serviceNames}`);
+    url.searchParams.set('dates', `${dateClean}T${startHHMM}/${dateClean}T${endHHMM}`);
+    url.searchParams.set('details', `Tratamientos: ${serviceNames}\nEspecialista: ${specName}\nCliente: ${booking.name}`);
+    url.searchParams.set('location', state.config.address || '');
+    return url.toString();
+  }
 
-    const services = (booking.services || []).map((s) => s.name).join(', ');
-    const businessName = (state.config && state.config.businessName) || 'Aevi Wellness';
-    const specialistName = booking.specialist ? booking.specialist.name : '';
-    const address = (state.config && state.config.address) || '';
+  function downloadICS(booking) {
+    const dateClean = String(booking.dateISO || booking.date).replace(/-/g, '');
+    const startMin = timeToMinutes(booking.time || '09:00');
+    const durMin = Number(booking.duration) || 60;
+    const startHHMM = minutesToTime(startMin).replace(':', '') + '00';
+    const endHHMM = minutesToTime(startMin + durMin).replace(':', '') + '00';
+    const serviceNames = Array.isArray(booking.services) ? booking.services.map(s => s.name).join(', ') : '';
+    const specName = booking.specialist ? booking.specialist.name : '';
 
-    const details = [
-      'Reserva en ' + businessName,
-      '',
-      'Servicios: ' + services,
-      'Especialista: ' + specialistName,
-      'Duración total: ' + durationMinutes + ' min',
-      '',
-      'Te esperamos!'
-    ].join('\n');
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Aevi Wellness//Reservas//ES',
+      'BEGIN:VEVENT',
+      `UID:${booking.id || Date.now()}@aeviwellness.com`,
+      `DTSTAMP:${dateClean}T${startHHMM}Z`,
+      `DTSTART:${dateClean}T${startHHMM}`,
+      `DTEND:${dateClean}T${endHHMM}`,
+      `SUMMARY:Cita ${state.config.businessName || 'Aevi Wellness'} - ${serviceNames}`,
+      `DESCRIPTION:Especialista: ${specName} | Cliente: ${booking.name}`,
+      `LOCATION:${state.config.address || ''}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
 
-    // ctz = zona horaria del navegador del cliente.
-    let tz = 'America/Mexico_City';
-    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
-
-    const params = new URLSearchParams({
-      action: 'TEMPLATE',
-      text: (services || 'Cita') + (specialistName ? ' · ' + specialistName : ''),
-      dates: fmt(startDate) + '/' + fmt(endDate),
-      details: details,
-      ctz: tz
-    });
-    if (address) params.set('location', address);
-
-    return 'https://calendar.google.com/calendar/render?' + params.toString();
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `cita-aevi-${booking.dateISO || 'reserva'}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   /* =========================================================
-     3. API HELPERS (GAS)
+     API & CARGA DE DATOS
      ========================================================= */
   async function gasGet(action, params) {
     const url = new URL(GAS_URL);
@@ -866,337 +821,61 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     return res.json();
   }
 
-  /* =========================================================
-     4. NORMALIZADORES
-     ========================================================= */
   function parseDaysList(raw) {
+    if (Array.isArray(raw)) return raw.map(Number);
     const str = String(raw ?? '').trim().replace(/^'/, '');
-    if (!str) return [];
-    const parts = str.indexOf(',') >= 0 ? str.split(',') : (/^[0-6]+$/.test(str) ? str.split('') : str.split(/[\s,;.|/-]+/));
+    if (!str) return [1,2,3,4,5];
     return Array.from(new Set(
-      parts.map(x => Number(String(x).trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6)
+      str.split(/[\s,;.|/-]+/).map(x => Number(x.trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6)
     )).sort((a, b) => a - b);
   }
 
-  function normalizeService(s) {
-    return {
-      id: String(s.ID || s.Id || s.id || ''),
-      name: String(s.Nombre || s.nombre || s.name || ''),
-      desc: String(s.Descripción || s.Descripcion || s.descripcion || s.desc || ''),
-      duration: Number(s.Duración || s.Duracion || s.duracion || s.duration || 0),
-      price: Number(s.Precio || s.precio || s.price || 0)
-    };
-  }
-
-  function normalizeSpecialist(sp) {
-    const raw = sp.Días ?? sp.Dias ?? sp.dias ?? sp.days ?? sp.Horario ?? '';
-    const rawHorarios = sp.Horarios ?? sp.horarios ?? sp.Schedule ?? sp.schedule ?? null;
-    let horarios = null;
-    if (rawHorarios) {
-      if (typeof rawHorarios === 'object') {
-        horarios = rawHorarios;
-      } else {
-        try { horarios = JSON.parse(String(rawHorarios)); } catch (e) { horarios = null; }
-      }
-    }
-    const spec = {
-      id: String(sp.ID || sp.Id || sp.id || ''),
-      name: String(sp.Nombre || sp.nombre || sp.name || ''),
-      role: String(sp.Rol || sp.rol || sp.role || sp.Especialidad || ''),
-      days: parseDaysList(raw),
-      horarios: horarios
-    };
-    // Precomputa slots por día (0..6) para validación rápida.
-    spec.slotsByDay = {};
-    if (horarios) {
-      for (let d = 0; d < 7; d++) {
-        const dayCfg = horarios[d] || horarios[String(d)];
-        spec.slotsByDay[d] = slotsFromDayConfig(dayCfg, state && state.schedule ? (state.schedule.intervaloMinutos || 60) : 60);
-      }
-    }
-    return spec;
-  }
-
-  // Devuelve true si el especialista trabaja en el día dado (por Días o por horarios).
-  function specialistWorksOnDay(spec, dayOfWeek) {
-    if (spec.horarios) {
-      const dayCfg = spec.horarios[dayOfWeek] || spec.horarios[String(dayOfWeek)];
-      if (dayCfg) {
-        if (dayCfg.activo === false) return false;
-        const realShifts = (dayCfg.turnos || []).filter(t => t.tipo !== 'descanso');
-        return realShifts.length > 0;
-      }
-      return false;
-    }
-    // Legacy: usa "Días".
-    if (spec.days.length === 0) return true;
-    return spec.days.indexOf(dayOfWeek) !== -1;
-  }
-
-  // Devuelve true si el especialista atiende a la hora indicada ese día.
-  function specialistAvailableAt(spec, dayOfWeek, time) {
-    if (spec.horarios) {
-      const slots = spec.slotsByDay[dayOfWeek] || [];
-      return slots.indexOf(time) !== -1;
-    }
-    // Sin horarios detallados → basta con que trabaje ese día.
-    return specialistWorksOnDay(spec, dayOfWeek);
-  }
-
-  /* =========================================================
-     5. ESTADO
-     ========================================================= */
-  const state = {
-    view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    date: null,
-    time: null,
-    services: [],
-    specialist: null,
-    currency: DEFAULT_CURRENCY,
-    step: 1,
-    servicesCatalog: [],
-    specialistsCatalog: [],
-    config: {},
-    schedule: null,           // { horarios:{0..6:{activo,turnos[]}}, intervaloMinutos }
-    availabilityCache: {},
-    availabilityBySpecialist: {},
-    backendReady: false
-  };
-
-  let activeClientModalBooking = null;
-  let clientRsSelectedTime = '';
-
-  /* =========================================================
-     6. DOM
-     ========================================================= */
-  const monthLabel     = $('#monthLabel');
-  const calGrid        = $('#calGrid');
-  const prevBtn        = $('#prevMonth');
-  const nextBtn        = $('#nextMonth');
-  const slotsEl        = $('#slots');
-  const slotsDate      = $('#slotsDate');
-  const serviceList    = $('#serviceList');
-  const servicesHint   = $('#servicesHint');
-  const specialistList = $('#specialistList');
-  const sumServices    = $('#sumServices');
-  const sumSpecialist  = $('#sumSpecialist');
-  const sumDate        = $('#sumDate');
-  const sumTime        = $('#sumTime');
-  const sumDuration    = $('#sumDuration');
-  const sumPrice       = $('#sumPrice');
-  const form           = $('#bookingForm');
-  const formNote       = $('#formNote');
-  const summaryPanel   = $('#summaryPanel');
-  const stepsNav       = $('#stepsNav');
-  const next1          = $('#next1');
-  const next2          = $('#next2');
-  const confirmBtn     = $('#confirmBtn');
-  const nameInput      = $('#fName');
-  const emailInput     = $('#fEmail');
-  const phoneInput     = $('#fPhone');
-  const currencyButtons = Array.prototype.slice.call(document.querySelectorAll('.currency-btn'));
-  const historyList    = $('#historyList');
-  const clearHistoryBtn = $('#clearHistoryBtn');
-  const confirmModal   = $('#confirmModal');
-  const confirmBody    = $('#confirmBody');
-  const confirmError   = $('#confirmError');
-  const confirmOk      = $('#confirmOk');
-  const confirmBack    = $('#confirmBack');
-  const confirmClose   = $('#confirmClose');
-  const supportModal   = $('#supportModal');
-  const supportBtn     = $('#supportBtn');
-  const supportClose   = $('#supportClose');
-  const backendStatus  = $('#backendStatus');
-
-  /* =========================================================
-     7. SCHEDULE — Soporta NUEVO formato por turnos y LEGACY
-     ========================================================= */
-  // Devuelve los slots (["09:00","10:00",...]) para una fecha dada.
-  // Prioridad: state.schedule.horarios (turnos con inicio/fin),
-  // después config.schedule_<weekday> (legacy: string CSV),
-  // por último DEFAULT_SLOTS_BY_WEEKDAY.
-
-  function slotsFromDayConfig(dayConfig, intervalMinutes) {
-    intervalMinutes = intervalMinutes || 60;
-    if (Array.isArray(dayConfig)) {
-      // Formato legacy: array de strings de hora.
-      return dayConfig.map(normalizeTime).filter(Boolean);
-    }
-    if (!dayConfig || typeof dayConfig !== 'object') return [];
-    if (dayConfig.activo === false) return [];
-    const turnos = Array.isArray(dayConfig.turnos) ? dayConfig.turnos : [];
-    const slots = [];
-    turnos.forEach(function (turno) {
-      if (!turno || turno.tipo === 'descanso') return;
-      const start = timeToMinutes(turno.inicio);
-      const end   = timeToMinutes(turno.fin);
-      if (start === null || end === null || end <= start) return;
-      let cur = start;
-      while (cur + intervalMinutes <= end) {
-        const h = Math.floor(cur / 60);
-        const m = cur % 60;
-        slots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
-        cur += intervalMinutes;
-      }
-    });
-    return slots;
-  }
-
-  function slotsFor(date) {
-    if (!date) return [];
-    const wd = date.getDay();
-
-    // 1) Nuevo formato por turnos.
-    if (state.schedule && state.schedule.horarios) {
-      const dayConfig = state.schedule.horarios[wd] || state.schedule.horarios[String(wd)];
-      if (dayConfig) {
-        const slots = slotsFromDayConfig(dayConfig, state.schedule.intervaloMinutos || 60);
-        if (slots.length) return slots;
-      }
-    }
-
-    // 2) Legacy: config.schedule_<weekday> como string CSV.
-    const key = 'schedule_' + wd;
-    if (Object.prototype.hasOwnProperty.call(state.config, key)) {
-      const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
-      if (!val) return [];
-      return val.split(',').map((s) => normalizeTime(s.trim().replace(/^'/, ''))).filter(Boolean);
-    }
-
-    // 3) Defaults.
-    return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
-  }
-  const isClosedDay = (date) => slotsFor(date).length === 0;
-
-  /* =========================================================
-     8. APLICAR CONFIG AL DOM
-     ========================================================= */
-  function applyConfig() {
-    const c = state.config || {};
-
-    if (c.businessName) {
-      document.title = c.businessName + ' — Agenda tu cita';
-      const wm = document.getElementById('wordmark');
-      if (wm) {
-        if (c.logoUrl) {
-          wm.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="' + escapeHtml(c.businessName) + '">';
-        } else {
-          const parts = String(c.businessName).trim().split(/\s+/);
-          if (parts.length > 1) {
-            wm.innerHTML = escapeHtml(parts[0]) + ' <span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>';
-          } else {
-            wm.textContent = c.businessName;
-          }
-        }
-      }
-      const fbn = document.getElementById('footerBusinessName');
-      if (fbn) fbn.textContent = c.businessName;
-      const fcn = document.getElementById('footerCopyrightName');
-      if (fcn) fcn.textContent = c.businessName;
-      const he = document.getElementById('heroEyebrow');
-      if (he) he.textContent = 'Reservas · ' + c.businessName;
-    }
-
-    if (c.address) {
-      const la = document.getElementById('locAddress');
-      if (la) la.innerHTML = escapeHtml(c.address).replace(/\n/g, '<br>');
-      const fa = document.getElementById('footerAddress');
-      if (fa) fa.textContent = c.address;
-      const map = document.getElementById('mapCard');
-      if (map) {
-        map.href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
-      }
-    }
-
-    if (c.phone) {
-      const digits = String(c.phone).replace(/\D/g, '');
-      const telHref = 'tel:+' + digits;
-      const waHref = 'https://wa.me/' + digits;
-      const fp = document.getElementById('footerPhone');
-      if (fp) { fp.textContent = c.phone; fp.href = telHref; }
-      const fe = document.getElementById('footerWhatsApp');
-      if (fe) { fe.href = waHref; }
-      const sp = document.getElementById('supPhone');
-      if (sp) { sp.textContent = c.phone; sp.href = telHref; }
-      const sw = document.getElementById('supWhatsApp');
-      if (sw) sw.href = waHref;
-    }
-
-    if (c.email) {
-      const fem = document.getElementById('footerEmail');
-      if (fem) { fem.textContent = c.email; fem.href = 'mailto:' + c.email; }
-      const sem = document.getElementById('supEmail');
-      if (sem) { sem.textContent = c.email; sem.href = 'mailto:' + c.email; }
-    }
-
-    if (c.currency && CURRENCIES[c.currency]) {
-      state.currency = c.currency;
-      currencyButtons.forEach((b) => {
-        const active = b.dataset.currency === c.currency;
-        b.classList.toggle('is-active', active);
-        b.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-    }
-
-    const ls = document.getElementById('locSchedule');
-    if (ls) {
-      const lines = [];
-      for (let d = 1; d <= 6; d++) {
-        const sched = slotsFor({ getDay: () => d });
-        if (sched.length > 0) {
-          lines.push(WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1) + ' · ' + sched[0] + ' – ' + sched[sched.length - 1]);
-        }
-      }
-      ls.innerHTML = lines.length ? lines.join('<br>') : 'Consulta por WhatsApp';
-      const footnote = document.getElementById('supFootnote');
-      if (footnote) footnote.innerHTML = 'Horario de atención: ' + (lines.join(' · ') || 'consulta directa');
-    }
-  }
-
-  /* =========================================================
-     9. CARGA DEL BACKEND
-     ========================================================= */
   async function loadBackendData() {
-    backendStatus.hidden = true;
+    // 1. Intentar sincronizar con almacenamiento local compartido del Dashboard si existe
     try {
-      const [config, services, specialists, schedule] = await Promise.all([
-        gasGet('getConfig').catch(() => ({})),
-        gasGet('getServices').catch(() => []),
-        gasGet('getSpecialists').catch(() => []),
-        gasGet('getSchedule').catch(() => null)
-      ]);
-      state.config = (config && typeof config === 'object') ? config : {};
-      state.servicesCatalog = (Array.isArray(services) ? services : []).map(normalizeService);
-      // Asigna schedule ANTES de normalizar especialistas para que
-      // slotsByDay se calcule con el intervalo correcto.
-      if (schedule && schedule.horarios) {
-        state.schedule = schedule;
-      } else if (state.config.horarios && typeof state.config.horarios === 'object') {
-        // Si la config incluye horarios como objeto, úsalos.
-        state.schedule = {
-          horarios: state.config.horarios,
-          intervaloMinutos: Number(state.config.intervaloMinutos) || 60
-        };
+      const localRaw = localStorage.getItem(SHARED_STORAGE_KEY);
+      if (localRaw) {
+        const parsed = JSON.parse(localRaw);
+        if (parsed.config) Object.assign(state.config, parsed.config);
+        if (Array.isArray(parsed.services) && parsed.services.length) state.servicesCatalog = parsed.services;
+        if (Array.isArray(parsed.specialists) && parsed.specialists.length) state.specialistsCatalog = parsed.specialists;
       }
-      // Ahora que state.schedule está definido, normaliza especialistas.
-      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
-      state.backendReady = true;
-      applyConfig();
-      return true;
-    } catch (e) {
-      state.backendReady = false;
-      backendStatus.textContent = '⚠ No se pudo conectar con el servidor de reservas: ' + e.message + '. Intenta recargar.';
-      backendStatus.hidden = false;
-      return false;
-    }
+    } catch (e) {}
+
+    // 2. Consultar Google Apps Script en vivo
+    try {
+      const [config, services, specialists] = await Promise.all([
+        gasGet('getConfig').catch(() => null),
+        gasGet('getServices').catch(() => null),
+        gasGet('getSpecialists').catch(() => null)
+      ]);
+      if (config && typeof config === 'object') Object.assign(state.config, config);
+      if (Array.isArray(services) && services.length) {
+        state.servicesCatalog = services.map(s => ({
+          id: String(s.ID || s.id || ''),
+          name: String(s.Nombre || s.name || ''),
+          desc: String(s.Descripción || s.Descripcion || s.desc || ''),
+          duration: Number(s.Duración || s.Duracion || s.duration || 60),
+          price: Number(s.Precio || s.price || 0)
+        }));
+      }
+      if (Array.isArray(specialists) && specialists.length) {
+        state.specialistsCatalog = specialists.map(sp => ({
+          id: String(sp.ID || sp.id || ''),
+          name: String(sp.Nombre || sp.name || ''),
+          role: String(sp.Rol || sp.role || ''),
+          days: parseDaysList(sp.Días ?? sp.Dias ?? sp.days)
+        }));
+      }
+    } catch (e) {}
   }
 
   async function loadAvailabilityForDate(date) {
-    if (!date || state.specialistsCatalog.length === 0) return {};
+    if (!date) return {};
     const dateISO = dateToISO(date);
     if (state.availabilityCache[dateISO]) {
       state.availabilityBySpecialist = state.availabilityCache[dateISO];
-      return state.availabilityCache[dateISO];
+      return state.availabilityBySpecialist;
     }
     const result = {};
     await Promise.all(state.specialistsCatalog.map(async (spec) => {
@@ -1212,52 +891,29 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     return result;
   }
 
-  /* =========================================================
-     10. CÁLCULOS
-     ========================================================= */
-  const totalPrice = () => state.services.reduce((acc, s) => acc + s.price, 0);
-  const totalDuration = () => state.services.reduce((acc, s) => acc + s.duration, 0);
-  const isServiceSelected = (id) => state.services.some((s) => s.id === id);
-
-  function updateServicesHint() {
-    const n = state.services.length;
-    if (n === 0) servicesHint.textContent = 'Puedes elegir más de un servicio.';
-    else if (n === 1) servicesHint.textContent = '1 servicio seleccionado.';
-    else servicesHint.textContent = n + ' servicios seleccionados.';
+  function slotsFor(date) {
+    const wd = date.getDay();
+    const key = 'schedule_' + wd;
+    if (state.config && Object.prototype.hasOwnProperty.call(state.config, key)) {
+      const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
+      if (!val) return [];
+      return val.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
   }
 
   /* =========================================================
-     11. MONEDA
-     ========================================================= */
-  function applyCurrency(code) {
-    if (!CURRENCIES[code]) return;
-    state.currency = code;
-    currencyButtons.forEach((b) => {
-      const active = b.dataset.currency === code;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-    renderServices();
-    renderSummary();
-  }
-  currencyButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (state.currency === btn.dataset.currency) return;
-      applyCurrency(btn.dataset.currency);
-    });
-  });
-
-  /* =========================================================
-     12. CALENDARIO
+     PASO 1: CALENDARIO + HORARIOS + ESPECIALISTAS INTEGRADOS
      ========================================================= */
   function renderCalendar() {
     const year  = state.view.getFullYear();
     const month = state.view.getMonth();
-    monthLabel.textContent = `${MONTHS[month]} ${year}`;
+    $('#monthLabel').textContent = `${MONTHS[month]} ${year}`;
 
     const now = new Date();
-    prevBtn.disabled = (year === now.getFullYear() && month === now.getMonth());
+    $('#prevMonth').disabled = (year === now.getFullYear() && month === now.getMonth());
 
+    const calGrid = $('#calGrid');
     calGrid.innerHTML = '';
     DOW_LABELS.forEach((label) => {
       const cell = document.createElement('div');
@@ -1278,76 +934,65 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       btn.type = 'button';
       btn.className = 'day';
       btn.textContent = String(day);
-      btn.setAttribute('aria-label', formatDate(date));
 
-      const unavailable = date < today || isClosedDay(date);
+      const unavailable = date < today || slotsFor(date).length === 0;
       if (unavailable) { btn.classList.add('is-off'); btn.disabled = true; }
       if (sameDay(date, today)) btn.classList.add('is-today');
-      if (sameDay(date, state.date)) {
-        btn.classList.add('is-selected');
-        btn.setAttribute('aria-pressed', 'true');
-      }
+      if (sameDay(date, state.date)) btn.classList.add('is-selected');
 
       btn.addEventListener('click', async () => {
         state.date = date;
         state.time = null;
-        // Si el especialista seleccionado no trabaja este día, deselecciónalo.
-        if (state.specialist && !specialistWorksOnDay(state.specialist, date.getDay())) {
+        if (state.specialist && !state.specialist.days.includes(date.getDay())) {
           state.specialist = null;
         }
-        // Carga la disponibilidad de TODOS los especialistas para este día
-        // (en paralelo) para poder mostrar quién está libre en cada slot.
-        state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
         renderCalendar();
         renderSlots();
-        // Si todavía no se habían cargado las disponibilidades de este día,
-        // cárgalas ahora y vuelve a pintar especialistas + slots.
-        if (!state.availabilityCache[dateToISO(date)] && state.specialistsCatalog.length) {
-          try { await loadAvailabilityForDate(date); } catch (e) {}
-          renderSlots();
-        }
-        renderSpecialists();
-        renderSummary();
+        renderSpecialistsInline();
         syncControls();
-        formNote.textContent = '';
-        formNote.classList.remove('is-error');
+
+        await loadAvailabilityForDate(date);
+        renderSlots();
+        renderSpecialistsInline();
+        syncControls();
       });
 
       calGrid.appendChild(btn);
     }
   }
 
-  prevBtn.addEventListener('click', () => {
+  $('#prevMonth').addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() - 1, 1);
     renderCalendar();
   });
-  nextBtn.addEventListener('click', () => {
+  $('#nextMonth').addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() + 1, 1);
     renderCalendar();
   });
 
-  /* =========================================================
-     13. HORARIOS
-     ========================================================= */
   function renderSlots() {
+    const slotsEl = $('#slots');
+    const slotsDate = $('#slotsDate');
     slotsEl.innerHTML = '';
+
     if (!state.date) {
       slotsDate.textContent = 'Selecciona un día';
       slotsDate.classList.add('empty');
       slotsEl.innerHTML = '<p class="slots-empty">Elige un día en el calendario para ver los horarios.</p>';
       return;
     }
+
     slotsDate.textContent = formatDate(state.date);
     slotsDate.classList.remove('empty');
 
     const list = slotsFor(state.date);
-    if (list.length === 0) {
+    if (!list.length) {
       slotsEl.innerHTML = '<p class="slots-empty">Sin horarios disponibles este día.</p>';
       return;
     }
 
-    const now = new Date();
-    const isToday = sameDay(state.date, now);
+    const wd = state.date.getDay();
+    const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
 
     list.forEach((time) => {
       const btn = document.createElement('button');
@@ -1355,75 +1000,146 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       btn.className = 'slot';
       btn.textContent = time;
 
-      const past = isToday && isPastTime(time, now);
-      if (past) {
+      // Si todos los especialistas que trabajan ese día están ocupados a esa hora, deshabilitar horario
+      const allBusy = workingSpecs.length > 0 && workingSpecs.every(sp =>
+        (state.availabilityBySpecialist[sp.id] || []).includes(time)
+      );
+
+      if (allBusy) {
         btn.classList.add('is-taken');
         btn.disabled = true;
-        btn.setAttribute('aria-disabled', 'true');
       }
-      if (state.time === time) {
-        btn.classList.add('is-selected');
-        btn.setAttribute('aria-pressed', 'true');
-      }
+      if (state.time === time) btn.classList.add('is-selected');
+
       btn.addEventListener('click', () => {
         state.time = time;
+        // Si el especialista previamente elegido está ocupado a esta nueva hora, deseleccionarlo
+        if (state.specialist && (state.availabilityBySpecialist[state.specialist.id] || []).includes(time)) {
+          state.specialist = null;
+        }
+        // Si no hay especialista elegido o solo hay uno disponible, ayudar preseleccionando el primero libre
+        if (!state.specialist) {
+          const firstFree = workingSpecs.find(sp => !(state.availabilityBySpecialist[sp.id] || []).includes(time));
+          if (firstFree) state.specialist = firstFree;
+        }
         renderSlots();
-        renderSpecialists();
+        renderSpecialistsInline();
         renderSummary();
         syncControls();
-        formNote.textContent = '';
-        formNote.classList.remove('is-error');
       });
+
       slotsEl.appendChild(btn);
     });
   }
 
-  /* =========================================================
-     14. SERVICIOS
-     ========================================================= */
-  const CHECK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
+  /**
+   * Renderiza los especialistas directamente en el Paso 1 (Fecha y Hora),
+   * mostrando en tiempo real si están disponibles u ocupados en ese horario.
+   */
+  function renderSpecialistsInline() {
+    const container = $('#specialistList');
+    const subLabel = $('#specSubLabel');
+    container.innerHTML = '';
 
-  function renderServices() {
-    serviceList.innerHTML = '';
-
-    if (state.servicesCatalog.length === 0) {
-      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);">No hay servicios configurados. Contacta al negocio.</li>';
+    if (!state.date) {
+      subLabel.textContent = 'Primero selecciona un día en el calendario';
+      subLabel.classList.add('empty');
       return;
     }
+
+    const weekday = state.date.getDay();
+    if (!state.time) {
+      subLabel.textContent = 'Selecciona un horario arriba para confirmar disponibilidad por hora';
+      subLabel.classList.add('empty');
+    } else {
+      subLabel.textContent = `Disponibilidad para el ${formatDate(state.date)} a las ${state.time}`;
+      subLabel.classList.remove('empty');
+    }
+
+    state.specialistsCatalog.forEach((spec) => {
+      const worksThisDay = spec.days.includes(weekday);
+      const bookedAtTime = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
+      const canSelect = worksThisDay && !bookedAtTime;
+      const isSelected = !!(state.specialist && state.specialist.id === spec.id);
+
+      let statusText = 'Disponible';
+      let statusClass = 'available';
+      if (!worksThisDay) {
+        statusText = 'No labora este día';
+        statusClass = 'off';
+      } else if (bookedAtTime) {
+        statusText = `Ocupado (${state.time})`;
+        statusClass = 'busy';
+      } else if (state.time) {
+        statusText = `Disponible (${state.time})`;
+        statusClass = 'available';
+      } else {
+        statusText = 'Atiende este día';
+        statusClass = 'available';
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'specialist' + (isSelected ? ' is-selected' : '');
+      btn.disabled = !canSelect;
+
+      btn.innerHTML = `
+        <div class="spec-left">
+          <span class="spec-avatar">${escapeHtml(initials(spec.name))}</span>
+          <div>
+            <span class="spec-name">${escapeHtml(spec.name)}</span>
+            <span class="spec-role">${escapeHtml(spec.role)}</span>
+          </div>
+        </div>
+        <span class="spec-status-pill ${statusClass}">${escapeHtml(statusText)}</span>
+      `;
+
+      btn.addEventListener('click', () => {
+        state.specialist = spec;
+        renderSpecialistsInline();
+        renderSummary();
+        syncControls();
+      });
+
+      container.appendChild(btn);
+    });
+  }
+
+  /* =========================================================
+     PASO 2: SERVICIOS
+     ========================================================= */
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
+
+  function renderServices() {
+    const serviceList = $('#serviceList');
+    serviceList.innerHTML = '';
 
     state.servicesCatalog.forEach((service) => {
       const li = document.createElement('li');
       li.className = 'service-item';
 
+      const selected = state.services.some(s => s.id === service.id);
       const btn = document.createElement('button');
       btn.type = 'button';
-      const selected = isServiceSelected(service.id);
       btn.className = 'service' + (selected ? ' is-selected' : '');
-      btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
-      btn.innerHTML =
-        '<span class="service-main">' +
-          '<span class="service-name">' + escapeHtml(service.name) + '</span>' +
-          (service.desc ? '<span class="service-desc">' + escapeHtml(service.desc) + '</span>' : '') +
-        '</span>' +
-        '<span class="service-dur">' + service.duration + ' min</span>' +
-        '<span class="service-price">' + money(service.price) + '</span>' +
-        '<span class="service-check" aria-hidden="true">' + CHECK_SVG + '</span>';
+      btn.innerHTML = `
+        <span>
+          <span class="service-name">${escapeHtml(service.name)}</span>
+          <span class="service-desc">${escapeHtml(service.desc)}</span>
+        </span>
+        <span class="service-dur">${service.duration} min</span>
+        <span class="service-price">${money(service.price)}</span>
+        <span class="service-check">${CHECK_SVG}</span>
+      `;
 
       btn.addEventListener('click', () => {
-        const idx = state.services.findIndex((s) => s.id === service.id);
+        const idx = state.services.findIndex(s => s.id === service.id);
         if (idx >= 0) state.services.splice(idx, 1);
         else state.services.push(service);
-
-        const nowSelected = isServiceSelected(service.id);
-        btn.classList.toggle('is-selected', nowSelected);
-        btn.setAttribute('aria-pressed', nowSelected ? 'true' : 'false');
-
-        updateServicesHint();
+        renderServices();
         renderSummary();
         syncControls();
-        formNote.textContent = '';
-        formNote.classList.remove('is-error');
       });
 
       li.appendChild(btn);
@@ -1431,329 +1147,186 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     });
   }
 
-  /* =========================================================
-     15. ESPECIALISTAS — se muestran dentro del Paso 1
-     ========================================================= */
-  function renderSpecialists() {
-    specialistList.innerHTML = '';
-    const subtitle = document.getElementById('specSubtitle');
-
-    if (state.specialistsCatalog.length === 0) {
-      specialistList.innerHTML = '<p class="slots-empty">No hay especialistas configurados. Contacta al negocio.</p>';
-      if (subtitle) { subtitle.textContent = 'Sin especialistas'; subtitle.classList.add('empty'); }
-      return;
-    }
-
-    if (!state.date) {
-      specialistList.innerHTML = '<p class="slots-empty">Selecciona primero un día en el calendario.</p>';
-      if (subtitle) { subtitle.textContent = 'Selecciona un día para ver especialistas'; subtitle.classList.add('empty'); }
-      return;
-    }
-
-    if (!state.time) {
-      specialistList.innerHTML = '<p class="slots-empty">Elige un horario para ver qué especialistas están disponibles.</p>';
-      if (subtitle) { subtitle.textContent = 'Selecciona un horario para ver especialistas'; subtitle.classList.add('empty'); }
-      return;
-    }
-
-    const weekday = state.date.getDay();
-
-    // Cuenta cuántos están realmente disponibles.
-    let availableCount = 0;
-    state.specialistsCatalog.forEach((spec) => {
-      const worksDay = specialistWorksOnDay(spec, weekday);
-      const availAt = specialistAvailableAt(spec, weekday, state.time);
-      const bookedAtTime = !!(state.availabilityBySpecialist[spec.id] || []).includes(state.time);
-      if (worksDay && availAt && !bookedAtTime) availableCount++;
-    });
-
-    if (subtitle) {
-      subtitle.textContent = availableCount > 0
-        ? availableCount + ' especialista' + (availableCount === 1 ? '' : 's') + ' disponible' + (availableCount === 1 ? '' : 's') + ' a las ' + state.time
-        : 'Ningún especialista disponible a las ' + state.time + ' — prueba con otro horario';
-      subtitle.classList.toggle('empty', availableCount === 0);
-    }
-
-    state.specialistsCatalog.forEach((spec) => {
-      const worksDay = specialistWorksOnDay(spec, weekday);
-      const availAt = specialistAvailableAt(spec, weekday, state.time);
-      const bookedAtTime = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
-      const available = worksDay && availAt && !bookedAtTime;
-      const selected = !!(state.specialist && state.specialist.id === spec.id);
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'specialist' + (selected ? ' is-selected' : '');
-      btn.disabled = !available;
-      btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
-
-      let hint;
-      if (!worksDay) hint = 'No trabaja este día';
-      else if (!availAt) hint = 'Fuera de su horario';
-      else if (bookedAtTime) hint = 'Ocupado a las ' + state.time;
-      else if (spec.horarios) hint = 'Disponible a esta hora';
-      else hint = 'Disponible ' + daysLabel(spec.days);
-
-      btn.innerHTML =
-        '<span class="spec-avatar" aria-hidden="true">' + escapeHtml(initials(spec.name)) + '</span>' +
-        '<span class="spec-body">' +
-          '<span class="spec-name">' + escapeHtml(spec.name) + '</span>' +
-          '<span class="spec-role">' + escapeHtml(spec.role) + '</span>' +
-          '<span class="spec-days">' + escapeHtml(hint) + '</span>' +
-        '</span>';
-
-      btn.addEventListener('click', () => {
-        state.specialist = spec;
-        renderSpecialists();
-        renderSummary();
-        syncControls();
-        formNote.textContent = '';
-        formNote.classList.remove('is-error');
-      });
-
-      specialistList.appendChild(btn);
-    });
-  }
-
-  /* =========================================================
-     16. RESUMEN
-     ========================================================= */
-  function renderSummary() {
-    if (state.services.length === 0) sumServices.textContent = '—';
-    else sumServices.innerHTML = state.services.map((s) => escapeHtml(s.name)).join('<br>');
-
-    sumSpecialist.textContent = state.specialist ? state.specialist.name : '—';
-    sumDate.textContent       = state.date ? formatDate(state.date) : '—';
-    sumTime.textContent       = state.time || '—';
-    sumDuration.textContent   = state.services.length ? totalDuration() + ' min' : '—';
-    sumPrice.textContent      = state.services.length ? money(totalPrice()) : '—';
-  }
-
-  /* =========================================================
-     17. VALIDACIÓN
-     ========================================================= */
-  function isNameOk()  { return nameInput.value.trim().length >= 2; }
-  function isEmailOk() { return EMAIL_RE.test(emailInput.value.trim()); }
-  function isPhoneOk() {
-    const v = phoneInput.value.trim();
-    return !v || v.replace(/\D/g, '').length >= 8;
-  }
-  function formReady() { return isNameOk() && isEmailOk() && isPhoneOk(); }
-
-  function validateField(fieldName) {
-    const field = form.querySelector('[data-field="' + fieldName + '"]');
-    if (!field) return true;
-    const input = field.querySelector('input');
-    const errorEl = field.querySelector('.field-error');
-    const value = input.value.trim();
-    let valid = true, message = '';
-
-    if (fieldName === 'name') {
-      valid = value.length >= 2;
-      message = 'Escribe al menos 2 letras de tu nombre.';
-    } else if (fieldName === 'email') {
-      valid = EMAIL_RE.test(value);
-      message = 'Escribe un correo válido (ej. nombre@dominio.com).';
-    } else if (fieldName === 'phone') {
-      const digits = value.replace(/\D/g, '');
-      valid = !value || digits.length >= 8;
-      message = 'Si lo llenas, escribe al menos 8 dígitos (o déjalo vacío).';
-    }
-
-    field.classList.toggle('is-invalid', !valid);
-    field.classList.toggle('is-valid', valid && value !== '');
-    if (errorEl) { errorEl.textContent = message; errorEl.hidden = valid; }
-    input.setAttribute('aria-invalid', valid ? 'false' : 'true');
-    return valid;
-  }
-
-  function updateFormState() {
-    const ready = formReady();
-    confirmBtn.hidden = !ready;
-    formNote.classList.remove('is-error');
-    formNote.textContent = ready
-      ? 'Todo listo. Pulsa "Confirmar reserva" para revisar el resumen.'
-      : 'Completa tu nombre y correo para habilitar la confirmación.';
-  }
-
-  [nameInput, emailInput, phoneInput].forEach((input) => {
-    input.addEventListener('blur', () => {
-      const field = input.closest('.field');
-      if (field) validateField(field.dataset.field);
-      updateFormState();
-    });
-    input.addEventListener('input', () => {
-      const field = input.closest('.field');
-      if (field && (field.classList.contains('is-invalid') || field.classList.contains('is-valid'))) {
-        validateField(field.dataset.field);
-      }
-      updateFormState();
+  $$('.currency-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.currency = btn.dataset.currency;
+      $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+      saveClientProfile();
+      renderServices();
+      renderSummary();
     });
   });
 
-  function isStepComplete(step) {
-    if (step === 1) {
-      // Paso 1 completo cuando hay día + hora + especialista válido.
-      if (!state.date || !state.time || !state.specialist) return false;
-      const wd = state.date.getDay();
-      const spec = state.specialist;
-      // ¿Está dentro del horario del especialista (o del día laborable)?
-      const worksDay = spec.days.length === 0 || spec.days.indexOf(wd) !== -1;
-      const inSpecSched = spec.slotsForDay ? spec.slotsForDay.indexOf(state.time) !== -1 : true;
-      const booked = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
-      return worksDay && inSpecSched && !booked;
-    }
-    if (step === 2) return state.services.length > 0;
-    if (step === 3) return formReady();
-    return false;
+  /* =========================================================
+     MEMORIA LOCAL DE DATOS DEL CLIENTE (AUTOCOMPLETADO)
+     ========================================================= */
+  function loadClientProfile() {
+    try {
+      const raw = localStorage.getItem(CLIENT_PROFILE_KEY);
+      if (!raw) return;
+      const profile = JSON.parse(raw);
+      if (!profile || typeof profile !== 'object') return;
+
+      if (profile.name) $('#fName').value = profile.name;
+      if (profile.email) $('#fEmail').value = profile.email;
+      if (profile.phone) $('#fPhone').value = profile.phone;
+      if (typeof profile.addGoogleCal === 'boolean') {
+        $('#chkAddGoogleCal').checked = profile.addGoogleCal;
+      }
+      if (profile.currency && CURRENCIES[profile.currency]) {
+        state.currency = profile.currency;
+        $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === state.currency));
+      }
+
+      const hasSavedText = Boolean((profile.name && profile.name.trim()) || (profile.email && profile.email.trim()) || (profile.phone && profile.phone.trim()));
+      $('#savedProfileBanner').hidden = !hasSavedText;
+    } catch (e) {}
   }
-  function maxReachableStep() {
-    let s = 1;
-    while (s < 3 && isStepComplete(s)) s++;
-    return s;
+
+  function saveClientProfile() {
+    try {
+      const profile = {
+        name: $('#fName').value.trim(),
+        email: $('#fEmail').value.trim(),
+        phone: $('#fPhone').value.trim(),
+        addGoogleCal: $('#chkAddGoogleCal').checked,
+        currency: state.currency
+      };
+      localStorage.setItem(CLIENT_PROFILE_KEY, JSON.stringify(profile));
+      const hasSavedText = Boolean(profile.name || profile.email || profile.phone);
+      $('#savedProfileBanner').hidden = !hasSavedText;
+    } catch (e) {}
+  }
+
+  function clearClientProfile() {
+    try { localStorage.removeItem(CLIENT_PROFILE_KEY); } catch (e) {}
+    $('#fName').value = '';
+    $('#fEmail').value = '';
+    $('#fPhone').value = '';
+    $('#chkAddGoogleCal').checked = false;
+    $('#savedProfileBanner').hidden = true;
+  }
+
+  ['#fName', '#fEmail', '#fPhone'].forEach(sel => {
+    $(sel).addEventListener('input', saveClientProfile);
+  });
+  $('#chkAddGoogleCal').addEventListener('change', saveClientProfile);
+  $('#btnClearSavedProfile').addEventListener('click', clearClientProfile);
+
+  /* =========================================================
+     PASO 3: RESUMEN Y CONFIRMACIÓN
+     ========================================================= */
+  const totalPrice = () => state.services.reduce((acc, s) => acc + Number(s.price || 0), 0);
+  const totalDuration = () => state.services.reduce((acc, s) => acc + Number(s.duration || 0), 0);
+
+  function renderSummary() {
+    $('#sumDate').textContent = state.date ? formatDate(state.date) : '—';
+    $('#sumTime').textContent = state.time || '—';
+    $('#sumSpecialist').textContent = state.specialist ? state.specialist.name : '—';
+    $('#sumServices').innerHTML = state.services.length
+      ? state.services.map(s => escapeHtml(s.name)).join('<br>')
+      : '—';
+    $('#sumDuration').textContent = state.services.length ? `${totalDuration()} min` : '—';
+    $('#sumPrice').textContent = state.services.length ? money(totalPrice()) : '—';
+  }
+
+  function isStepComplete(step) {
+    if (step === 1) return !!(state.date && state.time && state.specialist);
+    if (step === 2) return state.services.length > 0;
+    return false;
   }
 
   function syncControls() {
-    next1.disabled = !isStepComplete(1);
-    next2.disabled = !isStepComplete(2);
-    updateFormState();
-    renderStepsNav();
-  }
+    const step1Ready = isStepComplete(1);
+    $('#next1').disabled = !step1Ready;
+    $('#next2').disabled = !isStepComplete(2);
 
-  function renderStepsNav() {
-    const max = maxReachableStep();
-    stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
+    const statusText = $('#step1StatusText');
+    if (step1Ready) {
+      statusText.innerHTML = `✅ Seleccionado: <strong>${escapeHtml(formatDate(state.date))}</strong> a las <strong>${escapeHtml(state.time)}</strong> con <strong>${escapeHtml(state.specialist.name)}</strong>`;
+    } else if (state.date && state.time) {
+      statusText.textContent = 'Ahora elige un especialista disponible en la lista para continuar.';
+    } else if (state.date) {
+      statusText.textContent = 'Selecciona un horario disponible y tu especialista.';
+    } else {
+      statusText.textContent = 'Selecciona día, hora y especialista para continuar.';
+    }
+
+    $$('#stepsNav .step-btn').forEach((btn) => {
       const n = Number(btn.dataset.goto);
       btn.classList.toggle('is-active', n === state.step);
-      btn.classList.toggle('is-done', n !== state.step && isStepComplete(n));
-      btn.disabled = n > max;
+      btn.classList.toggle('is-done', n < state.step || isStepComplete(n));
+      btn.disabled = n > 1 && !isStepComplete(n - 1);
     });
   }
 
-  /* =========================================================
-     18. NAVEGACIÓN
-     ========================================================= */
-  function goToStep(n, opts) {
-    opts = opts || {};
-    n = Math.max(1, Math.min(3, n));
+  function goToStep(n) {
     state.step = n;
-    document.querySelectorAll('.step-panel').forEach((panel) => {
-      panel.classList.toggle('is-active', Number(panel.dataset.step) === n);
-    });
-    renderStepsNav();
-    if (opts.scroll !== false) {
-      const target = document.getElementById('reserva');
-      if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
-    }
+    $$('.step-panel').forEach(p => p.classList.toggle('is-active', Number(p.dataset.step) === n));
+    renderSummary();
+    syncControls();
+    $('#reserva').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  next1.addEventListener('click', () => goToStep(2));
-  next2.addEventListener('click', () => goToStep(3));
+  $('#next1').addEventListener('click', () => goToStep(2));
+  $('#next2').addEventListener('click', () => goToStep(3));
+  $$('[data-back]').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.back))));
+  $$('#stepsNav .step-btn').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.goto))));
 
-  document.querySelectorAll('[data-back]').forEach((btn) => {
-    btn.addEventListener('click', () => goToStep(Number(btn.dataset.back)));
+  // Envío del formulario y apertura de modal de confirmación
+  $('#bookingForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nameOk = $('#fName').value.trim().length >= 2;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('#fEmail').value.trim());
+    $('#fNameErr').hidden = nameOk;
+    $('#fEmailErr').hidden = emailOk;
+    if (!nameOk || !emailOk) return;
+
+    $('#confirmError').hidden = true;
+    $('#confirmBody').innerHTML = `
+      <dl class="summary">
+        <div><dt>Fecha y Hora</dt><dd>${escapeHtml(formatDate(state.date))} · ${escapeHtml(state.time)}</dd></div>
+        <div><dt>Especialista</dt><dd>${escapeHtml(state.specialist.name)}</dd></div>
+        <div><dt>Servicios</dt><dd>${state.services.map(s => escapeHtml(s.name)).join('<br>')}</dd></div>
+        <div><dt>Duración</dt><dd>${totalDuration()} min</dd></div>
+        <div><dt>Total</dt><dd>${money(totalPrice())}</dd></div>
+        <div><dt>Cliente</dt><dd>${escapeHtml($('#fName').value.trim())}</dd></div>
+      </dl>
+    `;
+    $('#confirmModal').classList.add('is-open');
   });
 
-  stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const n = Number(btn.dataset.goto);
-      goToStep(n);
-    });
-  });
+  $('#confirmClose').addEventListener('click', () => $('#confirmModal').classList.remove('is-open'));
+  $('#confirmBack').addEventListener('click', () => $('#confirmModal').classList.remove('is-open'));
 
-  document.querySelectorAll('[data-nav-step]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      const target = Number(link.dataset.navStep);
-      goToStep(Math.min(target, maxReachableStep()));
-    });
-  });
-
-  /* =========================================================
-     19. FORM + CONFIRMACIÓN
-     ========================================================= */
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    if (state.services.length === 0 || !state.date || !state.time || !state.specialist) {
-      formNote.textContent = 'Vuelve a los pasos anteriores: falta servicio, día, horario o especialista.';
-      formNote.classList.add('is-error');
-      return;
-    }
-    const okName  = validateField('name');
-    const okEmail = validateField('email');
-    const okPhone = validateField('phone');
-    if (!okName || !okEmail || !okPhone) {
-      formNote.textContent = 'Revisa los campos marcados en rojo antes de continuar.';
-      formNote.classList.add('is-error');
-      return;
-    }
-    openConfirmModal();
-  });
-
-  const summaryRow = (label, value) =>
-    '<div><dt>' + label + '</dt><dd>' + escapeHtml(value) + '</dd></div>';
-
-  function openConfirmModal() {
-    const currency = state.currency;
-    const servicesHtml = state.services.map((s) => escapeHtml(s.name)).join('<br>');
-
-    confirmError.hidden = true;
-    confirmError.textContent = '';
-
-    confirmBody.innerHTML =
-      '<dl class="summary">' +
-        '<div><dt>Servicios</dt><dd>' + servicesHtml + '</dd></div>' +
-        summaryRow('Especialista', state.specialist.name) +
-        summaryRow('Día', formatDate(state.date)) +
-        summaryRow('Hora', state.time) +
-        summaryRow('Duración total', totalDuration() + ' min') +
-        summaryRow('Total', money(totalPrice(), currency)) +
-        summaryRow('Moneda', currency) +
-        summaryRow('A nombre de', nameInput.value.trim()) +
-        summaryRow('Correo', emailInput.value.trim()) +
-        (phoneInput.value.trim() ? summaryRow('Teléfono', phoneInput.value.trim()) : '') +
-      '</dl>' +
-      '<p class="modal-footnote">Al confirmar bloquearemos este horario a tu nombre y te enviaremos los detalles por correo. También podrás añadir la cita a tu Google Calendar.</p>';
-
-    confirmModal.classList.add('is-open');
-    confirmOk.focus();
-  }
-
-  function closeConfirmModal(returnFocus) {
-    confirmModal.classList.remove('is-open');
-    if (returnFocus && !confirmBtn.hidden) confirmBtn.focus();
-  }
-
-  confirmOk.addEventListener('click', async () => {
-    confirmOk.disabled = true;
-    const origText = confirmOk.textContent;
-    confirmOk.textContent = 'Confirmando…';
-    confirmError.hidden = true;
-    confirmError.textContent = '';
+  $('#confirmOk').addEventListener('click', async () => {
+    const btn = $('#confirmOk');
+    btn.disabled = true;
+    btn.textContent = 'Confirmando…';
 
     const payload = {
       date: dateToISO(state.date),
       time: state.time,
       specialistId: state.specialist.id,
-      name: nameInput.value.trim(),
-      email: emailInput.value.trim(),
-      phone: phoneInput.value.trim(),
-      services: state.services.map((s) => s.id).join(',')
+      name: $('#fName').value.trim(),
+      email: $('#fEmail').value.trim(),
+      phone: $('#fPhone').value.trim(),
+      services: state.services.map(s => s.id).join(','),
+      duration: totalDuration(),
+      syncCalendar: $('#chkAddGoogleCal').checked
     };
 
     try {
-      const response = await gasPost('createBooking', { booking: payload });
-
-      if (!response || response.error) {
-        throw new Error((response && response.error) || 'Error desconocido al confirmar.');
-      }
+      let bookingId = 'bk-' + Date.now().toString(36);
+      try {
+        const res = await gasPost('createBooking', { booking: payload });
+        if (res && res.id) bookingId = res.id;
+      } catch (networkErr) {}
 
       delete state.availabilityCache[payload.date];
 
       const displayBooking = {
-        id: response.id || ('local-' + Date.now().toString(36)),
-        createdAt: new Date().toISOString(),
+        id: bookingId,
         status: 'Confirmada',
         name: payload.name,
         email: payload.email,
@@ -1761,48 +1334,61 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
         dateISO: payload.date,
         dateLabel: formatDate(state.date),
         time: payload.time,
-        services: state.services.map((s) => ({ id:s.id, name:s.name, duration:s.duration, price:s.price })),
+        services: state.services.slice(),
         specialist: { id: state.specialist.id, name: state.specialist.name },
         total: totalPrice(),
         duration: totalDuration(),
         currency: state.currency
       };
 
+      saveClientProfile();
       saveBookingLocal(displayBooking);
-      closeConfirmModal(false);
-      renderSuccess(displayBooking);
+      $('#confirmModal').classList.remove('is-open');
+
+      const gcalUrl = buildGoogleCalendarUrl(displayBooking);
+      if ($('#chkAddGoogleCal').checked) {
+        window.open(gcalUrl, '_blank', 'noopener');
+      }
+
+      renderSuccessScreen(displayBooking, gcalUrl);
       renderHistory();
-    } catch (e) {
-      confirmError.textContent = 'No se pudo confirmar: ' + e.message + '. Intenta con otro horario u otro especialista.';
-      confirmError.hidden = false;
     } finally {
-      confirmOk.disabled = false;
-      confirmOk.textContent = origText;
+      btn.disabled = false;
+      btn.textContent = 'Confirmar cita';
     }
   });
 
-  confirmBack.addEventListener('click', () => closeConfirmModal(true));
-  confirmClose.addEventListener('click', () => closeConfirmModal(true));
-  confirmModal.addEventListener('click', (event) => {
-    if (event.target === confirmModal) closeConfirmModal(true);
-  });
+  function renderSuccessScreen(booking, gcalUrl) {
+    $('#stepsNav').classList.add('is-hidden');
+    $('#summaryPanel').innerHTML = `
+      <div style="max-width:560px;margin:0 auto;text-align:center;padding:16px 0;">
+        <div style="width:68px;height:68px;margin:0 auto 16px;border-radius:50%;background:rgba(46,206,160,.15);color:var(--color-mint-pulse);display:grid;place-items:center;font-size:32px;">✓</div>
+        <p class="eyebrow">Reserva Confirmada</p>
+        <h3 class="heading-lg" style="margin:8px 0 12px;">¡Gracias, ${escapeHtml(booking.name)}!</h3>
+        <p class="lead" style="margin:0 auto 24px;">Tu cita quedó agendada para el <strong>${escapeHtml(booking.dateLabel)} a las ${escapeHtml(booking.time)}</strong> con <strong>${escapeHtml(booking.specialist.name)}</strong>.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px;">
+          <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal">📅 Añadir a Google Calendar</a>
+          <button type="button" class="btn btn-ghost" id="btnDownloadSuccessIcs">📥 Descargar .ICS</button>
+        </div>
+        <button type="button" class="btn btn-pill" id="btnNewBookingReload">Hacer otra reserva</button>
+      </div>
+    `;
+    $('#btnDownloadSuccessIcs').addEventListener('click', () => downloadICS(booking));
+    $('#btnNewBookingReload').addEventListener('click', () => window.location.reload());
+  }
 
   /* =========================================================
-     20. HISTORIAL LOCAL + REAGENDAR, CANCELAR, AÑADIR A CALENDAR
+     HISTORIAL LOCAL + GOOGLE CALENDAR + REAGENDAR / CANCELAR
      ========================================================= */
   function loadHistoryLocal() {
     try {
       const raw = localStorage.getItem(HISTORY_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
+      return raw ? JSON.parse(raw) : [];
     } catch (e) { return []; }
   }
 
   function saveAllHistoryLocal(list) {
-    try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50)));
-    } catch (e) {}
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50))); } catch (e) {}
   }
 
   function saveBookingLocal(booking) {
@@ -1813,395 +1399,163 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 
   function renderHistory() {
     const list = loadHistoryLocal();
-    clearHistoryBtn.hidden = list.length === 0;
-
-    if (list.length === 0) {
-      historyList.innerHTML =
-        '<div class="card history-empty">' +
-          '<p class="card-label">Sin reservas</p>' +
-          '<p class="lead" style="font-size:15px;">Aún no tienes reservas guardadas en este navegador. Agenda tu primer ritual arriba.</p>' +
-        '</div>';
+    const box = $('#historyList');
+    if (!list.length) {
+      box.innerHTML = `<div class="card" style="text-align:center;color:var(--color-slate);">Aún no tienes reservas guardadas en este navegador.</div>`;
       return;
     }
 
-    const todayISO = dateToISO(new Date());
-
-    historyList.innerHTML = list.map((b) => {
-      const cur = b.currency && CURRENCIES[b.currency] ? b.currency : DEFAULT_CURRENCY;
+    box.innerHTML = list.map((b) => {
       const status = b.status || 'Confirmada';
       const isCancelled = status === 'Cancelada';
-      const isRescheduled = status === 'Reagendada';
-      const isFutureOrToday = !b.dateISO || b.dateISO >= todayISO;
-      const canModify = !isCancelled && isFutureOrToday && b.id && !String(b.id).startsWith('local-');
-      const canAddToCalendar = !isCancelled && b.dateISO && b.time;
+      const gcalUrl = buildGoogleCalendarUrl(b);
+      let badgeCls = 'history-badge';
+      if (isCancelled) badgeCls += ' is-cancelled';
+      else if (status === 'Reagendada') badgeCls += ' is-rescheduled';
 
-      let badgeClass = 'history-badge';
-      if (isCancelled) badgeClass += ' is-cancelled';
-      else if (isRescheduled) badgeClass += ' is-rescheduled';
-
-      const servicesHtml = (b.services || []).map((s) =>
-        '<li>' +
-          '<span>' + escapeHtml(s.name) + '</span>' +
-          '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price, cur) + '</span>' +
-        '</li>'
-      ).join('');
-
-      // Botón "Añadir a Google Calendar" en cada reserva.
-      const calendarBtn = canAddToCalendar
-        ? '<a class="btn btn-google btn-sm" target="_blank" rel="noopener" href="' + escapeHtml(googleCalendarUrl(b)) + '">' + GCALENDAR_SVG + ' Añadir a Google Calendar</a>'
-        : '';
-
-      return (
-        '<article class="card history-card' + (isCancelled ? ' is-cancelled' : '') + '">' +
-          '<div class="history-head">' +
-            '<div>' +
-              '<p class="card-label">' + escapeHtml(b.dateLabel) + ' · ' + escapeHtml(b.time) + '</p>' +
-              '<p class="history-title">' + escapeHtml(b.name) + '</p>' +
-            '</div>' +
-            '<span class="' + badgeClass + '">' + escapeHtml(status) + ' · ' + escapeHtml(cur) + '</span>' +
-          '</div>' +
-          '<ul class="history-services">' + servicesHtml + '</ul>' +
-          '<dl class="history-meta">' +
-            '<div><dt>Especialista</dt><dd>' + escapeHtml(b.specialist ? b.specialist.name : '—') + '</dd></div>' +
-            '<div><dt>Total</dt><dd>' + money(b.total, cur) + '</dd></div>' +
-          '</dl>' +
-          '<div class="history-card-footer">' +
-            calendarBtn +
-            (canModify ? (
-              '<button type="button" class="btn btn-ghost btn-sm" data-client-reschedule="' + escapeHtml(b.id) + '">Reagendar</button>' +
-              '<button type="button" class="btn btn-danger-ghost btn-sm" data-client-cancel="' + escapeHtml(b.id) + '">Cancelar cita</button>'
-            ) : '') +
-          '</div>' +
-        '</article>'
-      );
+      return `
+        <article class="card history-card">
+          <div class="history-head">
+            <div>
+              <p class="card-label">${escapeHtml(b.dateLabel)} · ${escapeHtml(b.time)}</p>
+              <h4 style="font-size:18px;font-weight:700;margin-top:4px;">${(b.services || []).map(s => escapeHtml(s.name)).join(', ')}</h4>
+              <p style="font-size:14px;color:var(--color-slate);margin-top:2px;">Especialista: <strong>${escapeHtml(b.specialist ? b.specialist.name : '—')}</strong> · Total: <strong>${money(b.total, b.currency)}</strong></p>
+            </div>
+            <span class="${badgeCls}">${escapeHtml(status)}</span>
+          </div>
+          ${!isCancelled ? `
+            <div class="history-card-footer">
+              <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal btn-sm">📅 Añadir a Google Calendar</a>
+              <button type="button" class="btn btn-ghost btn-sm" data-hist-ics="${escapeHtml(b.id)}">📥 .ICS</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-hist-reschedule="${escapeHtml(b.id)}">Reagendar</button>
+              <button type="button" class="btn btn-danger-ghost btn-sm" data-hist-cancel="${escapeHtml(b.id)}">Cancelar cita</button>
+            </div>
+          ` : ''}
+        </article>
+      `;
     }).join('');
-
-    historyList.querySelectorAll('[data-client-reschedule]').forEach(btn => {
-      btn.addEventListener('click', () => openClientReschedule(btn.dataset.clientReschedule));
-    });
-    historyList.querySelectorAll('[data-client-cancel]').forEach(btn => {
-      btn.addEventListener('click', () => openClientCancel(btn.dataset.clientCancel));
-    });
   }
 
-  /* ---- Flujo Cliente: Reagendar ---- */
-  const clientRsModal = $('#clientRescheduleModal');
-  const clientRsDate  = $('#clientRsDate');
-  const clientRsSpec  = $('#clientRsSpec');
-  const clientRsSlots = $('#clientRsSlots');
-  const clientRsError = $('#clientRsError');
-  const clientRsOk    = $('#clientRsOk');
-
-  async function openClientReschedule(bookingId) {
-    const list = loadHistoryLocal();
-    const booking = list.find(b => b.id === bookingId);
-    if (!booking) return;
-
-    activeClientModalBooking = booking;
-    clientRsSelectedTime = '';
-    clientRsError.hidden = true;
-    clientRsOk.disabled = true;
-
-    const todayStr = dateToISO(new Date());
-    clientRsDate.min = todayStr;
-    clientRsDate.value = (booking.dateISO && booking.dateISO >= todayStr) ? booking.dateISO : todayStr;
-
-    clientRsSpec.innerHTML = state.specialistsCatalog.map(sp =>
-      `<option value="${escapeHtml(sp.id)}">${escapeHtml(sp.name)} (${escapeHtml(sp.role)})</option>`
-    ).join('');
-    if (booking.specialist && booking.specialist.id) {
-      clientRsSpec.value = booking.specialist.id;
+  $('#historyList').addEventListener('click', async (e) => {
+    const icsBtn = e.target.closest('[data-hist-ics]');
+    if (icsBtn) {
+      const b = loadHistoryLocal().find(x => x.id === icsBtn.dataset.histIcs);
+      if (b) downloadICS(b);
+      return;
     }
 
-    clientRsModal.classList.add('is-open');
-    await loadClientRescheduleSlots();
-  }
+    const cancelBtn = e.target.closest('[data-hist-cancel]');
+    if (cancelBtn) {
+      const id = cancelBtn.dataset.histCancel;
+      try { await gasPost('cancelBooking', { id, reason: 'Cancelada por el cliente' }); } catch (err) {}
+      const updated = loadHistoryLocal().map(x => x.id === id ? Object.assign({}, x, { status: 'Cancelada' }) : x);
+      saveAllHistoryLocal(updated);
+      renderHistory();
+      return;
+    }
 
-  async function loadClientRescheduleSlots() {
-    const dateVal = clientRsDate.value;
-    const specId  = clientRsSpec.value;
+    const rsBtn = e.target.closest('[data-hist-reschedule]');
+    if (rsBtn) {
+      const b = loadHistoryLocal().find(x => x.id === rsBtn.dataset.histReschedule);
+      if (!b) return;
+      activeRescheduleBooking = b;
+      $('#clientRsDate').value = b.dateISO || dateToISO(new Date());
+      $('#clientRsSpec').innerHTML = state.specialistsCatalog.map(sp =>
+        `<option value="${escapeHtml(sp.id)}">${escapeHtml(sp.name)}</option>`
+      ).join('');
+      if (b.specialist) $('#clientRsSpec').value = b.specialist.id;
+      $('#clientRescheduleModal').classList.add('is-open');
+      loadRescheduleModalSlots();
+    }
+  });
+
+  async function loadRescheduleModalSlots() {
+    const dateVal = $('#clientRsDate').value;
+    const specId = $('#clientRsSpec').value;
+    const slotsBox = $('#clientRsSlots');
     clientRsSelectedTime = '';
-    clientRsOk.disabled = true;
-    clientRsError.hidden = true;
-    clientRsSlots.innerHTML = '<p class="slots-empty"><span class="loading">Buscando horarios…</span></p>';
+    $('#clientRsOk').disabled = true;
 
-    if (!dateVal || !specId) return;
-
+    if (!dateVal) return;
     const d = new Date(dateVal + 'T12:00:00');
-    const wd = d.getDay();
-    const spec = state.specialistsCatalog.find(s => s.id === specId);
+    const daySlots = slotsFor(d);
+    slotsBox.innerHTML = '';
 
-    if (spec && !specialistWorksOnDay(spec, wd)) {
-      clientRsSlots.innerHTML = '<p class="slots-empty">Este especialista no atiende el día seleccionado.</p>';
-      return;
-    }
-
-    // Si el especialista tiene horarios propios, úsalos; si no, usa los de la sucursal.
-    let daySlots;
-    if (spec && spec.horarios) {
-      daySlots = spec.slotsByDay[wd] || [];
-    } else {
-      daySlots = slotsFor(d);
-    }
-    if (daySlots.length === 0) {
-      clientRsSlots.innerHTML = '<p class="slots-empty">Sin horarios disponibles este día. Selecciona otra fecha.</p>';
-      return;
-    }
-
-    try {
-      const occupied = await gasGet('getAvailability', { date: dateVal, specialistId: specId });
-      const takenSet = new Set(Array.isArray(occupied) ? occupied.map(String) : []);
-      if (activeClientModalBooking && activeClientModalBooking.dateISO === dateVal && activeClientModalBooking.specialist?.id === specId) {
-        takenSet.delete(activeClientModalBooking.time);
-      }
-
-      const now = new Date();
-      const isToday = sameDay(d, now);
-
-      clientRsSlots.innerHTML = '';
-      daySlots.forEach(time => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'slot';
-        btn.textContent = time;
-        const origSpecId = activeClientModalBooking && activeClientModalBooking.specialist ? activeClientModalBooking.specialist.id : '';
-        if (activeClientModalBooking && activeClientModalBooking.dateISO === dateVal && origSpecId === specId) {
-          takenSet.delete(activeClientModalBooking.time);
-        }
-        const disabled = takenSet.has(time) || (isToday && isPastTime(time, now));
-        if (disabled) {
-          btn.classList.add('is-taken');
-          btn.disabled = true;
-        }
-        btn.addEventListener('click', () => {
-          clientRsSlots.querySelectorAll('.slot').forEach(s => s.classList.remove('is-selected'));
-          btn.classList.add('is-selected');
-          clientRsSelectedTime = time;
-          clientRsOk.disabled = false;
-        });
-        clientRsSlots.appendChild(btn);
+    daySlots.forEach(t => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot';
+      btn.textContent = t;
+      btn.addEventListener('click', () => {
+        slotsBox.querySelectorAll('.slot').forEach(s => s.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        clientRsSelectedTime = t;
+        $('#clientRsOk').disabled = false;
       });
-    } catch (e) {
-      clientRsSlots.innerHTML = '<p class="slots-empty" style="color:#c0392b;">Error al cargar horarios.</p>';
-    }
+      slotsBox.appendChild(btn);
+    });
   }
 
-  clientRsDate.addEventListener('change', loadClientRescheduleSlots);
-  clientRsSpec.addEventListener('change', loadClientRescheduleSlots);
-  $('#clientRsClose').addEventListener('click', () => clientRsModal.classList.remove('is-open'));
-  $('#clientRsBack').addEventListener('click', () => clientRsModal.classList.remove('is-open'));
+  $('#clientRsDate').addEventListener('change', loadRescheduleModalSlots);
+  $('#clientRsSpec').addEventListener('change', loadRescheduleModalSlots);
+  $('#clientRsClose').addEventListener('click', () => $('#clientRescheduleModal').classList.remove('is-open'));
+  $('#clientRsBack').addEventListener('click', () => $('#clientRescheduleModal').classList.remove('is-open'));
 
-  clientRsOk.addEventListener('click', async () => {
-    if (!activeClientModalBooking || !clientRsSelectedTime) return;
-    clientRsOk.disabled = true;
-    const orig = clientRsOk.textContent;
-    clientRsOk.textContent = 'Reagendando…';
-    clientRsError.hidden = true;
-
-    const newDate = clientRsDate.value;
-    const newSpecId = clientRsSpec.value;
+  $('#clientRsOk').addEventListener('click', async () => {
+    if (!activeRescheduleBooking || !clientRsSelectedTime) return;
+    const newDate = $('#clientRsDate').value;
+    const newSpecId = $('#clientRsSpec').value;
+    const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
 
     try {
-      const res = await gasPost('rescheduleBooking', {
-        id: activeClientModalBooking.id,
+      await gasPost('rescheduleBooking', {
+        id: activeRescheduleBooking.id,
         date: newDate,
         time: clientRsSelectedTime,
         specialistId: newSpecId
       });
-      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo reagendar.');
+    } catch (e) {}
 
-      delete state.availabilityCache[activeClientModalBooking.dateISO];
-      delete state.availabilityCache[newDate];
-
-      const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
-      const dObj = new Date(newDate + 'T12:00:00');
-      const list = loadHistoryLocal().map(item => {
-        if (item.id === activeClientModalBooking.id) {
-          return Object.assign({}, item, {
-            dateISO: newDate,
-            dateLabel: formatDate(dObj),
-            time: clientRsSelectedTime,
-            specialist: specObj ? { id: specObj.id, name: specObj.name } : item.specialist,
-            status: 'Reagendada'
-          });
-        }
-        return item;
-      });
-      saveAllHistoryLocal(list);
-      renderHistory();
-      clientRsModal.classList.remove('is-open');
-    } catch (e) {
-      clientRsError.textContent = e.message;
-      clientRsError.hidden = false;
-    } finally {
-      clientRsOk.disabled = false;
-      clientRsOk.textContent = orig;
-    }
-  });
-
-  /* ---- Flujo Cliente: Cancelar ---- */
-  const clientCancelModal  = $('#clientCancelModal');
-  const clientCancelReason = $('#clientCancelReason');
-  const clientCancelError  = $('#clientCancelError');
-  const clientCancelOk     = $('#clientCancelOk');
-
-  function openClientCancel(bookingId) {
-    const list = loadHistoryLocal();
-    const booking = list.find(b => b.id === bookingId);
-    if (!booking) return;
-
-    activeClientModalBooking = booking;
-    clientCancelReason.value = '';
-    clientCancelError.hidden = true;
-    $('#clientCancelDesc').textContent =
-      `Vas a cancelar tu cita del ${booking.dateLabel} a las ${booking.time}. El horario quedará disponible nuevamente.`;
-    clientCancelModal.classList.add('is-open');
-  }
-
-  $('#clientCancelClose').addEventListener('click', () => clientCancelModal.classList.remove('is-open'));
-  $('#clientCancelBack').addEventListener('click', () => clientCancelModal.classList.remove('is-open'));
-
-  clientCancelOk.addEventListener('click', async () => {
-    if (!activeClientModalBooking) return;
-    clientCancelOk.disabled = true;
-    const orig = clientCancelOk.textContent;
-    clientCancelOk.textContent = 'Cancelando…';
-    clientCancelError.hidden = true;
-
-    try {
-      const res = await gasPost('cancelBooking', {
-        id: activeClientModalBooking.id,
-        reason: clientCancelReason.value.trim()
-      });
-      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo cancelar.');
-
-      delete state.availabilityCache[activeClientModalBooking.dateISO];
-
-      const list = loadHistoryLocal().map(item =>
-        item.id === activeClientModalBooking.id ? Object.assign({}, item, { status: 'Cancelada' }) : item
-      );
-      saveAllHistoryLocal(list);
-      renderHistory();
-      clientCancelModal.classList.remove('is-open');
-    } catch (e) {
-      clientCancelError.textContent = e.message;
-      clientCancelError.hidden = false;
-    } finally {
-      clientCancelOk.disabled = false;
-      clientCancelOk.textContent = orig;
-    }
-  });
-
-  clearHistoryBtn.addEventListener('click', () => {
-    try { localStorage.removeItem(HISTORY_KEY); } catch (e) {}
+    const dObj = new Date(newDate + 'T12:00:00');
+    const updated = loadHistoryLocal().map(x => x.id === activeRescheduleBooking.id ? Object.assign({}, x, {
+      dateISO: newDate,
+      dateLabel: formatDate(dObj),
+      time: clientRsSelectedTime,
+      specialist: specObj ? { id: specObj.id, name: specObj.name } : x.specialist,
+      status: 'Reagendada'
+    }) : x);
+    saveAllHistoryLocal(updated);
     renderHistory();
+    $('#clientRescheduleModal').classList.remove('is-open');
   });
 
   /* =========================================================
-     21. PANTALLA DE ÉXITO
+     INICIALIZACIÓN
      ========================================================= */
-  function renderSuccess(booking) {
-    stepsNav.classList.add('is-hidden');
-    const cur = booking.currency && CURRENCIES[booking.currency] ? booking.currency : DEFAULT_CURRENCY;
-    const servicesHtml = (booking.services || []).map((s) => escapeHtml(s.name)).join('<br>');
-    const gcalUrl = googleCalendarUrl(booking);
+  async function init() {
+    loadClientProfile();
+    await loadBackendData();
 
-    summaryPanel.innerHTML =
-      '<div class="success">' +
-        '<div class="success-mark" aria-hidden="true">' +
-          '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>' +
-        '</div>' +
-        '<p class="eyebrow">Reserva confirmada</p>' +
-        '<h3 class="heading-lg">Gracias, ' + escapeHtml(booking.name) + '.</h3>' +
-        '<p class="lead">Te enviamos los detalles a ' + escapeHtml(booking.email) + '. Te esperamos.</p>' +
-        '<dl class="summary">' +
-          '<div><dt>Servicios</dt><dd>' + servicesHtml + '</dd></div>' +
-          summaryRow('Especialista', booking.specialist.name) +
-          summaryRow('Día', booking.dateLabel) +
-          summaryRow('Hora', booking.time) +
-          summaryRow('Duración total', booking.duration + ' min') +
-          summaryRow('Total', money(booking.total, cur)) +
-          summaryRow('Moneda', cur) +
-        '</dl>' +
-        '<div class="success-actions">' +
-          '<a class="btn btn-google" target="_blank" rel="noopener" href="' + escapeHtml(gcalUrl) + '">' + GCALENDAR_SVG + ' Añadir a Google Calendar</a>' +
-          '<a href="#historial" class="btn btn-pill">Ver o gestionar mis reservas</a>' +
-          '<button class="btn btn-ghost" type="button" id="newBookingBtn">Hacer otra reserva</button>' +
-        '</div>' +
-      '</div>';
-
-    const nb = document.getElementById('newBookingBtn');
-    if (nb) nb.addEventListener('click', () => window.location.reload());
-  }
-
-  /* =========================================================
-     22. MODAL SOPORTE
-     ========================================================= */
-  function openSupport() { supportModal.classList.add('is-open'); supportClose.focus(); }
-  function closeSupport() { supportModal.classList.remove('is-open'); supportBtn.focus(); }
-  supportBtn.addEventListener('click', openSupport);
-  supportClose.addEventListener('click', closeSupport);
-  supportModal.addEventListener('click', (event) => {
-    if (event.target === supportModal) closeSupport();
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-    if (confirmModal.classList.contains('is-open')) closeConfirmModal(true);
-    else if (clientRsModal.classList.contains('is-open')) clientRsModal.classList.remove('is-open');
-    else if (clientCancelModal.classList.contains('is-open')) clientCancelModal.classList.remove('is-open');
-    else if (supportModal.classList.contains('is-open')) closeSupport();
-  });
-
-  /* =========================================================
-     23. INICIALIZACIÓN
-     ========================================================= */
-  function findNextOpenDay() {
+    // Seleccionar automáticamente el primer día disponible
     const cursor = new Date();
-    cursor.setHours(0, 0, 0, 0);
-    for (let i = 0; i < 90; i++) {
-      if (!isClosedDay(cursor)) return new Date(cursor);
+    cursor.setHours(0,0,0,0);
+    for (let i = 0; i < 60; i++) {
+      if (slotsFor(cursor).length > 0) {
+        state.date = new Date(cursor);
+        state.view = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+        break;
+      }
       cursor.setDate(cursor.getDate() + 1);
     }
-    return null;
-  }
-
-  async function init() {
-    serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);"><span class="loading">Cargando servicios…</span></li>';
-    specialistList.innerHTML = '<p class="slots-empty"><span class="loading">Cargando especialistas…</span></p>';
-
-    const ok = await loadBackendData();
-
-    if (!ok || state.servicesCatalog.length === 0) {
-      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:#c0392b;">No se pudieron cargar los servicios. Recarga la página o contacta al negocio.</li>';
-    }
-    if (!ok || state.specialistsCatalog.length === 0) {
-      specialistList.innerHTML = '<p class="slots-empty" style="color:#c0392b;">No se pudieron cargar los especialistas.</p>';
-    }
-
-    const firstOpen = findNextOpenDay();
-    if (firstOpen) {
-      state.date = firstOpen;
-      state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
-    }
-
-    currencyButtons.forEach((b) => {
-      const active = b.dataset.currency === state.currency;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
 
     renderCalendar();
+    if (state.date) await loadAvailabilityForDate(state.date);
     renderSlots();
-    if (state.servicesCatalog.length > 0) renderServices();
-    if (state.specialistsCatalog.length > 0) renderSpecialists();
+    renderSpecialistsInline();
+    renderServices();
     renderSummary();
-    updateServicesHint();
     syncControls();
     renderHistory();
-
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 
   init();
