@@ -805,24 +805,32 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   /* =========================================================
      4. NORMALIZADORES
      ========================================================= */
+  function parseDaysList(raw) {
+    const str = String(raw ?? '').trim().replace(/^'/, '');
+    if (!str) return [];
+    const parts = str.indexOf(',') >= 0 ? str.split(',') : (/^[0-6]+$/.test(str) ? str.split('') : str.split(/[\s,;.|/-]+/));
+    return Array.from(new Set(
+      parts.map(x => Number(String(x).trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6)
+    )).sort((a, b) => a - b);
+  }
+
   function normalizeService(s) {
     return {
-      id: String(s.ID || s.id || ''),
-      name: String(s.Nombre || s.name || ''),
-      desc: String(s.Descripción || s.Descripcion || s.desc || ''),
-      duration: Number(s.Duración || s.Duracion || s.duration || 0),
-      price: Number(s.Precio || s.price || 0)
+      id: String(s.ID || s.Id || s.id || ''),
+      name: String(s.Nombre || s.nombre || s.name || ''),
+      desc: String(s.Descripción || s.Descripcion || s.descripcion || s.desc || ''),
+      duration: Number(s.Duración || s.Duracion || s.duracion || s.duration || 0),
+      price: Number(s.Precio || s.precio || s.price || 0)
     };
   }
 
   function normalizeSpecialist(sp) {
-    const raw = String(sp.Días || sp.Dias || sp.days || '');
-    const days = raw.split(',').map(x => Number(String(x).trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6);
+    const raw = sp.Días ?? sp.Dias ?? sp.dias ?? sp.days ?? sp.Horario ?? '';
     return {
-      id: String(sp.ID || sp.id || ''),
-      name: String(sp.Nombre || sp.name || ''),
-      role: String(sp.Rol || sp.role || ''),
-      days: days
+      id: String(sp.ID || sp.Id || sp.id || ''),
+      name: String(sp.Nombre || sp.nombre || sp.name || ''),
+      role: String(sp.Rol || sp.rol || sp.role || sp.Especialidad || ''),
+      days: parseDaysList(raw)
     };
   }
 
@@ -898,9 +906,9 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     const wd = date.getDay();
     const key = 'schedule_' + wd;
     if (Object.prototype.hasOwnProperty.call(state.config, key)) {
-      const val = state.config[key];
-      if (!val || !String(val).trim()) return [];
-      return String(val).split(',').map(s => s.trim()).filter(Boolean);
+      const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
+      if (!val) return [];
+      return val.split(',').map(s => s.trim().replace(/^'/, '')).filter(Boolean);
     }
     return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
   }
@@ -996,34 +1004,15 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
      ========================================================= */
   async function loadBackendData() {
     backendStatus.hidden = true;
-    // Track real success/failure per call instead of swallowing errors.
-    let configOk = false, servicesOk = false, specialistsOk = false;
-    let lastError = '';
-    let config = {}, services = [], specialists = [];
-
     try {
-      const results = await Promise.all([
-        gasGet('getConfig').then(r => { configOk = true; return r; }).catch(e => { lastError = e.message; return {}; }),
-        gasGet('getServices').then(r => { servicesOk = Array.isArray(r); return servicesOk ? r : []; }).catch(e => { lastError = e.message; return []; }),
-        gasGet('getSpecialists').then(r => { specialistsOk = Array.isArray(r); return specialistsOk ? r : []; }).catch(e => { lastError = e.message; return []; })
+      const [config, services, specialists] = await Promise.all([
+        gasGet('getConfig').catch(() => ({})),
+        gasGet('getServices').catch(() => []),
+        gasGet('getSpecialists').catch(() => [])
       ]);
-      config = results[0] || {};
-      services = results[1] || [];
-      specialists = results[2] || [];
-
       state.config = (config && typeof config === 'object') ? config : {};
-      state.servicesCatalog = services.map(normalizeService);
-      state.specialistsCatalog = specialists.map(normalizeSpecialist);
-
-      // Si los tres fallaron, el backend NO está listo.
-      const anySuccess = configOk || servicesOk || specialistsOk;
-      if (!anySuccess) {
-        state.backendReady = false;
-        backendStatus.textContent = '⚠ No se pudo conectar con el servidor de reservas (' + lastError + '). Verifica el GAS_URL y los permisos de despliegue (debe ser "Cualquiera, incluso anónimo").';
-        backendStatus.hidden = false;
-        return false;
-      }
-
+      state.servicesCatalog = (Array.isArray(services) ? services : []).map(normalizeService);
+      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
       state.backendReady = true;
       applyConfig();
       return true;
