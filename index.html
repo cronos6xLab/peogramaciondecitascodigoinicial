@@ -24,6 +24,8 @@
   --color-mist:#e5e7eb;
   --color-bone:#f0f1f2;
   --color-paper:#ffffff;
+  --color-danger:#c0392b;
+  --color-warning:#d97706;
   --font-tight:'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-inter:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --text-caption:10px;
@@ -191,9 +193,9 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 .field-req,.field-optional{font-style:normal;font-size:9px;font-weight:600;letter-spacing:0.08em;padding:2px 7px;border-radius:var(--radius-pill);line-height:1.4;}
 .field-req{color:var(--color-deep-teal);background:rgba(36,77,84,.1);}
 .field-optional{color:var(--color-slate);background:var(--color-bone);}
-.field input{width:100%;padding:12px 14px;font-size:16px;font-family:var(--font-tight);font-weight:400;color:var(--color-carbon);background:var(--color-paper);border:1px solid var(--color-fog);border-radius:var(--radius-md);transition:border-color .15s ease,box-shadow .15s ease;-webkit-appearance:none;appearance:none;}
+.field input,.field select{width:100%;padding:12px 14px;font-size:16px;font-family:var(--font-tight);font-weight:400;color:var(--color-carbon);background:var(--color-paper);border:1px solid var(--color-fog);border-radius:var(--radius-md);transition:border-color .15s ease,box-shadow .15s ease;}
 .field input::placeholder{color:var(--color-fog);}
-.field input:focus{outline:none;border-color:var(--color-deep-teal);box-shadow:0 0 0 3px rgba(36,77,84,.12);}
+.field input:focus,.field select:focus{outline:none;border-color:var(--color-deep-teal);box-shadow:0 0 0 3px rgba(36,77,84,.12);}
 .field.is-invalid input,.field input[aria-invalid="true"]{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1);}
 .field.is-valid input{border-color:var(--color-mint-pulse);}
 .field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.45;color:var(--color-slate);}
@@ -212,6 +214,9 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 .btn-pill:hover:not(:disabled){filter:brightness(0.95);}
 .btn-ghost{background:transparent;color:var(--color-deep-teal);border-color:var(--color-deep-teal);}
 .btn-ghost:hover:not(:disabled){background:var(--color-deep-teal);color:#fff;}
+.btn-danger-ghost{background:transparent;color:var(--color-danger);border-color:rgba(192,57,43,.4);}
+.btn-danger-ghost:hover:not(:disabled){background:var(--color-danger);color:#fff;border-color:var(--color-danger);}
+.btn-sm{min-height:36px;padding:8px 18px;font-size:13px;}
 
 /* ============ SERVICIOS ============ */
 .service-list{border-top:1px solid var(--color-mist);}
@@ -239,18 +244,22 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 .success .btn{width:auto;}
 .success-actions{display:flex;flex-wrap:wrap;gap:var(--spacing-12);justify-content:center;}
 
-/* ============ HISTORIAL ============ */
+/* ============ HISTORIAL + REAGENDAR/CANCELAR ============ */
 .history-list{display:grid;gap:var(--spacing-16);}
 .history-card{padding:var(--spacing-20) var(--spacing-24);}
+.history-card.is-cancelled{opacity:.75;background:var(--color-bone);}
 .history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-16);margin-bottom:var(--spacing-12);}
 .history-title{font-family:var(--font-tight);font-size:17px;font-weight:500;color:var(--color-ink);margin-top:2px;letter-spacing:-0.01em;}
 .history-badge{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.16);padding:5px 10px;border-radius:var(--radius-pill);white-space:nowrap;}
+.history-badge.is-rescheduled{color:#92400e;background:#fef3c7;}
+.history-badge.is-cancelled{color:var(--color-danger);background:rgba(192,57,43,.12);}
 .history-services{display:grid;gap:8px;margin:0 0 var(--spacing-16);padding:var(--spacing-12) 0;border-top:1px solid var(--color-mist);border-bottom:1px solid var(--color-mist);font-size:14px;color:var(--color-ink);}
 .history-services li{display:flex;justify-content:space-between;gap:var(--spacing-12);line-height:1.4;}
 .history-services .hist-meta{color:var(--color-slate);font-size:12px;white-space:nowrap;flex-shrink:0;}
 .history-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--spacing-12);}
 .history-meta dt{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-slate);}
 .history-meta dd{font-size:14px;font-weight:500;color:var(--color-ink);margin-top:2px;}
+.history-card-footer{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--spacing-8);margin-top:var(--spacing-16);padding-top:var(--spacing-16);border-top:1px dashed var(--color-mist);}
 .history-empty{text-align:center;padding:var(--spacing-40) var(--spacing-24);}
 .history-empty .lead{margin:var(--spacing-8) auto 0;}
 .history-actions{margin-top:var(--spacing-20);text-align:right;}
@@ -296,14 +305,13 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 .contact-row a{font-family:var(--font-tight);font-weight:500;color:var(--color-deep-teal);transition:color .15s ease;}
 .contact-row a:hover{color:var(--color-mint-pulse);}
 .modal-footnote{margin-top:var(--spacing-16);padding-top:var(--spacing-16);border-top:1px solid var(--color-mist);font-size:13px;line-height:1.5;color:var(--color-slate);}
-#confirmError{margin-top:var(--spacing-16);}
+#confirmError,#clientRsError,#clientCancelError{margin-top:var(--spacing-16);}
 
 /* ============ LOADING ============ */
 .loading{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--color-slate);}
 .loading::before{content:'';width:14px;height:14px;border:2px solid var(--color-mist);border-top-color:var(--color-deep-teal);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ============ FOCUS ============ */
 :focus-visible{outline:2px solid var(--color-mint-pulse);outline-offset:2px;}
 
 /* ============ RESPONSIVE ============ */
@@ -543,11 +551,11 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       <div class="section-head">
         <p class="eyebrow">02 — Historial</p>
         <h2 class="heading-lg">Tus reservas</h2>
-        <p class="lead">Aquí aparecen las reservas guardadas en este navegador. Se guardan localmente, sin enviar datos a un servidor.</p>
+        <p class="lead">Consulta tus citas agendadas. Si necesitas cambiar la fecha o cancelar, puedes hacerlo directamente desde aquí.</p>
       </div>
       <div class="history-list" id="historyList"></div>
       <div class="history-actions">
-        <button class="btn btn-ghost" type="button" id="clearHistoryBtn" hidden>Borrar historial</button>
+        <button class="btn btn-ghost" type="button" id="clearHistoryBtn" hidden>Borrar historial local</button>
       </div>
     </div>
   </section>
@@ -609,6 +617,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   Soporte
 </button>
 
+<!-- Modal Soporte -->
 <div class="modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
   <div class="modal-panel">
     <div class="modal-head">
@@ -625,6 +634,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   </div>
 </div>
 
+<!-- Modal Confirmación de Reserva -->
 <div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
   <div class="modal-panel">
     <div class="modal-head">
@@ -636,6 +646,54 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     <div class="modal-actions">
       <button class="btn btn-ghost" type="button" id="confirmBack">Volver</button>
       <button class="btn btn-pill" type="button" id="confirmOk">Confirmar reserva</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Reagendar Reserva (Cliente) -->
+<div class="modal" id="clientRescheduleModal" role="dialog" aria-modal="true" aria-labelledby="clientRsTitle">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><p class="card-label">Modificar cita</p><h3 class="heading" id="clientRsTitle">Reagendar reserva</h3></div>
+      <button class="modal-close" id="clientRsClose" type="button" aria-label="Cerrar">&times;</button>
+    </div>
+    <p class="form-intro" id="clientRsSubtitle">Elige una nueva fecha y horario disponible.</p>
+    <label class="field">
+      <span class="field-label">Nueva fecha</span>
+      <input type="date" id="clientRsDate">
+    </label>
+    <label class="field">
+      <span class="field-label">Especialista</span>
+      <select id="clientRsSpec"></select>
+    </label>
+    <div class="field">
+      <span class="field-label">Horarios disponibles</span>
+      <div class="slots" id="clientRsSlots"></div>
+    </div>
+    <p id="clientRsError" class="field-error" role="alert" hidden></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" id="clientRsBack">Cancelar</button>
+      <button class="btn btn-pill" type="button" id="clientRsOk" disabled>Guardar cambio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cancelar Reserva (Cliente) -->
+<div class="modal" id="clientCancelModal" role="dialog" aria-modal="true" aria-labelledby="clientCancelTitle">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><p class="card-label">Cancelación</p><h3 class="heading" id="clientCancelTitle">¿Cancelar tu cita?</h3></div>
+      <button class="modal-close" id="clientCancelClose" type="button" aria-label="Cerrar">&times;</button>
+    </div>
+    <p class="form-intro" id="clientCancelDesc">Esta acción liberará tu horario inmediatamente.</p>
+    <label class="field">
+      <span class="field-label">Motivo <em class="field-optional">Opcional</em></span>
+      <input type="text" id="clientCancelReason" placeholder="Ej. Cambio de planes">
+    </label>
+    <p id="clientCancelError" class="field-error" role="alert" hidden></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" id="clientCancelBack">Conservar cita</button>
+      <button class="btn btn-pill" style="background:var(--color-danger);border-color:var(--color-danger);" type="button" id="clientCancelOk">Sí, cancelar</button>
     </div>
   </div>
 </div>
@@ -735,7 +793,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   }
 
   async function gasPost(action, data) {
-    // text/plain evita preflight CORS; GAS parsea e.postData.contents como JSON.
     const res = await fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -746,7 +803,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   }
 
   /* =========================================================
-     4. NORMALIZADORES (backend → frontend)
+     4. NORMALIZADORES
      ========================================================= */
   function normalizeService(s) {
     return {
@@ -783,10 +840,13 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     servicesCatalog: [],
     specialistsCatalog: [],
     config: {},
-    availabilityCache: {},        // { 'YYYY-MM-DD': { specId: [times] } }
-    availabilityBySpecialist: {}, // cache del día actual
+    availabilityCache: {},
+    availabilityBySpecialist: {},
     backendReady: false
   };
+
+  let activeClientModalBooking = null;
+  let clientRsSelectedTime = '';
 
   /* =========================================================
      6. DOM
@@ -832,7 +892,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   const backendStatus  = $('#backendStatus');
 
   /* =========================================================
-     7. SCHEDULE (config-driven con fallback)
+     7. SCHEDULE
      ========================================================= */
   function slotsFor(date) {
     const wd = date.getDay();
@@ -916,7 +976,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       });
     }
 
-    // Horario textual
     const ls = document.getElementById('locSchedule');
     if (ls) {
       const lines = [];
@@ -1060,7 +1119,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
         if (state.specialist && state.specialist.days.indexOf(date.getDay()) === -1) {
           state.specialist = null;
         }
-        // Invalidar cache de disponibilidad para el nuevo día
         state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
         renderCalendar();
         renderSlots();
@@ -1387,7 +1445,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       state.availabilityBySpecialist = state.availabilityCache[dateToISO(state.date)] || {};
     }
 
-    // Re-validar especialista previo
     if (state.specialist) {
       const wd = state.date ? state.date.getDay() : null;
       const works = wd === null || state.specialist.days.indexOf(wd) !== -1;
@@ -1508,13 +1565,12 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
         throw new Error((response && response.error) || 'Error desconocido al confirmar.');
       }
 
-      // Invalidar caché del día (ya hay una reserva nueva)
       delete state.availabilityCache[payload.date];
 
-      // Snapshot local para la pantalla de éxito y el historial local
       const displayBooking = {
         id: response.id || ('local-' + Date.now().toString(36)),
         createdAt: new Date().toISOString(),
+        status: 'Confirmada',
         name: payload.name,
         email: payload.email,
         phone: payload.phone,
@@ -1548,7 +1604,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   });
 
   /* =========================================================
-     20. HISTORIAL LOCAL
+     20. HISTORIAL LOCAL + REAGENDAR Y CANCELAR
      ========================================================= */
   function loadHistoryLocal() {
     try {
@@ -1559,12 +1615,16 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     } catch (e) { return []; }
   }
 
-  function saveBookingLocal(booking) {
+  function saveAllHistoryLocal(list) {
     try {
-      const list = loadHistoryLocal();
-      list.unshift(booking);
       localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50)));
     } catch (e) {}
+  }
+
+  function saveBookingLocal(booking) {
+    const list = loadHistoryLocal();
+    list.unshift(booking);
+    saveAllHistoryLocal(list);
   }
 
   function renderHistory() {
@@ -1580,35 +1640,258 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       return;
     }
 
+    const todayISO = dateToISO(new Date());
+
     historyList.innerHTML = list.map((b) => {
       const cur = b.currency && CURRENCIES[b.currency] ? b.currency : DEFAULT_CURRENCY;
+      const status = b.status || 'Confirmada';
+      const isCancelled = status === 'Cancelada';
+      const isRescheduled = status === 'Reagendada';
+      const isFutureOrToday = !b.dateISO || b.dateISO >= todayISO;
+      const canModify = !isCancelled && isFutureOrToday && b.id && !String(b.id).startsWith('local-');
+
+      let badgeClass = 'history-badge';
+      if (isCancelled) badgeClass += ' is-cancelled';
+      else if (isRescheduled) badgeClass += ' is-rescheduled';
+
       const servicesHtml = (b.services || []).map((s) =>
         '<li>' +
           '<span>' + escapeHtml(s.name) + '</span>' +
           '<span class="hist-meta">' + s.duration + ' min · ' + money(s.price, cur) + '</span>' +
         '</li>'
       ).join('');
+
       return (
-        '<article class="card history-card">' +
+        '<article class="card history-card' + (isCancelled ? ' is-cancelled' : '') + '">' +
           '<div class="history-head">' +
             '<div>' +
               '<p class="card-label">' + escapeHtml(b.dateLabel) + ' · ' + escapeHtml(b.time) + '</p>' +
               '<p class="history-title">' + escapeHtml(b.name) + '</p>' +
             '</div>' +
-            '<span class="history-badge">Confirmada · ' + escapeHtml(cur) + '</span>' +
+            '<span class="' + badgeClass + '">' + escapeHtml(status) + ' · ' + escapeHtml(cur) + '</span>' +
           '</div>' +
           '<ul class="history-services">' + servicesHtml + '</ul>' +
           '<dl class="history-meta">' +
             '<div><dt>Especialista</dt><dd>' + escapeHtml(b.specialist ? b.specialist.name : '—') + '</dd></div>' +
             '<div><dt>Total</dt><dd>' + money(b.total, cur) + '</dd></div>' +
           '</dl>' +
+          (canModify ? (
+            '<div class="history-card-footer">' +
+              '<button type="button" class="btn btn-ghost btn-sm" data-client-reschedule="' + escapeHtml(b.id) + '">Reagendar</button>' +
+              '<button type="button" class="btn btn-danger-ghost btn-sm" data-client-cancel="' + escapeHtml(b.id) + '">Cancelar cita</button>' +
+            '</div>'
+          ) : '') +
         '</article>'
       );
     }).join('');
+
+    historyList.querySelectorAll('[data-client-reschedule]').forEach(btn => {
+      btn.addEventListener('click', () => openClientReschedule(btn.dataset.clientReschedule));
+    });
+    historyList.querySelectorAll('[data-client-cancel]').forEach(btn => {
+      btn.addEventListener('click', () => openClientCancel(btn.dataset.clientCancel));
+    });
   }
 
+  /* ---- Flujo Cliente: Reagendar ---- */
+  const clientRsModal = $('#clientRescheduleModal');
+  const clientRsDate  = $('#clientRsDate');
+  const clientRsSpec  = $('#clientRsSpec');
+  const clientRsSlots = $('#clientRsSlots');
+  const clientRsError = $('#clientRsError');
+  const clientRsOk    = $('#clientRsOk');
+
+  async function openClientReschedule(bookingId) {
+    const list = loadHistoryLocal();
+    const booking = list.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    activeClientModalBooking = booking;
+    clientRsSelectedTime = '';
+    clientRsError.hidden = true;
+    clientRsOk.disabled = true;
+
+    const todayStr = dateToISO(new Date());
+    clientRsDate.min = todayStr;
+    clientRsDate.value = (booking.dateISO && booking.dateISO >= todayStr) ? booking.dateISO : todayStr;
+
+    clientRsSpec.innerHTML = state.specialistsCatalog.map(sp =>
+      `<option value="${escapeHtml(sp.id)}">${escapeHtml(sp.name)} (${escapeHtml(sp.role)})</option>`
+    ).join('');
+    if (booking.specialist && booking.specialist.id) {
+      clientRsSpec.value = booking.specialist.id;
+    }
+
+    clientRsModal.classList.add('is-open');
+    await loadClientRescheduleSlots();
+  }
+
+  async function loadClientRescheduleSlots() {
+    const dateVal = clientRsDate.value;
+    const specId  = clientRsSpec.value;
+    clientRsSelectedTime = '';
+    clientRsOk.disabled = true;
+    clientRsError.hidden = true;
+    clientRsSlots.innerHTML = '<p class="slots-empty"><span class="loading">Buscando horarios…</span></p>';
+
+    if (!dateVal || !specId) return;
+
+    const d = new Date(dateVal + 'T12:00:00');
+    const wd = d.getDay();
+    const spec = state.specialistsCatalog.find(s => s.id === specId);
+
+    if (spec && spec.days.length > 0 && !spec.days.includes(wd)) {
+      clientRsSlots.innerHTML = '<p class="slots-empty">Este especialista no atiende el día seleccionado.</p>';
+      return;
+    }
+
+    const daySlots = slotsFor(d);
+    if (daySlots.length === 0) {
+      clientRsSlots.innerHTML = '<p class="slots-empty">Cerrado este día. Selecciona otra fecha.</p>';
+      return;
+    }
+
+    try {
+      const occupied = await gasGet('getAvailability', { date: dateVal, specialistId: specId });
+      const takenSet = new Set(Array.isArray(occupied) ? occupied.map(String) : []);
+      if (activeClientModalBooking && activeClientModalBooking.dateISO === dateVal && activeClientModalBooking.specialist?.id === specId) {
+        takenSet.delete(activeClientModalBooking.time);
+      }
+
+      const now = new Date();
+      const isToday = sameDay(d, now);
+
+      clientRsSlots.innerHTML = '';
+      daySlots.forEach(time => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot';
+        btn.textContent = time;
+        const disabled = takenSet.has(time) || (isToday && isPastTime(time, now));
+        if (disabled) {
+          btn.classList.add('is-taken');
+          btn.disabled = true;
+        }
+        btn.addEventListener('click', () => {
+          clientRsSlots.querySelectorAll('.slot').forEach(s => s.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+          clientRsSelectedTime = time;
+          clientRsOk.disabled = false;
+        });
+        clientRsSlots.appendChild(btn);
+      });
+    } catch (e) {
+      clientRsSlots.innerHTML = '<p class="slots-empty" style="color:#c0392b;">Error al cargar horarios.</p>';
+    }
+  }
+
+  clientRsDate.addEventListener('change', loadClientRescheduleSlots);
+  clientRsSpec.addEventListener('change', loadClientRescheduleSlots);
+  $('#clientRsClose').addEventListener('click', () => clientRsModal.classList.remove('is-open'));
+  $('#clientRsBack').addEventListener('click', () => clientRsModal.classList.remove('is-open'));
+
+  clientRsOk.addEventListener('click', async () => {
+    if (!activeClientModalBooking || !clientRsSelectedTime) return;
+    clientRsOk.disabled = true;
+    const orig = clientRsOk.textContent;
+    clientRsOk.textContent = 'Reagendando…';
+    clientRsError.hidden = true;
+
+    const newDate = clientRsDate.value;
+    const newSpecId = clientRsSpec.value;
+
+    try {
+      const res = await gasPost('rescheduleBooking', {
+        id: activeClientModalBooking.id,
+        date: newDate,
+        time: clientRsSelectedTime,
+        specialistId: newSpecId
+      });
+      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo reagendar.');
+
+      delete state.availabilityCache[activeClientModalBooking.dateISO];
+      delete state.availabilityCache[newDate];
+
+      const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
+      const dObj = new Date(newDate + 'T12:00:00');
+      const list = loadHistoryLocal().map(item => {
+        if (item.id === activeClientModalBooking.id) {
+          return Object.assign({}, item, {
+            dateISO: newDate,
+            dateLabel: formatDate(dObj),
+            time: clientRsSelectedTime,
+            specialist: specObj ? { id: specObj.id, name: specObj.name } : item.specialist,
+            status: 'Reagendada'
+          });
+        }
+        return item;
+      });
+      saveAllHistoryLocal(list);
+      renderHistory();
+      clientRsModal.classList.remove('is-open');
+    } catch (e) {
+      clientRsError.textContent = e.message;
+      clientRsError.hidden = false;
+    } finally {
+      clientRsOk.disabled = false;
+      clientRsOk.textContent = orig;
+    }
+  });
+
+  /* ---- Flujo Cliente: Cancelar ---- */
+  const clientCancelModal  = $('#clientCancelModal');
+  const clientCancelReason = $('#clientCancelReason');
+  const clientCancelError  = $('#clientCancelError');
+  const clientCancelOk     = $('#clientCancelOk');
+
+  function openClientCancel(bookingId) {
+    const list = loadHistoryLocal();
+    const booking = list.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    activeClientModalBooking = booking;
+    clientCancelReason.value = '';
+    clientCancelError.hidden = true;
+    $('#clientCancelDesc').textContent =
+      `Vas a cancelar tu cita del ${booking.dateLabel} a las ${booking.time}. El horario quedará disponible nuevamente.`;
+    clientCancelModal.classList.add('is-open');
+  }
+
+  $('#clientCancelClose').addEventListener('click', () => clientCancelModal.classList.remove('is-open'));
+  $('#clientCancelBack').addEventListener('click', () => clientCancelModal.classList.remove('is-open'));
+
+  clientCancelOk.addEventListener('click', async () => {
+    if (!activeClientModalBooking) return;
+    clientCancelOk.disabled = true;
+    const orig = clientCancelOk.textContent;
+    clientCancelOk.textContent = 'Cancelando…';
+    clientCancelError.hidden = true;
+
+    try {
+      const res = await gasPost('cancelBooking', {
+        id: activeClientModalBooking.id,
+        reason: clientCancelReason.value.trim()
+      });
+      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo cancelar.');
+
+      delete state.availabilityCache[activeClientModalBooking.dateISO];
+
+      const list = loadHistoryLocal().map(item =>
+        item.id === activeClientModalBooking.id ? Object.assign({}, item, { status: 'Cancelada' }) : item
+      );
+      saveAllHistoryLocal(list);
+      renderHistory();
+      clientCancelModal.classList.remove('is-open');
+    } catch (e) {
+      clientCancelError.textContent = e.message;
+      clientCancelError.hidden = false;
+    } finally {
+      clientCancelOk.disabled = false;
+      clientCancelOk.textContent = orig;
+    }
+  });
+
   clearHistoryBtn.addEventListener('click', () => {
-    if (!window.confirm('¿Borrar todo el historial de reservas de este navegador?')) return;
     try { localStorage.removeItem(HISTORY_KEY); } catch (e) {}
     renderHistory();
   });
@@ -1639,7 +1922,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
           summaryRow('Moneda', cur) +
         '</dl>' +
         '<div class="success-actions">' +
-          '<a href="#historial" class="btn btn-pill">Ver mis reservas</a>' +
+          '<a href="#historial" class="btn btn-pill">Ver o gestionar mis reservas</a>' +
           '<button class="btn btn-ghost" type="button" id="newBookingBtn">Hacer otra reserva</button>' +
         '</div>' +
       '</div>';
@@ -1662,6 +1945,8 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
     if (confirmModal.classList.contains('is-open')) closeConfirmModal(true);
+    else if (clientRsModal.classList.contains('is-open')) clientRsModal.classList.remove('is-open');
+    else if (clientCancelModal.classList.contains('is-open')) clientCancelModal.classList.remove('is-open');
     else if (supportModal.classList.contains('is-open')) closeSupport();
   });
 
@@ -1679,7 +1964,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   }
 
   async function init() {
-    // Estado de carga inicial
     serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);"><span class="loading">Cargando servicios…</span></li>';
     specialistList.innerHTML = '<p class="slots-empty"><span class="loading">Cargando especialistas…</span></p>';
 
@@ -1698,7 +1982,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
     }
 
-    // Sincronizar botones de moneda
     currencyButtons.forEach((b) => {
       const active = b.dataset.currency === state.currency;
       b.classList.toggle('is-active', active);
