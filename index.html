@@ -996,15 +996,34 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
      ========================================================= */
   async function loadBackendData() {
     backendStatus.hidden = true;
+    // Track real success/failure per call instead of swallowing errors.
+    let configOk = false, servicesOk = false, specialistsOk = false;
+    let lastError = '';
+    let config = {}, services = [], specialists = [];
+
     try {
-      const [config, services, specialists] = await Promise.all([
-        gasGet('getConfig').catch(() => ({})),
-        gasGet('getServices').catch(() => []),
-        gasGet('getSpecialists').catch(() => [])
+      const results = await Promise.all([
+        gasGet('getConfig').then(r => { configOk = true; return r; }).catch(e => { lastError = e.message; return {}; }),
+        gasGet('getServices').then(r => { servicesOk = Array.isArray(r); return servicesOk ? r : []; }).catch(e => { lastError = e.message; return []; }),
+        gasGet('getSpecialists').then(r => { specialistsOk = Array.isArray(r); return specialistsOk ? r : []; }).catch(e => { lastError = e.message; return []; })
       ]);
+      config = results[0] || {};
+      services = results[1] || [];
+      specialists = results[2] || [];
+
       state.config = (config && typeof config === 'object') ? config : {};
-      state.servicesCatalog = (Array.isArray(services) ? services : []).map(normalizeService);
-      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
+      state.servicesCatalog = services.map(normalizeService);
+      state.specialistsCatalog = specialists.map(normalizeSpecialist);
+
+      // Si los tres fallaron, el backend NO está listo.
+      const anySuccess = configOk || servicesOk || specialistsOk;
+      if (!anySuccess) {
+        state.backendReady = false;
+        backendStatus.textContent = '⚠ No se pudo conectar con el servidor de reservas (' + lastError + '). Verifica el GAS_URL y los permisos de despliegue (debe ser "Cualquiera, incluso anónimo").';
+        backendStatus.hidden = false;
+        return false;
+      }
+
       state.backendReady = true;
       applyConfig();
       return true;
