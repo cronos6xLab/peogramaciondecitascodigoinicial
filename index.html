@@ -394,7 +394,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     <div class="hero-dark">
       <p class="eyebrow" id="heroEyebrow">Reservas · Aevi Wellness</p>
       <h1 class="display">Agenda tu ritual</h1>
-      <p class="lead">Cuatro pasos claros: elige día y horario, tus servicios, tu especialista y confirma. Te enviamos los detalles por correo y puedes añadir la cita a tu Google Calendar.</p>
+      <p class="lead">Tres pasos claros: elige día, horario y especialista; luego tus servicios y confirma. Te enviamos los detalles por correo y puedes añadir la cita a tu Google Calendar.</p>
       <div class="hero-actions">
         <a href="#reserva" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
       </div>
@@ -417,25 +417,24 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">01 — Reservas</p>
-        <h2 class="heading-lg">Agenda en 4 pasos</h2>
+        <h2 class="heading-lg">Agenda en 3 pasos</h2>
         <p class="lead">Cada paso es una pantalla. Avanza cuando tengas tu selección lista.</p>
         <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;" hidden></p>
       </div>
 
       <ol class="steps" id="stepsNav" aria-label="Pasos de la reserva">
-        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Día y hora</button></li>
+        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Día, hora y especialista</button></li>
         <li><button class="step-btn" type="button" data-goto="2" disabled><span class="step-num">2</span> Servicios</button></li>
-        <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Especialista</button></li>
-        <li><button class="step-btn" type="button" data-goto="4" disabled><span class="step-num">4</span> Tu reserva</button></li>
+        <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Tu reserva</button></li>
       </ol>
 
       <div class="booking-shell">
 
         <div class="step-panel is-active" data-step="1">
           <div class="panel-head">
-            <p class="eyebrow">Paso 1 de 4</p>
-            <h3 class="heading">Elige día y horario</h3>
-            <p class="lead">Selecciona un día disponible en el calendario y después tu horario.</p>
+            <p class="eyebrow">Paso 1 de 3</p>
+            <h3 class="heading">Elige día, horario y especialista</h3>
+            <p class="lead">Selecciona un día disponible en el calendario, luego tu horario y por último al especialista que prefieras. Solo verás especialistas disponibles a esa hora.</p>
           </div>
           <div class="agenda-grid">
             <div class="card">
@@ -457,6 +456,13 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
               <div class="slots" id="slots"></div>
             </div>
           </div>
+
+          <div class="card" id="specialistCard" style="margin-top:var(--spacing-24);">
+            <p class="card-label">Especialistas disponibles</p>
+            <p class="card-sub empty" id="specSubtitle">Selecciona un día y horario para ver especialistas</p>
+            <div class="specialist-grid" id="specialistList"></div>
+          </div>
+
           <div class="panel-foot">
             <button class="btn btn-pill" type="button" id="next1" disabled>Continuar</button>
           </div>
@@ -464,7 +470,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 
         <div class="step-panel" data-step="2">
           <div class="panel-head">
-            <p class="eyebrow">Paso 2 de 4</p>
+            <p class="eyebrow">Paso 2 de 3</p>
             <h3 class="heading">Carta de servicios</h3>
             <p class="lead">Selecciona uno o más tratamientos. Puedes combinarlos en la misma visita.</p>
             <p class="panel-hint" id="servicesHint" aria-live="polite">Puedes elegir más de un servicio.</p>
@@ -485,22 +491,9 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
           </div>
         </div>
 
-        <div class="step-panel" data-step="3">
+        <div class="step-panel" data-step="3" id="summaryPanel">
           <div class="panel-head">
-            <p class="eyebrow">Paso 3 de 4</p>
-            <h3 class="heading">Elige a tu especialista</h3>
-            <p class="lead" id="specHint">Te atenderá la persona que selecciones. Verás sólo a quienes trabajan ese día.</p>
-          </div>
-          <div class="specialist-grid" id="specialistList"></div>
-          <div class="panel-foot">
-            <button class="btn btn-ghost" type="button" data-back="2">Atrás</button>
-            <button class="btn btn-pill" type="button" id="next3" disabled>Continuar</button>
-          </div>
-        </div>
-
-        <div class="step-panel" data-step="4" id="summaryPanel">
-          <div class="panel-head">
-            <p class="eyebrow">Paso 4 de 4</p>
+            <p class="eyebrow">Paso 3 de 3</p>
             <h3 class="heading">Tu reserva</h3>
             <p class="lead">Revisa los detalles y completa tus datos para confirmar.</p>
           </div>
@@ -542,7 +535,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
             </form>
           </div>
           <div class="panel-foot">
-            <button class="btn btn-ghost" type="button" data-back="3">Atrás</button>
+            <button class="btn btn-ghost" type="button" data-back="2">Atrás</button>
           </div>
         </div>
 
@@ -897,12 +890,57 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
 
   function normalizeSpecialist(sp) {
     const raw = sp.Días ?? sp.Dias ?? sp.dias ?? sp.days ?? sp.Horario ?? '';
-    return {
+    const rawHorarios = sp.Horarios ?? sp.horarios ?? sp.Schedule ?? sp.schedule ?? null;
+    let horarios = null;
+    if (rawHorarios) {
+      if (typeof rawHorarios === 'object') {
+        horarios = rawHorarios;
+      } else {
+        try { horarios = JSON.parse(String(rawHorarios)); } catch (e) { horarios = null; }
+      }
+    }
+    const spec = {
       id: String(sp.ID || sp.Id || sp.id || ''),
       name: String(sp.Nombre || sp.nombre || sp.name || ''),
       role: String(sp.Rol || sp.rol || sp.role || sp.Especialidad || ''),
-      days: parseDaysList(raw)
+      days: parseDaysList(raw),
+      horarios: horarios
     };
+    // Precomputa slots por día (0..6) para validación rápida.
+    spec.slotsByDay = {};
+    if (horarios) {
+      for (let d = 0; d < 7; d++) {
+        const dayCfg = horarios[d] || horarios[String(d)];
+        spec.slotsByDay[d] = slotsFromDayConfig(dayCfg, state && state.schedule ? (state.schedule.intervaloMinutos || 60) : 60);
+      }
+    }
+    return spec;
+  }
+
+  // Devuelve true si el especialista trabaja en el día dado (por Días o por horarios).
+  function specialistWorksOnDay(spec, dayOfWeek) {
+    if (spec.horarios) {
+      const dayCfg = spec.horarios[dayOfWeek] || spec.horarios[String(dayOfWeek)];
+      if (dayCfg) {
+        if (dayCfg.activo === false) return false;
+        const realShifts = (dayCfg.turnos || []).filter(t => t.tipo !== 'descanso');
+        return realShifts.length > 0;
+      }
+      return false;
+    }
+    // Legacy: usa "Días".
+    if (spec.days.length === 0) return true;
+    return spec.days.indexOf(dayOfWeek) !== -1;
+  }
+
+  // Devuelve true si el especialista atiende a la hora indicada ese día.
+  function specialistAvailableAt(spec, dayOfWeek, time) {
+    if (spec.horarios) {
+      const slots = spec.slotsByDay[dayOfWeek] || [];
+      return slots.indexOf(time) !== -1;
+    }
+    // Sin horarios detallados → basta con que trabaje ese día.
+    return specialistWorksOnDay(spec, dayOfWeek);
   }
 
   /* =========================================================
@@ -952,7 +990,6 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   const stepsNav       = $('#stepsNav');
   const next1          = $('#next1');
   const next2          = $('#next2');
-  const next3          = $('#next3');
   const confirmBtn     = $('#confirmBtn');
   const nameInput      = $('#fName');
   const emailInput     = $('#fEmail');
@@ -1130,7 +1167,8 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       ]);
       state.config = (config && typeof config === 'object') ? config : {};
       state.servicesCatalog = (Array.isArray(services) ? services : []).map(normalizeService);
-      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
+      // Asigna schedule ANTES de normalizar especialistas para que
+      // slotsByDay se calcule con el intervalo correcto.
       if (schedule && schedule.horarios) {
         state.schedule = schedule;
       } else if (state.config.horarios && typeof state.config.horarios === 'object') {
@@ -1140,6 +1178,8 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
           intervaloMinutos: Number(state.config.intervaloMinutos) || 60
         };
       }
+      // Ahora que state.schedule está definido, normaliza especialistas.
+      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : []).map(normalizeSpecialist);
       state.backendReady = true;
       applyConfig();
       return true;
@@ -1248,15 +1288,24 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
         btn.setAttribute('aria-pressed', 'true');
       }
 
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         state.date = date;
         state.time = null;
-        if (state.specialist && state.specialist.days.indexOf(date.getDay()) === -1) {
+        // Si el especialista seleccionado no trabaja este día, deselecciónalo.
+        if (state.specialist && !specialistWorksOnDay(state.specialist, date.getDay())) {
           state.specialist = null;
         }
+        // Carga la disponibilidad de TODOS los especialistas para este día
+        // (en paralelo) para poder mostrar quién está libre en cada slot.
         state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
         renderCalendar();
         renderSlots();
+        // Si todavía no se habían cargado las disponibilidades de este día,
+        // cárgalas ahora y vuelve a pintar especialistas + slots.
+        if (!state.availabilityCache[dateToISO(date)] && state.specialistsCatalog.length) {
+          try { await loadAvailabilityForDate(date); } catch (e) {}
+          renderSlots();
+        }
         renderSpecialists();
         renderSummary();
         syncControls();
@@ -1383,22 +1432,53 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   }
 
   /* =========================================================
-     15. ESPECIALISTAS
+     15. ESPECIALISTAS — se muestran dentro del Paso 1
      ========================================================= */
   function renderSpecialists() {
     specialistList.innerHTML = '';
+    const subtitle = document.getElementById('specSubtitle');
 
     if (state.specialistsCatalog.length === 0) {
       specialistList.innerHTML = '<p class="slots-empty">No hay especialistas configurados. Contacta al negocio.</p>';
+      if (subtitle) { subtitle.textContent = 'Sin especialistas'; subtitle.classList.add('empty'); }
       return;
     }
 
-    const weekday = state.date ? state.date.getDay() : null;
+    if (!state.date) {
+      specialistList.innerHTML = '<p class="slots-empty">Selecciona primero un día en el calendario.</p>';
+      if (subtitle) { subtitle.textContent = 'Selecciona un día para ver especialistas'; subtitle.classList.add('empty'); }
+      return;
+    }
+
+    if (!state.time) {
+      specialistList.innerHTML = '<p class="slots-empty">Elige un horario para ver qué especialistas están disponibles.</p>';
+      if (subtitle) { subtitle.textContent = 'Selecciona un horario para ver especialistas'; subtitle.classList.add('empty'); }
+      return;
+    }
+
+    const weekday = state.date.getDay();
+
+    // Cuenta cuántos están realmente disponibles.
+    let availableCount = 0;
+    state.specialistsCatalog.forEach((spec) => {
+      const worksDay = specialistWorksOnDay(spec, weekday);
+      const availAt = specialistAvailableAt(spec, weekday, state.time);
+      const bookedAtTime = !!(state.availabilityBySpecialist[spec.id] || []).includes(state.time);
+      if (worksDay && availAt && !bookedAtTime) availableCount++;
+    });
+
+    if (subtitle) {
+      subtitle.textContent = availableCount > 0
+        ? availableCount + ' especialista' + (availableCount === 1 ? '' : 's') + ' disponible' + (availableCount === 1 ? '' : 's') + ' a las ' + state.time
+        : 'Ningún especialista disponible a las ' + state.time + ' — prueba con otro horario';
+      subtitle.classList.toggle('empty', availableCount === 0);
+    }
 
     state.specialistsCatalog.forEach((spec) => {
-      const worksThisDay = weekday === null || spec.days.indexOf(weekday) !== -1;
+      const worksDay = specialistWorksOnDay(spec, weekday);
+      const availAt = specialistAvailableAt(spec, weekday, state.time);
       const bookedAtTime = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
-      const available = worksThisDay && !bookedAtTime;
+      const available = worksDay && availAt && !bookedAtTime;
       const selected = !!(state.specialist && state.specialist.id === spec.id);
 
       const btn = document.createElement('button');
@@ -1408,8 +1488,10 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
       btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
       let hint;
-      if (!worksThisDay) hint = 'No disponible este día';
+      if (!worksDay) hint = 'No trabaja este día';
+      else if (!availAt) hint = 'Fuera de su horario';
       else if (bookedAtTime) hint = 'Ocupado a las ' + state.time;
+      else if (spec.horarios) hint = 'Disponible a esta hora';
       else hint = 'Disponible ' + daysLabel(spec.days);
 
       btn.innerHTML =
@@ -1510,28 +1592,30 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   });
 
   function isStepComplete(step) {
-    if (step === 1) return !!(state.date && state.time);
-    if (step === 2) return state.services.length > 0;
-    if (step === 3) {
-      if (!state.specialist) return false;
-      const wd = state.date ? state.date.getDay() : null;
-      const works = wd === null || state.specialist.days.indexOf(wd) !== -1;
-      const booked = !!(state.time && (state.availabilityBySpecialist[state.specialist.id] || []).includes(state.time));
-      return works && !booked;
+    if (step === 1) {
+      // Paso 1 completo cuando hay día + hora + especialista válido.
+      if (!state.date || !state.time || !state.specialist) return false;
+      const wd = state.date.getDay();
+      const spec = state.specialist;
+      // ¿Está dentro del horario del especialista (o del día laborable)?
+      const worksDay = spec.days.length === 0 || spec.days.indexOf(wd) !== -1;
+      const inSpecSched = spec.slotsForDay ? spec.slotsForDay.indexOf(state.time) !== -1 : true;
+      const booked = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
+      return worksDay && inSpecSched && !booked;
     }
-    if (step === 4) return formReady();
+    if (step === 2) return state.services.length > 0;
+    if (step === 3) return formReady();
     return false;
   }
   function maxReachableStep() {
     let s = 1;
-    while (s < 4 && isStepComplete(s)) s++;
+    while (s < 3 && isStepComplete(s)) s++;
     return s;
   }
 
   function syncControls() {
     next1.disabled = !isStepComplete(1);
     next2.disabled = !isStepComplete(2);
-    next3.disabled = !isStepComplete(3);
     updateFormState();
     renderStepsNav();
   }
@@ -1551,7 +1635,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
      ========================================================= */
   function goToStep(n, opts) {
     opts = opts || {};
-    n = Math.max(1, Math.min(4, n));
+    n = Math.max(1, Math.min(3, n));
     state.step = n;
     document.querySelectorAll('.step-panel').forEach((panel) => {
       panel.classList.toggle('is-active', Number(panel.dataset.step) === n);
@@ -1563,38 +1647,8 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     }
   }
 
-  async function goToStep3() {
-    if (state.date && !state.availabilityCache[dateToISO(state.date)]) {
-      const origText = next2.textContent;
-      next2.disabled = true;
-      next2.textContent = 'Cargando disponibilidad…';
-      try {
-        await loadAvailabilityForDate(state.date);
-      } catch (e) {
-        console.warn('Availability load failed:', e);
-      } finally {
-        next2.disabled = false;
-        next2.textContent = origText;
-      }
-    } else if (state.date) {
-      state.availabilityBySpecialist = state.availabilityCache[dateToISO(state.date)] || {};
-    }
-
-    if (state.specialist) {
-      const wd = state.date ? state.date.getDay() : null;
-      const works = wd === null || state.specialist.days.indexOf(wd) !== -1;
-      const booked = !!(state.time && (state.availabilityBySpecialist[state.specialist.id] || []).includes(state.time));
-      if (!works || booked) state.specialist = null;
-    }
-    renderSpecialists();
-    renderSummary();
-    syncControls();
-    goToStep(3);
-  }
-
   next1.addEventListener('click', () => goToStep(2));
-  next2.addEventListener('click', goToStep3);
-  next3.addEventListener('click', () => goToStep(4));
+  next2.addEventListener('click', () => goToStep(3));
 
   document.querySelectorAll('[data-back]').forEach((btn) => {
     btn.addEventListener('click', () => goToStep(Number(btn.dataset.back)));
@@ -1603,8 +1657,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
   stepsNav.querySelectorAll('.step-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const n = Number(btn.dataset.goto);
-      if (n === 3) goToStep3();
-      else goToStep(n);
+      goToStep(n);
     });
   });
 
@@ -1612,11 +1665,7 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     link.addEventListener('click', (event) => {
       event.preventDefault();
       const target = Number(link.dataset.navStep);
-      if (target === 3 && isStepComplete(1) && isStepComplete(2)) {
-        goToStep3();
-      } else {
-        goToStep(Math.min(target, maxReachableStep()));
-      }
+      goToStep(Math.min(target, maxReachableStep()));
     });
   });
 
@@ -1882,14 +1931,20 @@ input,textarea,select{font-family:inherit;font-size:16px;touch-action:manipulati
     const wd = d.getDay();
     const spec = state.specialistsCatalog.find(s => s.id === specId);
 
-    if (spec && spec.days.length > 0 && !spec.days.includes(wd)) {
+    if (spec && !specialistWorksOnDay(spec, wd)) {
       clientRsSlots.innerHTML = '<p class="slots-empty">Este especialista no atiende el día seleccionado.</p>';
       return;
     }
 
-    const daySlots = slotsFor(d);
+    // Si el especialista tiene horarios propios, úsalos; si no, usa los de la sucursal.
+    let daySlots;
+    if (spec && spec.horarios) {
+      daySlots = spec.slotsByDay[wd] || [];
+    } else {
+      daySlots = slotsFor(d);
+    }
     if (daySlots.length === 0) {
-      clientRsSlots.innerHTML = '<p class="slots-empty">Cerrado este día. Selecciona otra fecha.</p>';
+      clientRsSlots.innerHTML = '<p class="slots-empty">Sin horarios disponibles este día. Selecciona otra fecha.</p>';
       return;
     }
 
