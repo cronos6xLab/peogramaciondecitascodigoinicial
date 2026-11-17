@@ -395,6 +395,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         <p class="eyebrow">01 — Reservas</p>
         <h2 class="heading-lg">Agenda en 3 pasos</h2>
         <p class="lead">Elige el día, la hora y visualiza al instante qué especialista está disponible para atenderte.</p>
+        <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;font-weight:600;" hidden></p>
       </div>
 
       <!-- Barra de 3 Pasos (Especialista integrado en el Paso 1) -->
@@ -641,7 +642,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIpslooNGNBqrg6NAGwk5ElppYHDtC5sOPHU1uWoiaLu_73hs-wdQpIKjWgUe1XrTNKA/exec';
   const HISTORY_KEY = 'aevi_booking_history_v1';
   const CLIENT_PROFILE_KEY = 'aevi_client_profile_v1';
-  const SHARED_STORAGE_KEY = 'aevi_pro_suite_state_v2';
 
   const CURRENCIES = {
     MXN: { code:'MXN', mxnPerUnit:1,    decimals:0 },
@@ -656,25 +656,13 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   const DEFAULT_SLOTS_BY_WEEKDAY = {
     0: [],
-    1: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
-    2: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
-    3: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
-    4: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
-    5: ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'],
+    1: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    2: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    3: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    4: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
+    5: ['09:00','10:00','11:00','12:00','13:00','15:00','16:00','17:00','18:00'],
     6: ['09:00','10:00','11:00','12:00','13:00']
   };
-
-  const FALLBACK_SERVICES = [
-    { id: 'srv-1', name: 'Ritual Hydrafacial Botánico', desc: 'Limpieza profunda + infusión de antioxidantes.', duration: 60, price: 1450 },
-    { id: 'srv-2', name: 'Masaje Descontracturante Tejido Profundo', desc: 'Terapia muscular focalizada con aceites esenciales.', duration: 60, price: 1200 },
-    { id: 'srv-3', name: 'Drenaje Linfático Facial & Sculpting', desc: 'Reafirmación natural y oxigenación celular.', duration: 45, price: 980 }
-  ];
-
-  const FALLBACK_SPECIALISTS = [
-    { id: 'sp-1', name: 'Dra. Sofía Mendoza', role: 'Especialista Dermo-Facial', days: [1,2,3,4,5,6] },
-    { id: 'sp-2', name: 'Elena Villalobos', role: 'Terapeuta Corporal Senior', days: [1,2,3,4,5] },
-    { id: 'sp-3', name: 'Marco Santillán', role: 'Fisioterapeuta & Sculpting', days: [2,3,4,5,6] }
-  ];
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -687,23 +675,20 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     services: [],
     currency: 'MXN',
     step: 1,
-    config: {
-      businessName: 'Aevi Wellness',
-      address: 'Av. Presidente Masaryk 123, Polanco, CDMX',
-      phone: '+52 55 1234 5678',
-      email: 'hola@aeviwellness.com'
-    },
-    servicesCatalog: FALLBACK_SERVICES.slice(),
-    specialistsCatalog: FALLBACK_SPECIALISTS.slice(),
+    config: {},
+    exceptions: [],
+    servicesCatalog: [],
+    specialistsCatalog: [],
     availabilityCache: {},
-    availabilityBySpecialist: {}
+    availabilityBySpecialist: {},
+    backendReady: false
   };
 
   let activeRescheduleBooking = null;
   let clientRsSelectedTime = '';
 
   /* =========================================================
-     UTILIDADES Y GENERADOR GOOGLE CALENDAR + .ICS
+     UTILIDADES Y NORMALIZADORES DE SHEETS
      ========================================================= */
   const escapeHtml = (str) => String(str == null ? '' : str).replace(/[&<>"']/g, (c) => (
     { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
@@ -722,6 +707,67 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   const initials = (name) =>
     String(name || '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 
+  function normalizeTimeStr(val) {
+    if (val === null || val === undefined || val === '') return '';
+    const str = String(val).trim().replace(/^'/, '');
+    const m = str.match(/^(\d{1,2}):(\d{2})/);
+    if (m) return String(m[1]).padStart(2, '0') + ':' + m[2];
+    if (str.includes('T')) {
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      }
+    }
+    return str;
+  }
+
+  function parseNumberClean(val, fallback) {
+    if (typeof val === 'number' && !isNaN(val)) return val;
+    const cleaned = String(val ?? '').replace(/[^\d.]/g, '');
+    const num = parseFloat(cleaned);
+    return isNaN(num) ? (fallback || 0) : num;
+  }
+
+  function parseDaysList(raw) {
+    if (Array.isArray(raw)) return raw.map(Number).filter(n => !isNaN(n) && n >= 0 && n <= 6);
+    const str = String(raw ?? '').trim().replace(/^'/, '');
+    if (!str) return [1,2,3,4,5,6];
+
+    const dayNameMap = { dom:0, lun:1, mar:2, mie:3, mié:3, jue:4, vie:5, sab:6, sáb:6 };
+    const lower = str.toLowerCase();
+    const matchedNames = [];
+    Object.keys(dayNameMap).forEach(k => {
+      if (lower.includes(k)) matchedNames.push(dayNameMap[k]);
+    });
+    if (matchedNames.length > 0) return Array.from(new Set(matchedNames)).sort((a, b) => a - b);
+
+    const parts = str.indexOf(',') >= 0
+      ? str.split(',')
+      : (/^[0-6]+$/.test(str) ? str.split('') : str.split(/[\s,;.|/-]+/));
+    const nums = parts.map(x => Number(String(x).trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6);
+    return nums.length ? Array.from(new Set(nums)).sort((a, b) => a - b) : [1,2,3,4,5,6];
+  }
+
+  function normalizeService(s) {
+    return {
+      id: String(s.ID ?? s.Id ?? s.id ?? ''),
+      name: String(s.Nombre ?? s.nombre ?? s.name ?? ''),
+      desc: String(s.Descripción ?? s.Descripcion ?? s.descripcion ?? s.desc ?? ''),
+      duration: parseNumberClean(s.Duración ?? s.Duracion ?? s.duracion ?? s.duration, 60),
+      price: parseNumberClean(s.Precio ?? s.precio ?? s.price, 0)
+    };
+  }
+
+  function normalizeSpecialist(sp) {
+    const raw = sp.Días ?? sp.Dias ?? sp.dias ?? sp.days ?? sp.Horario ?? '';
+    return {
+      id: String(sp.ID ?? sp.Id ?? sp.id ?? ''),
+      name: String(sp.Nombre ?? sp.nombre ?? sp.name ?? ''),
+      role: String(sp.Rol ?? sp.rol ?? sp.role ?? sp.Especialidad ?? ''),
+      days: parseDaysList(raw)
+    };
+  }
+
   function money(mxnAmount, currencyCode) {
     const code = currencyCode || state.currency || 'MXN';
     const cur  = CURRENCIES[code] || CURRENCIES.MXN;
@@ -734,7 +780,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   }
 
   function timeToMinutes(t) {
-    const [h, m] = String(t || '09:00').split(':').map(Number);
+    const [h, m] = normalizeTimeStr(t || '09:00').split(':').map(Number);
     return (h || 0) * 60 + (m || 0);
   }
 
@@ -742,6 +788,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const h = Math.floor(mins / 60);
     const m = mins % 60;
     return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+  }
+
+  function isPastTime(time, now) {
+    const [h, m] = normalizeTimeStr(time).split(':').map(Number);
+    return (h * 60 + m) <= (now.getHours() * 60 + now.getMinutes());
   }
 
   function buildGoogleCalendarUrl(booking) {
@@ -800,11 +851,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   }
 
   /* =========================================================
-     API & CARGA DE DATOS
+     API & CARGA REAL DESDE GOOGLE SHEETS (GAS_URL)
      ========================================================= */
   async function gasGet(action, params) {
     const url = new URL(GAS_URL);
     url.searchParams.set('action', action);
+    url.searchParams.set('_t', Date.now());
     Object.entries(params || {}).forEach(([k, v]) => url.searchParams.set(k, v));
     const res = await fetch(url.toString(), { method: 'GET', redirect: 'follow' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -814,6 +866,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   async function gasPost(action, data) {
     const res = await fetch(GAS_URL, {
       method: 'POST',
+      redirect: 'follow',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(Object.assign({ action }, data || {}))
     });
@@ -821,57 +874,87 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     return res.json();
   }
 
-  function parseDaysList(raw) {
-    if (Array.isArray(raw)) return raw.map(Number);
-    const str = String(raw ?? '').trim().replace(/^'/, '');
-    if (!str) return [1,2,3,4,5];
-    return Array.from(new Set(
-      str.split(/[\s,;.|/-]+/).map(x => Number(x.trim())).filter(n => !isNaN(n) && n >= 0 && n <= 6)
-    )).sort((a, b) => a - b);
+  function applyConfigToDOM() {
+    const c = state.config || {};
+    if (c.businessName) {
+      document.title = c.businessName + ' — Agenda tu cita';
+      const wm = $('#wordmark');
+      if (wm) {
+        if (c.logoUrl) {
+          wm.innerHTML = `<img src="${escapeHtml(c.logoUrl)}" alt="${escapeHtml(c.businessName)}">`;
+        } else {
+          const parts = String(c.businessName).trim().split(/\s+/);
+          wm.innerHTML = parts.length > 1
+            ? `${escapeHtml(parts[0])} <span>${escapeHtml(parts.slice(1).join(' '))}</span>`
+            : escapeHtml(c.businessName);
+        }
+      }
+      if ($('#footerBusinessName')) $('#footerBusinessName').textContent = c.businessName;
+      if ($('#heroEyebrow')) $('#heroEyebrow').textContent = 'Reservas · ' + c.businessName;
+    }
+    if (c.address) {
+      if ($('#locAddress')) $('#locAddress').innerHTML = escapeHtml(c.address).replace(/\n/g, '<br>');
+      if ($('#footerAddress')) $('#footerAddress').textContent = c.address;
+      if ($('#mapCard')) $('#mapCard').href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
+    }
+    if (c.phone && $('#locPhone')) $('#locPhone').textContent = c.phone;
+    if (c.email && $('#footerEmail')) $('#footerEmail').textContent = c.email;
+
+    if (c.exceptions_json) {
+      try {
+        const parsed = JSON.parse(c.exceptions_json);
+        if (Array.isArray(parsed)) state.exceptions = parsed;
+      } catch (e) {}
+    }
+
+    const ls = $('#locSchedule');
+    if (ls) {
+      const lines = [];
+      for (let d = 1; d <= 6; d++) {
+        const sched = slotsFor({ getDay: () => d });
+        if (sched.length > 0) {
+          lines.push(WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1) + ' · ' + sched[0] + ' – ' + sched[sched.length - 1]);
+        }
+      }
+      if (lines.length) ls.innerHTML = lines.join('<br>');
+    }
   }
 
   async function loadBackendData() {
-    // 1. Intentar sincronizar con almacenamiento local compartido del Dashboard si existe
-    try {
-      const localRaw = localStorage.getItem(SHARED_STORAGE_KEY);
-      if (localRaw) {
-        const parsed = JSON.parse(localRaw);
-        if (parsed.config) Object.assign(state.config, parsed.config);
-        if (Array.isArray(parsed.services) && parsed.services.length) state.servicesCatalog = parsed.services;
-        if (Array.isArray(parsed.specialists) && parsed.specialists.length) state.specialistsCatalog = parsed.specialists;
-      }
-    } catch (e) {}
-
-    // 2. Consultar Google Apps Script en vivo
+    const statusEl = $('#backendStatus');
+    if (statusEl) statusEl.hidden = true;
     try {
       const [config, services, specialists] = await Promise.all([
-        gasGet('getConfig').catch(() => null),
-        gasGet('getServices').catch(() => null),
-        gasGet('getSpecialists').catch(() => null)
+        gasGet('getConfig'),
+        gasGet('getServices'),
+        gasGet('getSpecialists')
       ]);
-      if (config && typeof config === 'object') Object.assign(state.config, config);
-      if (Array.isArray(services) && services.length) {
-        state.servicesCatalog = services.map(s => ({
-          id: String(s.ID || s.id || ''),
-          name: String(s.Nombre || s.name || ''),
-          desc: String(s.Descripción || s.Descripcion || s.desc || ''),
-          duration: Number(s.Duración || s.Duracion || s.duration || 60),
-          price: Number(s.Precio || s.price || 0)
-        }));
+
+      if (config && !config.error && typeof config === 'object') {
+        state.config = config;
       }
-      if (Array.isArray(specialists) && specialists.length) {
-        state.specialistsCatalog = specialists.map(sp => ({
-          id: String(sp.ID || sp.id || ''),
-          name: String(sp.Nombre || sp.name || ''),
-          role: String(sp.Rol || sp.role || ''),
-          days: parseDaysList(sp.Días ?? sp.Dias ?? sp.days)
-        }));
+      state.servicesCatalog = (Array.isArray(services) ? services : [])
+        .map(normalizeService)
+        .filter(s => s.id && s.name);
+      state.specialistsCatalog = (Array.isArray(specialists) ? specialists : [])
+        .map(normalizeSpecialist)
+        .filter(sp => sp.id && sp.name);
+
+      state.backendReady = true;
+      applyConfigToDOM();
+      return true;
+    } catch (err) {
+      state.backendReady = false;
+      if (statusEl) {
+        statusEl.textContent = '⚠ No se pudo sincronizar con Google Sheets: ' + err.message;
+        statusEl.hidden = false;
       }
-    } catch (e) {}
+      return false;
+    }
   }
 
   async function loadAvailabilityForDate(date) {
-    if (!date) return {};
+    if (!date || !state.specialistsCatalog.length) return {};
     const dateISO = dateToISO(date);
     if (state.availabilityCache[dateISO]) {
       state.availabilityBySpecialist = state.availabilityCache[dateISO];
@@ -881,7 +964,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     await Promise.all(state.specialistsCatalog.map(async (spec) => {
       try {
         const times = await gasGet('getAvailability', { date: dateISO, specialistId: spec.id });
-        result[spec.id] = Array.isArray(times) ? times.map(String) : [];
+        result[spec.id] = Array.isArray(times) ? times.map(normalizeTimeStr).filter(Boolean) : [];
       } catch (e) {
         result[spec.id] = [];
       }
@@ -891,13 +974,20 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     return result;
   }
 
+  function isExceptionDate(date) {
+    if (!date || !state.exceptions.length) return false;
+    const iso = dateToISO(date);
+    return state.exceptions.some(ex => String(ex.date).trim() === iso);
+  }
+
   function slotsFor(date) {
+    if (date instanceof Date && isExceptionDate(date)) return [];
     const wd = date.getDay();
     const key = 'schedule_' + wd;
     if (state.config && Object.prototype.hasOwnProperty.call(state.config, key)) {
       const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
       if (!val) return [];
-      return val.split(',').map(s => s.trim()).filter(Boolean);
+      return val.split(',').map(s => normalizeTimeStr(s)).filter(Boolean);
     }
     return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
   }
@@ -993,6 +1083,8 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
     const wd = state.date.getDay();
     const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
+    const now = new Date();
+    const isToday = sameDay(state.date, now);
 
     list.forEach((time) => {
       const btn = document.createElement('button');
@@ -1000,12 +1092,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       btn.className = 'slot';
       btn.textContent = time;
 
-      // Si todos los especialistas que trabajan ese día están ocupados a esa hora, deshabilitar horario
+      const past = isToday && isPastTime(time, now);
       const allBusy = workingSpecs.length > 0 && workingSpecs.every(sp =>
         (state.availabilityBySpecialist[sp.id] || []).includes(time)
       );
 
-      if (allBusy) {
+      if (past || allBusy || workingSpecs.length === 0) {
         btn.classList.add('is-taken');
         btn.disabled = true;
       }
@@ -1013,11 +1105,9 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
       btn.addEventListener('click', () => {
         state.time = time;
-        // Si el especialista previamente elegido está ocupado a esta nueva hora, deseleccionarlo
         if (state.specialist && (state.availabilityBySpecialist[state.specialist.id] || []).includes(time)) {
           state.specialist = null;
         }
-        // Si no hay especialista elegido o solo hay uno disponible, ayudar preseleccionando el primero libre
         if (!state.specialist) {
           const firstFree = workingSpecs.find(sp => !(state.availabilityBySpecialist[sp.id] || []).includes(time));
           if (firstFree) state.specialist = firstFree;
@@ -1040,6 +1130,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const container = $('#specialistList');
     const subLabel = $('#specSubLabel');
     container.innerHTML = '';
+
+    if (!state.specialistsCatalog.length) {
+      subLabel.textContent = 'No hay especialistas registrados en la hoja Especialistas';
+      subLabel.classList.add('empty');
+      return;
+    }
 
     if (!state.date) {
       subLabel.textContent = 'Primero selecciona un día en el calendario';
@@ -1113,6 +1209,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   function renderServices() {
     const serviceList = $('#serviceList');
     serviceList.innerHTML = '';
+
+    if (!state.servicesCatalog.length) {
+      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);">No hay servicios registrados en la hoja Servicios.</li>';
+      return;
+    }
 
     state.servicesCatalog.forEach((service) => {
       const li = document.createElement('li');
@@ -1301,8 +1402,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   $('#confirmOk').addEventListener('click', async () => {
     const btn = $('#confirmOk');
+    const errEl = $('#confirmError');
     btn.disabled = true;
     btn.textContent = 'Confirmando…';
+    errEl.hidden = true;
+    errEl.textContent = '';
 
     const payload = {
       date: dateToISO(state.date),
@@ -1311,18 +1415,16 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       name: $('#fName').value.trim(),
       email: $('#fEmail').value.trim(),
       phone: $('#fPhone').value.trim(),
-      services: state.services.map(s => s.id).join(','),
-      duration: totalDuration(),
-      syncCalendar: $('#chkAddGoogleCal').checked
+      services: state.services.map(s => s.name || s.id).join(', ')
     };
 
     try {
-      let bookingId = 'bk-' + Date.now().toString(36);
-      try {
-        const res = await gasPost('createBooking', { booking: payload });
-        if (res && res.id) bookingId = res.id;
-      } catch (networkErr) {}
+      const res = await gasPost('createBooking', { booking: payload });
+      if (!res || res.error) {
+        throw new Error((res && res.error) || 'No se pudo guardar la reserva en Google Sheets.');
+      }
 
+      const bookingId = res.id || ('bk-' + Date.now().toString(36));
       delete state.availabilityCache[payload.date];
 
       const displayBooking = {
@@ -1352,6 +1454,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
       renderSuccessScreen(displayBooking, gcalUrl);
       renderHistory();
+    } catch (err) {
+      errEl.textContent = 'No se pudo confirmar: ' + err.message;
+      errEl.hidden = false;
+      await loadAvailabilityForDate(state.date);
+      renderSlots();
+      renderSpecialistsInline();
     } finally {
       btn.disabled = false;
       btn.textContent = 'Confirmar cita';
@@ -1475,17 +1583,45 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const slotsBox = $('#clientRsSlots');
     clientRsSelectedTime = '';
     $('#clientRsOk').disabled = true;
+    $('#clientRsError').hidden = true;
 
-    if (!dateVal) return;
+    if (!dateVal || !specId) return;
     const d = new Date(dateVal + 'T12:00:00');
+    const spec = state.specialistsCatalog.find(s => s.id === specId);
+    if (spec && spec.days.length && !spec.days.includes(d.getDay())) {
+      slotsBox.innerHTML = '<p class="slots-empty">Este especialista no labora el día seleccionado.</p>';
+      return;
+    }
+
     const daySlots = slotsFor(d);
+    if (!daySlots.length) {
+      slotsBox.innerHTML = '<p class="slots-empty">Cerrado este día. Elige otra fecha.</p>';
+      return;
+    }
+
+    slotsBox.innerHTML = '<p class="slots-empty">Consultando disponibilidad…</p>';
+    let takenSet = new Set();
+    try {
+      const occupied = await gasGet('getAvailability', { date: dateVal, specialistId: specId });
+      takenSet = new Set(Array.isArray(occupied) ? occupied.map(normalizeTimeStr) : []);
+      if (activeRescheduleBooking && activeRescheduleBooking.dateISO === dateVal && activeRescheduleBooking.specialist?.id === specId) {
+        takenSet.delete(normalizeTimeStr(activeRescheduleBooking.time));
+      }
+    } catch (e) {}
+
     slotsBox.innerHTML = '';
+    const now = new Date();
+    const isToday = sameDay(d, now);
 
     daySlots.forEach(t => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot';
       btn.textContent = t;
+      if (takenSet.has(t) || (isToday && isPastTime(t, now))) {
+        btn.classList.add('is-taken');
+        btn.disabled = true;
+      }
       btn.addEventListener('click', () => {
         slotsBox.querySelectorAll('.slot').forEach(s => s.classList.remove('is-selected'));
         btn.classList.add('is-selected');
@@ -1506,33 +1642,52 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const newDate = $('#clientRsDate').value;
     const newSpecId = $('#clientRsSpec').value;
     const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
+    const errEl = $('#clientRsError');
+    const okBtn = $('#clientRsOk');
+    errEl.hidden = true;
+    okBtn.disabled = true;
+    okBtn.textContent = 'Guardando…';
 
     try {
-      await gasPost('rescheduleBooking', {
+      const res = await gasPost('rescheduleBooking', {
         id: activeRescheduleBooking.id,
         date: newDate,
         time: clientRsSelectedTime,
         specialistId: newSpecId
       });
-    } catch (e) {}
+      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo reagendar');
 
-    const dObj = new Date(newDate + 'T12:00:00');
-    const updated = loadHistoryLocal().map(x => x.id === activeRescheduleBooking.id ? Object.assign({}, x, {
-      dateISO: newDate,
-      dateLabel: formatDate(dObj),
-      time: clientRsSelectedTime,
-      specialist: specObj ? { id: specObj.id, name: specObj.name } : x.specialist,
-      status: 'Reagendada'
-    }) : x);
-    saveAllHistoryLocal(updated);
-    renderHistory();
-    $('#clientRescheduleModal').classList.remove('is-open');
+      delete state.availabilityCache[activeRescheduleBooking.dateISO];
+      delete state.availabilityCache[newDate];
+
+      const dObj = new Date(newDate + 'T12:00:00');
+      const updated = loadHistoryLocal().map(x => x.id === activeRescheduleBooking.id ? Object.assign({}, x, {
+        dateISO: newDate,
+        dateLabel: formatDate(dObj),
+        time: clientRsSelectedTime,
+        specialist: specObj ? { id: specObj.id, name: specObj.name } : x.specialist,
+        status: 'Reagendada'
+      }) : x);
+      saveAllHistoryLocal(updated);
+      renderHistory();
+      $('#clientRescheduleModal').classList.remove('is-open');
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.hidden = false;
+    } finally {
+      okBtn.disabled = false;
+      okBtn.textContent = 'Guardar cambio';
+    }
   });
 
   /* =========================================================
      INICIALIZACIÓN
      ========================================================= */
   async function init() {
+    $('#slots').innerHTML = '<p class="slots-empty">Sincronizando horarios con Google Sheets…</p>';
+    $('#specialistList').innerHTML = '<p class="slots-empty">Cargando especialistas desde Google Sheets…</p>';
+    $('#serviceList').innerHTML = '<li style="padding:20px;color:var(--color-slate);">Cargando catálogo de servicios…</li>';
+
     loadClientProfile();
     await loadBackendData();
 
