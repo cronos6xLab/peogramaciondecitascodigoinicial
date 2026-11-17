@@ -135,23 +135,31 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .cal-nav:disabled{opacity:.3;cursor:not-allowed;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;}
 .cal-dow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-slate);text-align:center;padding-bottom:6px;}
-.day{position:relative;aspect-ratio:1;min-height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--color-carbon);background:transparent;border:1px solid transparent;border-radius:var(--radius-lg);transition:.15s;}
+.day{position:relative;aspect-ratio:1;min-height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--color-carbon);background:transparent;border:1px solid transparent;border-radius:var(--radius-lg);transition:.15s;}
 .day:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.08);}
 .day.is-off{color:var(--color-fog);opacity:.45;cursor:not-allowed;}
+.day.is-full{color:var(--color-danger);background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.2);text-decoration:line-through;opacity:.65;cursor:not-allowed;}
+.day.has-bookings:not(.is-selected):not(.is-full)::before{content:'';position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--color-warning);}
 .day.is-today::after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-mint-pulse);}
 .day.is-selected{background:var(--color-deep-teal);border-color:var(--color-deep-teal);color:#fff;}
 .cal-legend{display:flex;flex-wrap:wrap;gap:var(--spacing-16);margin-top:var(--spacing-16);padding-top:var(--spacing-12);border-top:1px solid var(--color-mist);font-size:12px;color:var(--color-slate);}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
 .dot--open{background:var(--color-deep-teal);}
 .dot--today{background:var(--color-mint-pulse);}
+.dot--full{background:var(--color-danger);}
 .dot--off{background:var(--color-mist);}
 
 /* Horarios */
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:var(--spacing-8);}
-.slot{padding:10px 8px;font-size:14px;font-weight:600;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:.15s;min-height:40px;}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:var(--spacing-8);}
+.slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px;font-size:14px;font-weight:600;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-lg);transition:.15s;min-height:48px;}
+.slot-sub{font-size:10px;font-weight:600;letter-spacing:0.03em;color:var(--color-slate);line-height:1.1;}
 .slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.08);}
-.slot.is-taken{color:var(--color-fog);text-decoration:line-through;opacity:.55;cursor:not-allowed;background:var(--color-bone);}
+.slot.is-taken{color:var(--color-fog);text-decoration:line-through;opacity:.6;cursor:not-allowed;background:var(--color-bone);border-color:var(--color-mist);}
+.slot.is-taken .slot-sub{color:var(--color-danger);text-decoration:none;font-weight:700;}
+.slot.is-spec-busy:not(.is-taken){border-color:rgba(217,119,6,.45);background:#fffbeb;}
+.slot.is-spec-busy:not(.is-selected) .slot-sub{color:var(--color-warning);}
 .slot.is-selected{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);color:#fff;}
+.slot.is-selected .slot-sub{color:rgba(255,255,255,.92);}
 .slots-empty{font-size:14px;color:var(--color-slate);grid-column:1 / -1;}
 
 /* Especialistas integrados en Paso 1 */
@@ -429,6 +437,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
               <div class="cal-legend">
                 <span><i class="dot dot--open"></i>Con disponibilidad</span>
                 <span><i class="dot dot--today"></i>Hoy</span>
+                <span><i class="dot dot--full"></i>Agotado</span>
                 <span><i class="dot dot--off"></i>Cerrado</span>
               </div>
             </div>
@@ -679,8 +688,10 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     exceptions: [],
     servicesCatalog: [],
     specialistsCatalog: [],
+    activeBookings: [],
     availabilityCache: {},
     availabilityBySpecialist: {},
+    loadingAvailability: false,
     backendReady: false
   };
 
@@ -719,6 +730,123 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       }
     }
     return str;
+  }
+
+  function normalizeDateISO(val) {
+    if (val === null || val === undefined || val === '') return '';
+    const str = String(val).trim().replace(/^'/, '');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+    return str;
+  }
+
+  /**
+   * Construye el mapa global de horarios ocupados { 'YYYY-MM-DD': { 'specId': ['09:00', ...] } }
+   * directamente a partir de todas las reservas activas de Google Sheets.
+   */
+  function rebuildAvailabilityMapFromBookings(bookingsRows) {
+    const map = {};
+    (Array.isArray(bookingsRows) ? bookingsRows : []).forEach(r => {
+      const status = String(r.Estado ?? r.estado ?? r.status ?? 'Confirmada').trim().toLowerCase();
+      if (status.includes('cancel')) return;
+
+      const dISO = normalizeDateISO(r.Fecha ?? r.fecha ?? r.date);
+      const tHM  = normalizeTimeStr(r.Hora ?? r.hora ?? r.time);
+      const rawSpec = String(r.EspecialistaID ?? r.EspecialistaId ?? r.especialistaId ?? r.specialistId ?? '').trim();
+      if (!dISO || !tHM || !rawSpec) return;
+
+      // Resolver ID del especialista tanto por ID exacto como por Nombre
+      const matchedSpec = state.specialistsCatalog.find(
+        sp => sp.id === rawSpec || sp.name.toLowerCase() === rawSpec.toLowerCase()
+      );
+      const specKey = matchedSpec ? matchedSpec.id : rawSpec;
+
+      if (!map[dISO]) map[dISO] = {};
+      if (!map[dISO][specKey]) map[dISO][specKey] = [];
+      if (!map[dISO][specKey].includes(tHM)) {
+        map[dISO][specKey].push(tHM);
+      }
+    });
+
+    state.availabilityCache = map;
+    if (state.date) {
+      state.availabilityBySpecialist = map[dateToISO(state.date)] || {};
+    }
+    return map;
+  }
+
+  function isSpecialistBusyAt(dateObj, timeHM, specId) {
+    if (!dateObj || !timeHM || !specId) return false;
+    const dISO = (typeof dateObj === 'string') ? dateObj : dateToISO(dateObj);
+    const dayMap = state.availabilityCache[dISO] || {};
+    const busyList = dayMap[specId] || [];
+    return busyList.includes(normalizeTimeStr(timeHM));
+  }
+
+  /**
+   * Calcula cuántos turnos libres quedan en total en un día del calendario
+   * considerando todos los horarios configurados y los especialistas que trabajan ese día.
+   */
+  function getDayAvailabilityStats(date) {
+    const daySlots = slotsFor(date);
+    if (!daySlots.length) return { totalSlots: 0, availableSlots: 0, bookedCount: 0 };
+
+    const wd = date.getDay();
+    const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
+    if (!workingSpecs.length) return { totalSlots: 0, availableSlots: 0, bookedCount: 0 };
+
+    const dISO = dateToISO(date);
+    const dayMap = state.availabilityCache[dISO] || {};
+    const now = new Date();
+    const isToday = sameDay(date, now);
+
+    let availableSlots = 0;
+    let bookedCount = 0;
+
+    daySlots.forEach(time => {
+      if (isToday && isPastTime(time, now)) return;
+      const freeSpecsForSlot = workingSpecs.filter(sp => {
+        const isTaken = (dayMap[sp.id] || []).includes(time);
+        if (isTaken) bookedCount++;
+        return !isTaken;
+      });
+      if (freeSpecsForSlot.length > 0) {
+        availableSlots++;
+      }
+    });
+
+    return {
+      totalSlots: daySlots.length,
+      availableSlots,
+      bookedCount
+    };
+  }
+
+  function revalidateStep1Selection() {
+    if (!state.date) {
+      state.time = null;
+      return;
+    }
+    const wd = state.date.getDay();
+    if (state.specialist && !state.specialist.days.includes(wd)) {
+      state.specialist = null;
+    }
+    if (state.time) {
+      const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
+      const freeSpecsAtTime = workingSpecs.filter(sp => !isSpecialistBusyAt(state.date, state.time, sp.id));
+
+      // Si ya no queda ningún especialista libre en esa hora, deseleccionar la hora
+      if (freeSpecsAtTime.length === 0) {
+        state.time = null;
+        state.specialist = null;
+      } else if (state.specialist && isSpecialistBusyAt(state.date, state.time, state.specialist.id)) {
+        // Si el especialista seleccionado está ocupado en esa hora, cambiar al primer especialista libre
+        state.specialist = freeSpecsAtTime[0] || null;
+      }
+    }
   }
 
   function parseNumberClean(val, fallback) {
@@ -924,10 +1052,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const statusEl = $('#backendStatus');
     if (statusEl) statusEl.hidden = true;
     try {
-      const [config, services, specialists] = await Promise.all([
+      const [config, services, specialists, bookings] = await Promise.all([
         gasGet('getConfig'),
         gasGet('getServices'),
-        gasGet('getSpecialists')
+        gasGet('getSpecialists'),
+        gasGet('getBookings').catch(() => [])
       ]);
 
       if (config && !config.error && typeof config === 'object') {
@@ -939,6 +1068,9 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       state.specialistsCatalog = (Array.isArray(specialists) ? specialists : [])
         .map(normalizeSpecialist)
         .filter(sp => sp.id && sp.name);
+
+      state.activeBookings = Array.isArray(bookings) ? bookings : [];
+      rebuildAvailabilityMapFromBookings(state.activeBookings);
 
       state.backendReady = true;
       applyConfigToDOM();
@@ -953,25 +1085,43 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     }
   }
 
-  async function loadAvailabilityForDate(date) {
+  async function loadAvailabilityForDate(date, forceRefresh) {
     if (!date || !state.specialistsCatalog.length) return {};
     const dateISO = dateToISO(date);
-    if (state.availabilityCache[dateISO]) {
-      state.availabilityBySpecialist = state.availabilityCache[dateISO];
+
+    // Mostrar de inmediato lo que ya tenemos en caché desde getBookings
+    state.availabilityBySpecialist = state.availabilityCache[dateISO] || {};
+
+    if (!forceRefresh && state.availabilityCache[dateISO]) {
       return state.availabilityBySpecialist;
     }
-    const result = {};
-    await Promise.all(state.specialistsCatalog.map(async (spec) => {
-      try {
-        const times = await gasGet('getAvailability', { date: dateISO, specialistId: spec.id });
-        result[spec.id] = Array.isArray(times) ? times.map(normalizeTimeStr).filter(Boolean) : [];
-      } catch (e) {
-        result[spec.id] = [];
+
+    state.loadingAvailability = true;
+    try {
+      // Sincronizar todas las reservas activas desde Sheets en una sola llamada rápida
+      const freshBookings = await gasGet('getBookings');
+      if (Array.isArray(freshBookings)) {
+        state.activeBookings = freshBookings;
+        rebuildAvailabilityMapFromBookings(freshBookings);
       }
-    }));
-    state.availabilityCache[dateISO] = result;
-    state.availabilityBySpecialist = result;
-    return result;
+    } catch (e) {
+      // Fallback por especialista si getBookings falla
+      const result = Object.assign({}, state.availabilityCache[dateISO] || {});
+      await Promise.all(state.specialistsCatalog.map(async (spec) => {
+        try {
+          const times = await gasGet('getAvailability', { date: dateISO, specialistId: spec.id });
+          result[spec.id] = Array.isArray(times) ? times.map(normalizeTimeStr).filter(Boolean) : [];
+        } catch (err) {}
+      }));
+      state.availabilityCache[dateISO] = result;
+      state.availabilityBySpecialist = result;
+    } finally {
+      state.loadingAvailability = false;
+    }
+
+    state.availabilityBySpecialist = state.availabilityCache[dateISO] || {};
+    revalidateStep1Selection();
+    return state.availabilityBySpecialist;
   }
 
   function isExceptionDate(date) {
@@ -1025,23 +1175,39 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       btn.className = 'day';
       btn.textContent = String(day);
 
-      const unavailable = date < today || slotsFor(date).length === 0;
-      if (unavailable) { btn.classList.add('is-off'); btn.disabled = true; }
+      const isPastDay = date < today;
+      const baseSlots = slotsFor(date);
+      const isClosed = baseSlots.length === 0;
+      const stats = (!isPastDay && !isClosed) ? getDayAvailabilityStats(date) : { totalSlots: 0, availableSlots: 0, bookedCount: 0 };
+      const isFullDay = !isPastDay && !isClosed && stats.availableSlots === 0;
+
+      if (isPastDay || isClosed) {
+        btn.classList.add('is-off');
+        btn.disabled = true;
+      } else if (isFullDay) {
+        btn.classList.add('is-full');
+        btn.disabled = true;
+        btn.title = 'Día sin horarios disponibles (Agotado)';
+      } else if (stats.bookedCount > 0) {
+        btn.classList.add('has-bookings');
+        btn.title = `${stats.availableSlots} horario(s) disponible(s)`;
+      }
+
       if (sameDay(date, today)) btn.classList.add('is-today');
       if (sameDay(date, state.date)) btn.classList.add('is-selected');
 
       btn.addEventListener('click', async () => {
         state.date = date;
         state.time = null;
-        if (state.specialist && !state.specialist.days.includes(date.getDay())) {
-          state.specialist = null;
-        }
+        state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
+        revalidateStep1Selection();
         renderCalendar();
         renderSlots();
         renderSpecialistsInline();
         syncControls();
 
-        await loadAvailabilityForDate(date);
+        await loadAvailabilityForDate(date, true);
+        renderCalendar();
         renderSlots();
         renderSpecialistsInline();
         syncControls();
@@ -1085,32 +1251,49 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
     const now = new Date();
     const isToday = sameDay(state.date, now);
+    const dayMap = state.availabilityCache[dateToISO(state.date)] || {};
 
     list.forEach((time) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot';
-      btn.textContent = time;
 
       const past = isToday && isPastTime(time, now);
-      const allBusy = workingSpecs.length > 0 && workingSpecs.every(sp =>
-        (state.availabilityBySpecialist[sp.id] || []).includes(time)
-      );
+      const freeSpecs = workingSpecs.filter(sp => !(dayMap[sp.id] || []).includes(time));
+      const allBusy = workingSpecs.length === 0 || freeSpecs.length === 0;
+      const selectedSpecBusyHere = !!(state.specialist && (dayMap[state.specialist.id] || []).includes(time));
 
-      if (past || allBusy || workingSpecs.length === 0) {
+      let subLabel = '';
+      if (past) {
+        subLabel = 'Pasado';
+      } else if (allBusy) {
+        subLabel = 'Ocupado';
+      } else if (selectedSpecBusyHere) {
+        subLabel = `${state.specialist.name.split(' ')[0]} ocup.`;
+        btn.classList.add('is-spec-busy');
+      } else if (workingSpecs.length > 1) {
+        subLabel = `${freeSpecs.length} disp.`;
+      } else {
+        subLabel = 'Disponible';
+      }
+
+      btn.innerHTML = `<span>${escapeHtml(time)}</span><span class="slot-sub">${escapeHtml(subLabel)}</span>`;
+
+      if (past || allBusy) {
         btn.classList.add('is-taken');
         btn.disabled = true;
       }
-      if (state.time === time) btn.classList.add('is-selected');
+      if (state.time === time && !allBusy && !past) {
+        btn.classList.add('is-selected');
+      }
 
       btn.addEventListener('click', () => {
         state.time = time;
-        if (state.specialist && (state.availabilityBySpecialist[state.specialist.id] || []).includes(time)) {
+        if (state.specialist && isSpecialistBusyAt(state.date, time, state.specialist.id)) {
           state.specialist = null;
         }
-        if (!state.specialist) {
-          const firstFree = workingSpecs.find(sp => !(state.availabilityBySpecialist[sp.id] || []).includes(time));
-          if (firstFree) state.specialist = firstFree;
+        if (!state.specialist && freeSpecs.length > 0) {
+          state.specialist = freeSpecs[0];
         }
         renderSlots();
         renderSpecialistsInline();
@@ -1144,8 +1327,13 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     }
 
     const weekday = state.date.getDay();
+    const daySlots = slotsFor(state.date);
+    const dayMap = state.availabilityCache[dateToISO(state.date)] || {};
+    const now = new Date();
+    const isToday = sameDay(state.date, now);
+
     if (!state.time) {
-      subLabel.textContent = 'Selecciona un horario arriba para confirmar disponibilidad por hora';
+      subLabel.textContent = 'Selecciona un horario arriba o elige a tu especialista para filtrar sus horas';
       subLabel.classList.add('empty');
     } else {
       subLabel.textContent = `Disponibilidad para el ${formatDate(state.date)} a las ${state.time}`;
@@ -1154,9 +1342,14 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
     state.specialistsCatalog.forEach((spec) => {
       const worksThisDay = spec.days.includes(weekday);
-      const bookedAtTime = !!(state.time && (state.availabilityBySpecialist[spec.id] || []).includes(state.time));
-      const canSelect = worksThisDay && !bookedAtTime;
-      const isSelected = !!(state.specialist && state.specialist.id === spec.id);
+      const busyTimesForSpec = dayMap[spec.id] || [];
+      const freeSlotsForSpecToday = worksThisDay
+        ? daySlots.filter(t => !busyTimesForSpec.includes(t) && !(isToday && isPastTime(t, now)))
+        : [];
+      const bookedAtTime = !!(state.time && busyTimesForSpec.includes(state.time));
+      const allDayFullForSpec = worksThisDay && freeSlotsForSpecToday.length === 0;
+      const canSelect = worksThisDay && !bookedAtTime && !allDayFullForSpec;
+      const isSelected = !!(state.specialist && state.specialist.id === spec.id && canSelect);
 
       let statusText = 'Disponible';
       let statusClass = 'available';
@@ -1166,11 +1359,14 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       } else if (bookedAtTime) {
         statusText = `Ocupado (${state.time})`;
         statusClass = 'busy';
+      } else if (allDayFullForSpec) {
+        statusText = 'Sin cupo hoy';
+        statusClass = 'busy';
       } else if (state.time) {
         statusText = `Disponible (${state.time})`;
         statusClass = 'available';
       } else {
-        statusText = 'Atiende este día';
+        statusText = `${freeSlotsForSpecToday.length} hora(s) disp.`;
         statusClass = 'available';
       }
 
@@ -1192,6 +1388,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
       btn.addEventListener('click', () => {
         state.specialist = spec;
+        // Si aún no había elegido hora, preseleccionar su primera hora libre del día
+        if (!state.time && freeSlotsForSpecToday.length > 0) {
+          state.time = freeSlotsForSpecToday[0];
+        }
+        renderSlots();
         renderSpecialistsInline();
         renderSummary();
         syncControls();
@@ -1203,136 +1404,15 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   /* =========================================================
      PASO 2: SERVICIOS
-     ========================================================= */
-  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
-
-  function renderServices() {
-    const serviceList = $('#serviceList');
-    serviceList.innerHTML = '';
-
-    if (!state.servicesCatalog.length) {
-      serviceList.innerHTML = '<li style="padding:24px;text-align:center;color:var(--color-slate);">No hay servicios registrados en la hoja Servicios.</li>';
-      return;
-    }
-
-    state.servicesCatalog.forEach((service) => {
-      const li = document.createElement('li');
-      li.className = 'service-item';
-
-      const selected = state.services.some(s => s.id === service.id);
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'service' + (selected ? ' is-selected' : '');
-
-      btn.innerHTML = `
-        <span>
-          <span class="service-name">${escapeHtml(service.name)}</span>
-          <span class="service-desc">${escapeHtml(service.desc)}</span>
-        </span>
-        <span class="service-dur">${service.duration} min</span>
-        <span class="service-price">${money(service.price)}</span>
-        <span class="service-check">${CHECK_SVG}</span>
-      `;
-
-      btn.addEventListener('click', () => {
-        const idx = state.services.findIndex(s => s.id === service.id);
-        if (idx >= 0) state.services.splice(idx, 1);
-        else state.services.push(service);
-        renderServices();
-        renderSummary();
-        syncControls();
-      });
-
-      li.appendChild(btn);
-      serviceList.appendChild(li);
-    });
-  }
-
-  $$('.currency-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.currency = btn.dataset.currency;
-      $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b === btn));
-      saveClientProfile();
-      renderServices();
-      renderSummary();
-    });
-  });
-
-  /* =========================================================
-     MEMORIA LOCAL DE DATOS DEL CLIENTE (AUTOCOMPLETADO)
-     ========================================================= */
-  function loadClientProfile() {
-    try {
-      const raw = localStorage.getItem(CLIENT_PROFILE_KEY);
-      if (!raw) return;
-      const profile = JSON.parse(raw);
-      if (!profile || typeof profile !== 'object') return;
-
-      if (profile.name) $('#fName').value = profile.name;
-      if (profile.email) $('#fEmail').value = profile.email;
-      if (profile.phone) $('#fPhone').value = profile.phone;
-      if (typeof profile.addGoogleCal === 'boolean') {
-        $('#chkAddGoogleCal').checked = profile.addGoogleCal;
-      }
-      if (profile.currency && CURRENCIES[profile.currency]) {
-        state.currency = profile.currency;
-        $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === state.currency));
-      }
-
-      const hasSavedText = Boolean((profile.name && profile.name.trim()) || (profile.email && profile.email.trim()) || (profile.phone && profile.phone.trim()));
-      $('#savedProfileBanner').hidden = !hasSavedText;
-    } catch (e) {}
-  }
-
-  function saveClientProfile() {
-    try {
-      const profile = {
-        name: $('#fName').value.trim(),
-        email: $('#fEmail').value.trim(),
-        phone: $('#fPhone').value.trim(),
-        addGoogleCal: $('#chkAddGoogleCal').checked,
-        currency: state.currency
-      };
-      localStorage.setItem(CLIENT_PROFILE_KEY, JSON.stringify(profile));
-      const hasSavedText = Boolean(profile.name || profile.email || profile.phone);
-      $('#savedProfileBanner').hidden = !hasSavedText;
-    } catch (e) {}
-  }
-
-  function clearClientProfile() {
-    try { localStorage.removeItem(CLIENT_PROFILE_KEY); } catch (e) {}
-    $('#fName').value = '';
-    $('#fEmail').value = '';
-    $('#fPhone').value = '';
-    $('#chkAddGoogleCal').checked = false;
-    $('#savedProfileBanner').hidden = true;
-  }
-
-  ['#fName', '#fEmail', '#fPhone'].forEach(sel => {
-    $(sel).addEventListener('input', saveClientProfile);
-  });
-  $('#chkAddGoogleCal').addEventListener('change', saveClientProfile);
-  $('#btnClearSavedProfile').addEventListener('click', clearClientProfile);
-
-  /* =========================================================
-     PASO 3: RESUMEN Y CONFIRMACIÓN
-     ========================================================= */
-  const totalPrice = () => state.services.reduce((acc, s) => acc + Number(s.price || 0), 0);
-  const totalDuration = () => state.services.reduce((acc, s) => acc + Number(s.duration || 0), 0);
-
-  function renderSummary() {
-    $('#sumDate').textContent = state.date ? formatDate(state.date) : '—';
-    $('#sumTime').textContent = state.time || '—';
-    $('#sumSpecialist').textContent = state.specialist ? state.specialist.name : '—';
-    $('#sumServices').innerHTML = state.services.length
-      ? state.services.map(s => escapeHtml(s.name)).join('<br>')
-      : '—';
-    $('#sumDuration').textContent = state.services.length ? `${totalDuration()} min` : '—';
-    $('#sumPrice').textContent = state.services.length ? money(totalPrice()) : '—';
-  }
-
+// ... existing code ... -->
   function isStepComplete(step) {
-    if (step === 1) return !!(state.date && state.time && state.specialist);
+    if (step === 1) {
+      if (!state.date || !state.time || !state.specialist || state.loadingAvailability) return false;
+      const wd = state.date.getDay();
+      if (!state.specialist.days.includes(wd)) return false;
+      if (isSpecialistBusyAt(state.date, state.time, state.specialist.id)) return false;
+      return true;
+    }
     if (step === 2) return state.services.length > 0;
     return false;
   }
@@ -1343,10 +1423,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     $('#next2').disabled = !isStepComplete(2);
 
     const statusText = $('#step1StatusText');
-    if (step1Ready) {
-      statusText.innerHTML = `✅ Seleccionado: <strong>${escapeHtml(formatDate(state.date))}</strong> a las <strong>${escapeHtml(state.time)}</strong> con <strong>${escapeHtml(state.specialist.name)}</strong>`;
+    if (state.loadingAvailability) {
+      statusText.textContent = '⏳ Verificando disponibilidad en tiempo real…';
+    } else if (step1Ready) {
+      statusText.innerHTML = `✅ Disponible y seleccionado: <strong>${escapeHtml(formatDate(state.date))}</strong> a las <strong>${escapeHtml(state.time)}</strong> con <strong>${escapeHtml(state.specialist.name)}</strong>`;
     } else if (state.date && state.time) {
-      statusText.textContent = 'Ahora elige un especialista disponible en la lista para continuar.';
+      statusText.textContent = 'Elige un especialista disponible para este horario.';
     } else if (state.date) {
       statusText.textContent = 'Selecciona un horario disponible y tu especialista.';
     } else {
@@ -1369,7 +1451,23 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     $('#reserva').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  $('#next1').addEventListener('click', () => goToStep(2));
+  $('#next1').addEventListener('click', async () => {
+    const btn = $('#next1');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Verificando cupo…';
+    await loadAvailabilityForDate(state.date, true);
+    btn.innerHTML = orig;
+
+    if (!isStepComplete(1)) {
+      renderCalendar();
+      renderSlots();
+      renderSpecialistsInline();
+      syncControls();
+      return;
+    }
+    goToStep(2);
+  });
   $('#next2').addEventListener('click', () => goToStep(3));
   $$('[data-back]').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.back))));
   $$('#stepsNav .step-btn').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.goto))));
@@ -1425,7 +1523,17 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       }
 
       const bookingId = res.id || ('bk-' + Date.now().toString(36));
-      delete state.availabilityCache[payload.date];
+
+      // Registrar inmediatamente el horario como ocupado en el mapa en memoria
+      state.activeBookings.push({
+        ID: bookingId,
+        Fecha: payload.date,
+        Hora: payload.time,
+        EspecialistaID: payload.specialistId,
+        Nombre: payload.name,
+        Estado: 'Confirmada'
+      });
+      rebuildAvailabilityMapFromBookings(state.activeBookings);
 
       const displayBooking = {
         id: bookingId,
@@ -1457,9 +1565,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     } catch (err) {
       errEl.textContent = 'No se pudo confirmar: ' + err.message;
       errEl.hidden = false;
-      await loadAvailabilityForDate(state.date);
+      await loadAvailabilityForDate(state.date, true);
+      renderCalendar();
       renderSlots();
       renderSpecialistsInline();
+      syncControls();
     } finally {
       btn.disabled = false;
       btn.textContent = 'Confirmar cita';
@@ -1691,20 +1801,21 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     loadClientProfile();
     await loadBackendData();
 
-    // Seleccionar automáticamente el primer día disponible
+    // Seleccionar automáticamente el primer día con cupo real disponible
     const cursor = new Date();
     cursor.setHours(0,0,0,0);
     for (let i = 0; i < 60; i++) {
-      if (slotsFor(cursor).length > 0) {
+      const stats = getDayAvailabilityStats(cursor);
+      if (stats.availableSlots > 0) {
         state.date = new Date(cursor);
         state.view = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+        state.availabilityBySpecialist = state.availabilityCache[dateToISO(cursor)] || {};
         break;
       }
       cursor.setDate(cursor.getDate() + 1);
     }
 
     renderCalendar();
-    if (state.date) await loadAvailabilityForDate(state.date);
     renderSlots();
     renderSpecialistsInline();
     renderServices();
