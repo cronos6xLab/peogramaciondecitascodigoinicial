@@ -582,7 +582,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       <dl class="location-meta">
         <div><dt class="card-label">Dirección</dt><dd id="locAddress">Av. Presidente Masaryk 123, Polanco, CDMX</dd></div>
         <div><dt class="card-label">Horario</dt><dd id="locSchedule">Lun – Vie · 08:00 – 17:00<br>Sáb · 09:00 – 14:00</dd></div>
-        <div><dt class="card-label">Contacto</dt><dd id="locPhone">+52 55 1234 5678</dd></div>
+        <div><dt class="card-label">Contacto / Estacionamiento</dt><dd id="locPhone">+52 55 1234 5678</dd></div>
       </dl>
     </div>
   </section>
@@ -591,9 +591,21 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div><p class="footer-title" id="footerBusinessName">Aevi Wellness</p><p id="footerAddress">Ciudad de México</p></div>
-      <div><p class="footer-title">Contacto</p><p id="footerEmail">hola@aeviwellness.com</p></div>
-      <div><p class="footer-title">Horario</p><p>Atención con cita previa</p></div>
+      <div>
+        <p class="footer-title" id="footerBusinessName">Aevi Wellness</p>
+        <p id="footerAddress">Ciudad de México</p>
+      </div>
+      <div>
+        <p class="footer-title">Contacto</p>
+        <p id="footerEmail">hola@aeviwellness.com</p>
+        <p id="footerWhatsappWrap" style="margin-top:6px;"></p>
+      </div>
+      <div>
+        <p class="footer-title">Redes Sociales y Enlaces</p>
+        <div id="footerSocialLinks" style="display:flex;flex-direction:column;gap:6px;font-size:14px;">
+          <span>Atención con cita previa</span>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
@@ -1020,26 +1032,55 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       if ($('#footerBusinessName')) $('#footerBusinessName').textContent = c.businessName;
       if ($('#heroEyebrow')) $('#heroEyebrow').textContent = 'Reservas · ' + c.businessName;
     }
+    if (c.announceText && $('#announceBar')) {
+      $('#announceBar').innerHTML = escapeHtml(c.announceText);
+    }
     if (c.address) {
       if ($('#locAddress')) $('#locAddress').innerHTML = escapeHtml(c.address).replace(/\n/g, '<br>');
       if ($('#footerAddress')) $('#footerAddress').textContent = c.address;
-      if ($('#mapCard')) $('#mapCard').href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
+      if ($('#mapCard') && !c.mapLink) {
+        $('#mapCard').href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
+      }
     }
-    if (c.phone && $('#locPhone')) $('#locPhone').textContent = c.phone;
+    if (c.mapLink && $('#mapCard')) {
+      $('#mapCard').href = c.mapLink;
+    }
+    if (c.mapEmbed && $('#mapIframe')) {
+      $('#mapIframe').src = c.mapEmbed;
+    }
+    if ($('#locPhone')) {
+      const parts = [c.phone, c.parking].filter(Boolean);
+      if (parts.length) $('#locPhone').innerHTML = parts.map(escapeHtml).join('<br>');
+    }
     if (c.email && $('#footerEmail')) $('#footerEmail').textContent = c.email;
 
-    if (c.exceptions_json) {
-      try {
-        const parsed = JSON.parse(c.exceptions_json);
-        if (Array.isArray(parsed)) state.exceptions = parsed;
-      } catch (e) {}
+    if (c.whatsapp && $('#footerWhatsappWrap')) {
+      const digits = String(c.whatsapp).replace(/\D/g, '');
+      if (digits) {
+        $('#footerWhatsappWrap').innerHTML = `<a href="https://wa.me/${escapeHtml(digits)}" target="_blank" rel="noopener" style="color:var(--color-soft-teal);font-weight:600;">💬 WhatsApp directo</a>`;
+      }
+    }
+
+    const socialBox = $('#footerSocialLinks');
+    if (socialBox) {
+      const links = [];
+      if (c.instagram) links.push(`<a href="${escapeHtml(c.instagram)}" target="_blank" rel="noopener">Instagram ↗</a>`);
+      if (c.facebook)  links.push(`<a href="${escapeHtml(c.facebook)}" target="_blank" rel="noopener">Facebook ↗</a>`);
+      if (c.tiktok)    links.push(`<a href="${escapeHtml(c.tiktok)}" target="_blank" rel="noopener">TikTok ↗</a>`);
+      if (c.website)   links.push(`<a href="${escapeHtml(c.website)}" target="_blank" rel="noopener">Sitio Web ↗</a>`);
+      if (links.length) socialBox.innerHTML = links.join('');
+    }
+
+    if (c.currency && CURRENCIES[c.currency]) {
+      state.currency = c.currency;
+      $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === state.currency));
     }
 
     const ls = $('#locSchedule');
     if (ls) {
       const lines = [];
       for (let d = 1; d <= 6; d++) {
-        const sched = slotsFor({ getDay: () => d });
+        const sched = slotsFor({ getDay: () => d, _skipException: true });
         if (sched.length > 0) {
           lines.push(WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1) + ' · ' + sched[0] + ' – ' + sched[sched.length - 1]);
         }
@@ -1048,23 +1089,51 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     }
   }
 
+  function isExceptionDate(date) {
+    if (!date || date._skipException) return false;
+    const iso = dateToISO(date);
+    return state.exceptions.some(ex => normalizeDateISO(ex.date) === iso);
+  }
+
+  function slotsFor(date) {
+    if (!date) return [];
+    if (!date._skipException && isExceptionDate(date)) return [];
+    const wd = date.getDay();
+    const key = 'schedule_' + wd;
+    if (Object.prototype.hasOwnProperty.call(state.config, key)) {
+      const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
+      if (!val) return [];
+      return val.split(',').map(s => normalizeTimeStr(s)).filter(Boolean);
+    }
+    return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
+  }
+
+  const isClosedDay = (date) => slotsFor(date).length === 0;
+
   async function loadBackendData() {
     const statusEl = $('#backendStatus');
     if (statusEl) statusEl.hidden = true;
     try {
       const [config, services, specialists, bookings] = await Promise.all([
-        gasGet('getConfig'),
-        gasGet('getServices'),
-        gasGet('getSpecialists'),
+        gasGet('getConfig').catch(() => ({})),
+        gasGet('getServices').catch(() => []),
+        gasGet('getSpecialists').catch(() => []),
         gasGet('getBookings').catch(() => [])
       ]);
 
-      if (config && !config.error && typeof config === 'object') {
-        state.config = config;
+      state.config = (config && typeof config === 'object' && !config.error) ? config : {};
+
+      if (state.config.exceptions_json) {
+        try {
+          const parsedExc = JSON.parse(state.config.exceptions_json);
+          if (Array.isArray(parsedExc)) state.exceptions = parsedExc;
+        } catch (e) {}
       }
+
       state.servicesCatalog = (Array.isArray(services) ? services : [])
         .map(normalizeService)
         .filter(s => s.id && s.name);
+
       state.specialistsCatalog = (Array.isArray(specialists) ? specialists : [])
         .map(normalizeSpecialist)
         .filter(sp => sp.id && sp.name);
@@ -1075,75 +1144,97 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       state.backendReady = true;
       applyConfigToDOM();
       return true;
-    } catch (err) {
+    } catch (e) {
       state.backendReady = false;
       if (statusEl) {
-        statusEl.textContent = '⚠ No se pudo sincronizar con Google Sheets: ' + err.message;
+        statusEl.textContent = '⚠ No se pudo conectar con el servidor de reservas: ' + e.message;
         statusEl.hidden = false;
       }
       return false;
     }
   }
 
-  async function loadAvailabilityForDate(date, forceRefresh) {
-    if (!date || !state.specialistsCatalog.length) return {};
-    const dateISO = dateToISO(date);
-
-    // Mostrar de inmediato lo que ya tenemos en caché desde getBookings
-    state.availabilityBySpecialist = state.availabilityCache[dateISO] || {};
-
-    if (!forceRefresh && state.availabilityCache[dateISO]) {
-      return state.availabilityBySpecialist;
-    }
-
+  async function refreshAvailabilityForDate(date) {
+    if (!date) return;
+    const dISO = dateToISO(date);
     state.loadingAvailability = true;
     try {
-      // Sincronizar todas las reservas activas desde Sheets en una sola llamada rápida
-      const freshBookings = await gasGet('getBookings');
-      if (Array.isArray(freshBookings)) {
-        state.activeBookings = freshBookings;
-        rebuildAvailabilityMapFromBookings(freshBookings);
+      const dayMap = await gasGet('getAvailability', { date: dISO });
+      if (dayMap && typeof dayMap === 'object' && !Array.isArray(dayMap) && !dayMap.error) {
+        const normalizedDayMap = {};
+        Object.entries(dayMap).forEach(([rawSpec, times]) => {
+          const matchedSpec = state.specialistsCatalog.find(
+            sp => sp.id === rawSpec || sp.name.toLowerCase() === String(rawSpec).toLowerCase()
+          );
+          const key = matchedSpec ? matchedSpec.id : rawSpec;
+          normalizedDayMap[key] = (Array.isArray(times) ? times : []).map(normalizeTimeStr).filter(Boolean);
+        });
+        state.availabilityCache[dISO] = normalizedDayMap;
+        state.availabilityBySpecialist = normalizedDayMap;
       }
     } catch (e) {
-      // Fallback por especialista si getBookings falla
-      const result = Object.assign({}, state.availabilityCache[dateISO] || {});
-      await Promise.all(state.specialistsCatalog.map(async (spec) => {
-        try {
-          const times = await gasGet('getAvailability', { date: dateISO, specialistId: spec.id });
-          result[spec.id] = Array.isArray(times) ? times.map(normalizeTimeStr).filter(Boolean) : [];
-        } catch (err) {}
-      }));
-      state.availabilityCache[dateISO] = result;
-      state.availabilityBySpecialist = result;
+      // Mantiene el caché pre-cargado de getBookings
     } finally {
       state.loadingAvailability = false;
     }
-
-    state.availabilityBySpecialist = state.availabilityCache[dateISO] || {};
-    revalidateStep1Selection();
-    return state.availabilityBySpecialist;
-  }
-
-  function isExceptionDate(date) {
-    if (!date || !state.exceptions.length) return false;
-    const iso = dateToISO(date);
-    return state.exceptions.some(ex => String(ex.date).trim() === iso);
-  }
-
-  function slotsFor(date) {
-    if (date instanceof Date && isExceptionDate(date)) return [];
-    const wd = date.getDay();
-    const key = 'schedule_' + wd;
-    if (state.config && Object.prototype.hasOwnProperty.call(state.config, key)) {
-      const val = String(state.config[key] ?? '').replace(/^'/, '').trim();
-      if (!val) return [];
-      return val.split(',').map(s => normalizeTimeStr(s)).filter(Boolean);
-    }
-    return DEFAULT_SLOTS_BY_WEEKDAY[wd] || [];
   }
 
   /* =========================================================
-     PASO 1: CALENDARIO + HORARIOS + ESPECIALISTAS INTEGRADOS
+     AUTOCOMPLETADO DE DATOS DEL CLIENTE EN EL DISPOSITIVO
+     ========================================================= */
+  function loadSavedClientProfile() {
+    try {
+      const raw = localStorage.getItem(CLIENT_PROFILE_KEY);
+      if (!raw) return;
+      const p = JSON.parse(raw);
+      if (!p || typeof p !== 'object') return;
+      if (p.name) $('#fName').value = p.name;
+      if (p.email) $('#fEmail').value = p.email;
+      if (p.phone) $('#fPhone').value = p.phone;
+      if (typeof p.addGoogleCal === 'boolean') $('#chkAddGoogleCal').checked = p.addGoogleCal;
+      if (p.currency && CURRENCIES[p.currency]) {
+        state.currency = p.currency;
+        $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === state.currency));
+      }
+      if (p.name || p.email || p.phone) {
+        $('#savedProfileBanner').hidden = false;
+      }
+    } catch (e) {}
+  }
+
+  function saveClientProfile() {
+    try {
+      const profile = {
+        name: $('#fName').value.trim(),
+        email: $('#fEmail').value.trim(),
+        phone: $('#fPhone').value.trim(),
+        addGoogleCal: $('#chkAddGoogleCal').checked,
+        currency: state.currency
+      };
+      localStorage.setItem(CLIENT_PROFILE_KEY, JSON.stringify(profile));
+      if (profile.name || profile.email || profile.phone) {
+        $('#savedProfileBanner').hidden = false;
+      }
+    } catch (e) {}
+  }
+
+  $('#btnClearSavedProfile').addEventListener('click', () => {
+    try { localStorage.removeItem(CLIENT_PROFILE_KEY); } catch (e) {}
+    $('#fName').value = '';
+    $('#fEmail').value = '';
+    $('#fPhone').value = '';
+    $('#chkAddGoogleCal').checked = false;
+    $('#savedProfileBanner').hidden = true;
+  });
+
+  ['#fName', '#fEmail', '#fPhone', '#chkAddGoogleCal'].forEach(sel => {
+    const el = $(sel);
+    if (el) el.addEventListener('input', saveClientProfile);
+    if (el) el.addEventListener('change', saveClientProfile);
+  });
+
+  /* =========================================================
+     PASO 1: CALENDARIO + HORARIOS + ESPECIALISTA INTEGRADO
      ========================================================= */
   function renderCalendar() {
     const year  = state.view.getFullYear();
@@ -1155,7 +1246,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
     const calGrid = $('#calGrid');
     calGrid.innerHTML = '';
-    DOW_LABELS.forEach((label) => {
+    DOW_LABELS.forEach(label => {
       const cell = document.createElement('div');
       cell.className = 'cal-dow';
       cell.textContent = label;
@@ -1166,7 +1257,8 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     for (let i = 0; i < firstWeekday; i++) calGrid.appendChild(document.createElement('span'));
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date(); today.setHours(0,0,0,0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
@@ -1175,19 +1267,16 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       btn.className = 'day';
       btn.textContent = String(day);
 
-      const isPastDay = date < today;
-      const baseSlots = slotsFor(date);
-      const isClosed = baseSlots.length === 0;
-      const stats = (!isPastDay && !isClosed) ? getDayAvailabilityStats(date) : { totalSlots: 0, availableSlots: 0, bookedCount: 0 };
-      const isFullDay = !isPastDay && !isClosed && stats.availableSlots === 0;
+      const closed = date < today || isClosedDay(date);
+      const stats  = closed ? { availableSlots: 0, bookedCount: 0 } : getDayAvailabilityStats(date);
 
-      if (isPastDay || isClosed) {
+      if (closed) {
         btn.classList.add('is-off');
         btn.disabled = true;
-      } else if (isFullDay) {
+      } else if (state.specialistsCatalog.length > 0 && stats.availableSlots === 0) {
         btn.classList.add('is-full');
         btn.disabled = true;
-        btn.title = 'Día sin horarios disponibles (Agotado)';
+        btn.title = 'Sin horarios disponibles (Agotado)';
       } else if (stats.bookedCount > 0) {
         btn.classList.add('has-bookings');
         btn.title = `${stats.availableSlots} horario(s) disponible(s)`;
@@ -1198,18 +1287,20 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
       btn.addEventListener('click', async () => {
         state.date = date;
-        state.time = null;
         state.availabilityBySpecialist = state.availabilityCache[dateToISO(date)] || {};
         revalidateStep1Selection();
         renderCalendar();
         renderSlots();
-        renderSpecialistsInline();
+        renderSpecialists();
+        updateStep1Banner();
         syncControls();
 
-        await loadAvailabilityForDate(date, true);
+        await refreshAvailabilityForDate(date);
+        revalidateStep1Selection();
         renderCalendar();
         renderSlots();
-        renderSpecialistsInline();
+        renderSpecialists();
+        updateStep1Banner();
         syncControls();
       });
 
@@ -1221,6 +1312,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() - 1, 1);
     renderCalendar();
   });
+
   $('#nextMonth').addEventListener('click', () => {
     state.view = new Date(state.view.getFullYear(), state.view.getMonth() + 1, 1);
     renderCalendar();
@@ -1251,53 +1343,50 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
     const now = new Date();
     const isToday = sameDay(state.date, now);
-    const dayMap = state.availabilityCache[dateToISO(state.date)] || {};
 
-    list.forEach((time) => {
+    list.forEach(time => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot';
 
       const past = isToday && isPastTime(time, now);
-      const freeSpecs = workingSpecs.filter(sp => !(dayMap[sp.id] || []).includes(time));
-      const allBusy = workingSpecs.length === 0 || freeSpecs.length === 0;
-      const selectedSpecBusyHere = !!(state.specialist && (dayMap[state.specialist.id] || []).includes(time));
+      const freeSpecs = workingSpecs.filter(sp => !isSpecialistBusyAt(state.date, time, sp.id));
+      const allTaken = workingSpecs.length > 0 && freeSpecs.length === 0;
+      const selectedSpecBusyHere = !!(state.specialist && isSpecialistBusyAt(state.date, time, state.specialist.id));
 
-      let subLabel = '';
+      let subLabel = 'Disponible';
       if (past) {
         subLabel = 'Pasado';
-      } else if (allBusy) {
+      } else if (allTaken) {
         subLabel = 'Ocupado';
       } else if (selectedSpecBusyHere) {
-        subLabel = `${state.specialist.name.split(' ')[0]} ocup.`;
+        subLabel = `${freeSpecs.length} disp.`;
         btn.classList.add('is-spec-busy');
       } else if (workingSpecs.length > 1) {
         subLabel = `${freeSpecs.length} disp.`;
-      } else {
-        subLabel = 'Disponible';
       }
 
-      btn.innerHTML = `<span>${escapeHtml(time)}</span><span class="slot-sub">${escapeHtml(subLabel)}</span>`;
+      btn.innerHTML = `<span>${escapeHtml(time)}</span><small class="slot-sub">${escapeHtml(subLabel)}</small>`;
 
-      if (past || allBusy) {
+      if (past || allTaken) {
         btn.classList.add('is-taken');
         btn.disabled = true;
       }
-      if (state.time === time && !allBusy && !past) {
+      if (state.time === time) {
         btn.classList.add('is-selected');
       }
 
       btn.addEventListener('click', () => {
         state.time = time;
         if (state.specialist && isSpecialistBusyAt(state.date, time, state.specialist.id)) {
-          state.specialist = null;
-        }
-        if (!state.specialist && freeSpecs.length > 0) {
+          state.specialist = freeSpecs[0] || null;
+        } else if (!state.specialist && freeSpecs.length === 1) {
           state.specialist = freeSpecs[0];
         }
         renderSlots();
-        renderSpecialistsInline();
+        renderSpecialists();
         renderSummary();
+        updateStep1Banner();
         syncControls();
       });
 
@@ -1305,68 +1394,49 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     });
   }
 
-  /**
-   * Renderiza los especialistas directamente en el Paso 1 (Fecha y Hora),
-   * mostrando en tiempo real si están disponibles u ocupados en ese horario.
-   */
-  function renderSpecialistsInline() {
+  function renderSpecialists() {
     const container = $('#specialistList');
-    const subLabel = $('#specSubLabel');
+    const subLabel  = $('#specSubLabel');
     container.innerHTML = '';
 
     if (!state.specialistsCatalog.length) {
-      subLabel.textContent = 'No hay especialistas registrados en la hoja Especialistas';
-      subLabel.classList.add('empty');
+      subLabel.textContent = 'Cargando especialistas…';
+      container.innerHTML = '<p class="slots-empty">No hay especialistas configurados en Google Sheets.</p>';
       return;
     }
 
     if (!state.date) {
-      subLabel.textContent = 'Primero selecciona un día en el calendario';
+      subLabel.textContent = 'Primero elige un día en el calendario';
       subLabel.classList.add('empty');
-      return;
-    }
-
-    const weekday = state.date.getDay();
-    const daySlots = slotsFor(state.date);
-    const dayMap = state.availabilityCache[dateToISO(state.date)] || {};
-    const now = new Date();
-    const isToday = sameDay(state.date, now);
-
-    if (!state.time) {
-      subLabel.textContent = 'Selecciona un horario arriba o elige a tu especialista para filtrar sus horas';
-      subLabel.classList.add('empty');
+    } else if (!state.time) {
+      subLabel.textContent = `Especialistas del ${formatDate(state.date)} (elige una hora para confirmar turno)`;
+      subLabel.classList.remove('empty');
     } else {
       subLabel.textContent = `Disponibilidad para el ${formatDate(state.date)} a las ${state.time}`;
       subLabel.classList.remove('empty');
     }
 
-    state.specialistsCatalog.forEach((spec) => {
-      const worksThisDay = spec.days.includes(weekday);
-      const busyTimesForSpec = dayMap[spec.id] || [];
-      const freeSlotsForSpecToday = worksThisDay
-        ? daySlots.filter(t => !busyTimesForSpec.includes(t) && !(isToday && isPastTime(t, now)))
-        : [];
-      const bookedAtTime = !!(state.time && busyTimesForSpec.includes(state.time));
-      const allDayFullForSpec = worksThisDay && freeSlotsForSpecToday.length === 0;
-      const canSelect = worksThisDay && !bookedAtTime && !allDayFullForSpec;
-      const isSelected = !!(state.specialist && state.specialist.id === spec.id && canSelect);
+    const wd = state.date ? state.date.getDay() : null;
+
+    state.specialistsCatalog.forEach(spec => {
+      const worksToday = wd === null || spec.days.includes(wd);
+      const busyAtTime = !!(state.date && state.time && isSpecialistBusyAt(state.date, state.time, spec.id));
+      const canSelect  = worksToday && !busyAtTime;
+      const isSelected = !!(state.specialist && state.specialist.id === spec.id);
 
       let statusText = 'Disponible';
       let statusClass = 'available';
-      if (!worksThisDay) {
+      if (!worksToday) {
         statusText = 'No labora este día';
         statusClass = 'off';
-      } else if (bookedAtTime) {
+      } else if (busyAtTime) {
         statusText = `Ocupado (${state.time})`;
-        statusClass = 'busy';
-      } else if (allDayFullForSpec) {
-        statusText = 'Sin cupo hoy';
         statusClass = 'busy';
       } else if (state.time) {
         statusText = `Disponible (${state.time})`;
         statusClass = 'available';
       } else {
-        statusText = `${freeSlotsForSpecToday.length} hora(s) disp.`;
+        statusText = 'Labora este día';
         statusClass = 'available';
       }
 
@@ -1380,7 +1450,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
           <span class="spec-avatar">${escapeHtml(initials(spec.name))}</span>
           <div>
             <span class="spec-name">${escapeHtml(spec.name)}</span>
-            <span class="spec-role">${escapeHtml(spec.role)}</span>
+            <span class="spec-role">${escapeHtml(spec.role || 'Especialista')}</span>
           </div>
         </div>
         <span class="spec-status-pill ${statusClass}">${escapeHtml(statusText)}</span>
@@ -1388,13 +1458,10 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
       btn.addEventListener('click', () => {
         state.specialist = spec;
-        // Si aún no había elegido hora, preseleccionar su primera hora libre del día
-        if (!state.time && freeSlotsForSpecToday.length > 0) {
-          state.time = freeSlotsForSpecToday[0];
-        }
         renderSlots();
-        renderSpecialistsInline();
+        renderSpecialists();
         renderSummary();
+        updateStep1Banner();
         syncControls();
       });
 
@@ -1402,44 +1469,122 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     });
   }
 
-  /* =========================================================
-     PASO 2: SERVICIOS
-// ... existing code ... -->
-  function isStepComplete(step) {
-    if (step === 1) {
-      if (!state.date || !state.time || !state.specialist || state.loadingAvailability) return false;
-      const wd = state.date.getDay();
-      if (!state.specialist.days.includes(wd)) return false;
-      if (isSpecialistBusyAt(state.date, state.time, state.specialist.id)) return false;
-      return true;
+  function updateStep1Banner() {
+    const el = $('#step1StatusText');
+    if (!el) return;
+    if (state.date && state.time && state.specialist) {
+      el.innerHTML = `✅ Seleccionado: <strong>${escapeHtml(formatDate(state.date))}</strong> a las <strong>${escapeHtml(state.time)}</strong> con <strong>${escapeHtml(state.specialist.name)}</strong>`;
+    } else if (state.date && state.time) {
+      el.innerHTML = `📅 Fecha: <strong>${escapeHtml(formatDate(state.date))} · ${escapeHtml(state.time)}</strong> — Ahora selecciona a tu especialista disponible.`;
+    } else if (state.date) {
+      el.innerHTML = `📅 Día: <strong>${escapeHtml(formatDate(state.date))}</strong> — Ahora elige un horario disponible.`;
+    } else {
+      el.textContent = 'Selecciona día, hora y especialista para continuar.';
     }
-    if (step === 2) return state.services.length > 0;
+  }
+
+  /* =========================================================
+     PASO 2: SERVICIOS Y MONEDA
+     ========================================================= */
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
+  const isServiceSelected = (id) => state.services.some(s => s.id === id);
+  const totalPrice = () => state.services.reduce((acc, s) => acc + (Number(s.price) || 0), 0);
+  const totalDuration = () => state.services.reduce((acc, s) => acc + (Number(s.duration) || 60), 0);
+
+  function renderServices() {
+    const listEl = $('#serviceList');
+    listEl.innerHTML = '';
+
+    if (!state.servicesCatalog.length) {
+      listEl.innerHTML = '<li style="padding:20px;color:var(--color-slate);">No hay servicios disponibles en este momento.</li>';
+      return;
+    }
+
+    state.servicesCatalog.forEach(srv => {
+      const li = document.createElement('li');
+      li.className = 'service-item';
+      const selected = isServiceSelected(srv.id);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'service' + (selected ? ' is-selected' : '');
+      btn.innerHTML = `
+        <span>
+          <span class="service-name">${escapeHtml(srv.name)}</span>
+          ${srv.desc ? `<span class="service-desc">${escapeHtml(srv.desc)}</span>` : ''}
+        </span>
+        <span class="service-dur">${srv.duration} min</span>
+        <span class="service-price">${money(srv.price)}</span>
+        <span class="service-check">${CHECK_SVG}</span>
+      `;
+
+      btn.addEventListener('click', () => {
+        const idx = state.services.findIndex(x => x.id === srv.id);
+        if (idx >= 0) state.services.splice(idx, 1);
+        else state.services.push(srv);
+
+        $('#servicesHint').textContent = state.services.length
+          ? `${state.services.length} servicio(s) seleccionado(s) · Total: ${money(totalPrice())}`
+          : 'Selecciona uno o más tratamientos para tu cita.';
+
+        renderServices();
+        renderSummary();
+        syncControls();
+      });
+
+      li.appendChild(btn);
+      listEl.appendChild(li);
+    });
+  }
+
+  $$('.currency-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.dataset.currency;
+      if (!CURRENCIES[code]) return;
+      state.currency = code;
+      $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === code));
+      saveClientProfile();
+      renderServices();
+      renderSummary();
+    });
+  });
+
+  /* =========================================================
+     PASO 3: RESUMEN, NAVEGACIÓN Y CONFIRMACIÓN
+     ========================================================= */
+  function renderSummary() {
+    $('#sumDate').textContent       = state.date ? formatDate(state.date) : '—';
+    $('#sumTime').textContent       = state.time || '—';
+    $('#sumSpecialist').textContent = state.specialist ? state.specialist.name : '—';
+    $('#sumServices').innerHTML     = state.services.length ? state.services.map(s => escapeHtml(s.name)).join('<br>') : '—';
+    $('#sumDuration').textContent   = state.services.length ? `${totalDuration()} min` : '—';
+    $('#sumPrice').textContent      = state.services.length ? money(totalPrice()) : '—';
+  }
+
+  function isStepComplete(stepNum) {
+    if (stepNum === 1) {
+      return !!(
+        state.date &&
+        state.time &&
+        state.specialist &&
+        !isSpecialistBusyAt(state.date, state.time, state.specialist.id)
+      );
+    }
+    if (stepNum === 2) return state.services.length > 0;
     return false;
   }
 
   function syncControls() {
-    const step1Ready = isStepComplete(1);
-    $('#next1').disabled = !step1Ready;
+    $('#next1').disabled = !isStepComplete(1);
     $('#next2').disabled = !isStepComplete(2);
 
-    const statusText = $('#step1StatusText');
-    if (state.loadingAvailability) {
-      statusText.textContent = '⏳ Verificando disponibilidad en tiempo real…';
-    } else if (step1Ready) {
-      statusText.innerHTML = `✅ Disponible y seleccionado: <strong>${escapeHtml(formatDate(state.date))}</strong> a las <strong>${escapeHtml(state.time)}</strong> con <strong>${escapeHtml(state.specialist.name)}</strong>`;
-    } else if (state.date && state.time) {
-      statusText.textContent = 'Elige un especialista disponible para este horario.';
-    } else if (state.date) {
-      statusText.textContent = 'Selecciona un horario disponible y tu especialista.';
-    } else {
-      statusText.textContent = 'Selecciona día, hora y especialista para continuar.';
-    }
-
-    $$('#stepsNav .step-btn').forEach((btn) => {
+    $$('#stepsNav .step-btn').forEach(btn => {
       const n = Number(btn.dataset.goto);
       btn.classList.toggle('is-active', n === state.step);
-      btn.classList.toggle('is-done', n < state.step || isStepComplete(n));
-      btn.disabled = n > 1 && !isStepComplete(n - 1);
+      btn.classList.toggle('is-done', n < state.step && isStepComplete(n));
+      if (n === 1) btn.disabled = false;
+      if (n === 2) btn.disabled = !isStepComplete(1);
+      if (n === 3) btn.disabled = !(isStepComplete(1) && isStepComplete(2));
     });
   }
 
@@ -1448,48 +1593,39 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     $$('.step-panel').forEach(p => p.classList.toggle('is-active', Number(p.dataset.step) === n));
     renderSummary();
     syncControls();
-    $('#reserva').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const sec = $('#reserva');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  $('#next1').addEventListener('click', async () => {
-    const btn = $('#next1');
-    const orig = btn.innerHTML;
-    btn.disabled = true;
-    btn.textContent = 'Verificando cupo…';
-    await loadAvailabilityForDate(state.date, true);
-    btn.innerHTML = orig;
-
-    if (!isStepComplete(1)) {
-      renderCalendar();
-      renderSlots();
-      renderSpecialistsInline();
-      syncControls();
-      return;
-    }
-    goToStep(2);
-  });
-  $('#next2').addEventListener('click', () => goToStep(3));
+  $('#next1').addEventListener('click', () => { if (isStepComplete(1)) goToStep(2); });
+  $('#next2').addEventListener('click', () => { if (isStepComplete(2)) goToStep(3); });
   $$('[data-back]').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.back))));
-  $$('#stepsNav .step-btn').forEach(btn => btn.addEventListener('click', () => goToStep(Number(btn.dataset.goto))));
+  $$('#stepsNav .step-btn').forEach(btn => btn.addEventListener('click', () => {
+    const target = Number(btn.dataset.goto);
+    if (!btn.disabled) goToStep(target);
+  }));
 
-  // Envío del formulario y apertura de modal de confirmación
   $('#bookingForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    const nameOk = $('#fName').value.trim().length >= 2;
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('#fEmail').value.trim());
-    $('#fNameErr').hidden = nameOk;
+    const name = $('#fName').value.trim();
+    const email = $('#fEmail').value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    $('#fNameErr').hidden = name.length >= 2;
     $('#fEmailErr').hidden = emailOk;
-    if (!nameOk || !emailOk) return;
+    if (name.length < 2 || !emailOk) return;
+
+    saveClientProfile();
 
     $('#confirmError').hidden = true;
     $('#confirmBody').innerHTML = `
       <dl class="summary">
+        <div><dt>Cliente</dt><dd>${escapeHtml(name)}</dd></div>
+        <div><dt>Correo</dt><dd>${escapeHtml(email)}</dd></div>
         <div><dt>Fecha y Hora</dt><dd>${escapeHtml(formatDate(state.date))} · ${escapeHtml(state.time)}</dd></div>
         <div><dt>Especialista</dt><dd>${escapeHtml(state.specialist.name)}</dd></div>
         <div><dt>Servicios</dt><dd>${state.services.map(s => escapeHtml(s.name)).join('<br>')}</dd></div>
-        <div><dt>Duración</dt><dd>${totalDuration()} min</dd></div>
         <div><dt>Total</dt><dd>${money(totalPrice())}</dd></div>
-        <div><dt>Cliente</dt><dd>${escapeHtml($('#fName').value.trim())}</dd></div>
       </dl>
     `;
     $('#confirmModal').classList.add('is-open');
@@ -1500,11 +1636,9 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   $('#confirmOk').addEventListener('click', async () => {
     const btn = $('#confirmOk');
-    const errEl = $('#confirmError');
     btn.disabled = true;
     btn.textContent = 'Confirmando…';
-    errEl.hidden = true;
-    errEl.textContent = '';
+    $('#confirmError').hidden = true;
 
     const payload = {
       date: dateToISO(state.date),
@@ -1513,30 +1647,15 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       name: $('#fName').value.trim(),
       email: $('#fEmail').value.trim(),
       phone: $('#fPhone').value.trim(),
-      services: state.services.map(s => s.name || s.id).join(', ')
+      services: state.services.map(s => s.name).join(', ')
     };
 
     try {
       const res = await gasPost('createBooking', { booking: payload });
-      if (!res || res.error) {
-        throw new Error((res && res.error) || 'No se pudo guardar la reserva en Google Sheets.');
-      }
+      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo registrar la cita.');
 
-      const bookingId = res.id || ('bk-' + Date.now().toString(36));
-
-      // Registrar inmediatamente el horario como ocupado en el mapa en memoria
-      state.activeBookings.push({
-        ID: bookingId,
-        Fecha: payload.date,
-        Hora: payload.time,
-        EspecialistaID: payload.specialistId,
-        Nombre: payload.name,
-        Estado: 'Confirmada'
-      });
-      rebuildAvailabilityMapFromBookings(state.activeBookings);
-
-      const displayBooking = {
-        id: bookingId,
+      const bookingObj = {
+        id: res.id || ('cita-' + Date.now()),
         status: 'Confirmada',
         name: payload.name,
         email: payload.email,
@@ -1544,106 +1663,113 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         dateISO: payload.date,
         dateLabel: formatDate(state.date),
         time: payload.time,
-        services: state.services.slice(),
         specialist: { id: state.specialist.id, name: state.specialist.name },
-        total: totalPrice(),
+        services: state.services.map(s => ({ id: s.id, name: s.name, duration: s.duration, price: s.price })),
         duration: totalDuration(),
+        total: totalPrice(),
         currency: state.currency
       };
 
-      saveClientProfile();
-      saveBookingLocal(displayBooking);
+      // Actualizar caché en memoria inmediatamente
+      if (!state.availabilityCache[payload.date]) state.availabilityCache[payload.date] = {};
+      if (!state.availabilityCache[payload.date][state.specialist.id]) {
+        state.availabilityCache[payload.date][state.specialist.id] = [];
+      }
+      state.availabilityCache[payload.date][state.specialist.id].push(payload.time);
+
+      saveBookingLocal(bookingObj);
       $('#confirmModal').classList.remove('is-open');
 
-      const gcalUrl = buildGoogleCalendarUrl(displayBooking);
       if ($('#chkAddGoogleCal').checked) {
-        window.open(gcalUrl, '_blank', 'noopener');
+        window.open(buildGoogleCalendarUrl(bookingObj), '_blank', 'noopener');
       }
 
-      renderSuccessScreen(displayBooking, gcalUrl);
+      renderSuccessScreen(bookingObj);
       renderHistory();
     } catch (err) {
-      errEl.textContent = 'No se pudo confirmar: ' + err.message;
-      errEl.hidden = false;
-      await loadAvailabilityForDate(state.date, true);
-      renderCalendar();
-      renderSlots();
-      renderSpecialistsInline();
-      syncControls();
+      $('#confirmError').textContent = err.message;
+      $('#confirmError').hidden = false;
     } finally {
       btn.disabled = false;
       btn.textContent = 'Confirmar cita';
     }
   });
 
-  function renderSuccessScreen(booking, gcalUrl) {
+  function renderSuccessScreen(booking) {
     $('#stepsNav').classList.add('is-hidden');
+    const gcalUrl = buildGoogleCalendarUrl(booking);
+
     $('#summaryPanel').innerHTML = `
-      <div style="max-width:560px;margin:0 auto;text-align:center;padding:16px 0;">
-        <div style="width:68px;height:68px;margin:0 auto 16px;border-radius:50%;background:rgba(46,206,160,.15);color:var(--color-mint-pulse);display:grid;place-items:center;font-size:32px;">✓</div>
-        <p class="eyebrow">Reserva Confirmada</p>
+      <div style="max-width:540px;margin:0 auto;text-align:center;padding:16px 0;">
+        <div style="width:68px;height:68px;border-radius:50%;background:rgba(46,206,160,.16);color:var(--color-mint-pulse);display:grid;place-items:center;margin:0 auto 16px;font-size:30px;">✓</div>
+        <p class="eyebrow">Reserva confirmada</p>
         <h3 class="heading-lg" style="margin:8px 0 12px;">¡Gracias, ${escapeHtml(booking.name)}!</h3>
-        <p class="lead" style="margin:0 auto 24px;">Tu cita quedó agendada para el <strong>${escapeHtml(booking.dateLabel)} a las ${escapeHtml(booking.time)}</strong> con <strong>${escapeHtml(booking.specialist.name)}</strong>.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px;">
+        <p class="lead" style="margin:0 auto 22px;">Tu cita quedó registrada para el <strong>${escapeHtml(booking.dateLabel)}</strong> a las <strong>${escapeHtml(booking.time)}</strong> con <strong>${escapeHtml(booking.specialist.name)}</strong>.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:18px;">
           <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal">📅 Añadir a Google Calendar</a>
           <button type="button" class="btn btn-ghost" id="btnDownloadSuccessIcs">📥 Descargar .ICS</button>
         </div>
-        <button type="button" class="btn btn-pill" id="btnNewBookingReload">Hacer otra reserva</button>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+          <a href="#historial" class="btn btn-pill">Ver mis reservas</a>
+          <button type="button" class="btn btn-ghost" id="btnBookAnother">Agendar otra cita</button>
+        </div>
       </div>
     `;
+
     $('#btnDownloadSuccessIcs').addEventListener('click', () => downloadICS(booking));
-    $('#btnNewBookingReload').addEventListener('click', () => window.location.reload());
+    $('#btnBookAnother').addEventListener('click', () => window.location.reload());
   }
 
   /* =========================================================
-     HISTORIAL LOCAL + GOOGLE CALENDAR + REAGENDAR / CANCELAR
+     HISTORIAL DEL CLIENTE + GOOGLE CALENDAR + REAGENDAR/CANCELAR
      ========================================================= */
   function loadHistoryLocal() {
     try {
       const raw = localStorage.getItem(HISTORY_KEY);
-      return raw ? JSON.parse(raw) : [];
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
     } catch (e) { return []; }
   }
 
   function saveAllHistoryLocal(list) {
-    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 50))); } catch (e) {}
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 40))); } catch (e) {}
   }
 
-  function saveBookingLocal(booking) {
+  function saveBookingLocal(bk) {
     const list = loadHistoryLocal();
-    list.unshift(booking);
+    list.unshift(bk);
     saveAllHistoryLocal(list);
   }
 
   function renderHistory() {
     const list = loadHistoryLocal();
-    const box = $('#historyList');
+    const container = $('#historyList');
     if (!list.length) {
-      box.innerHTML = `<div class="card" style="text-align:center;color:var(--color-slate);">Aún no tienes reservas guardadas en este navegador.</div>`;
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--color-slate);">Aún no tienes reservas guardadas en este dispositivo.</div>`;
       return;
     }
 
-    box.innerHTML = list.map((b) => {
+    container.innerHTML = list.map(b => {
       const status = b.status || 'Confirmada';
-      const isCancelled = status === 'Cancelada';
+      const isCancelled = status.toLowerCase().includes('cancel');
+      const isRescheduled = status.toLowerCase().includes('reagend');
+      const badgeClass = isCancelled ? 'is-cancelled' : (isRescheduled ? 'is-rescheduled' : '');
       const gcalUrl = buildGoogleCalendarUrl(b);
-      let badgeCls = 'history-badge';
-      if (isCancelled) badgeCls += ' is-cancelled';
-      else if (status === 'Reagendada') badgeCls += ' is-rescheduled';
+      const srvText = Array.isArray(b.services) ? b.services.map(s => s.name).join(', ') : String(b.services || '');
 
       return `
         <article class="card history-card">
           <div class="history-head">
             <div>
-              <p class="card-label">${escapeHtml(b.dateLabel)} · ${escapeHtml(b.time)}</p>
-              <h4 style="font-size:18px;font-weight:700;margin-top:4px;">${(b.services || []).map(s => escapeHtml(s.name)).join(', ')}</h4>
-              <p style="font-size:14px;color:var(--color-slate);margin-top:2px;">Especialista: <strong>${escapeHtml(b.specialist ? b.specialist.name : '—')}</strong> · Total: <strong>${money(b.total, b.currency)}</strong></p>
+              <p class="card-label">${escapeHtml(b.dateLabel || b.dateISO)} · ${escapeHtml(b.time)}</p>
+              <h4 class="heading" style="font-size:18px;">${escapeHtml(srvText)}</h4>
+              <p style="font-size:13.5px;color:var(--color-slate);margin-top:2px;">Especialista: <strong>${escapeHtml(b.specialist ? b.specialist.name : '—')}</strong> · Total: <strong>${money(b.total, b.currency)}</strong></p>
             </div>
-            <span class="${badgeCls}">${escapeHtml(status)}</span>
+            <span class="history-badge ${badgeClass}">${escapeHtml(status)}</span>
           </div>
           ${!isCancelled ? `
             <div class="history-card-footer">
-              <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal btn-sm">📅 Añadir a Google Calendar</a>
+              <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal btn-sm">📅 Google Calendar</a>
               <button type="button" class="btn btn-ghost btn-sm" data-hist-ics="${escapeHtml(b.id)}">📥 .ICS</button>
               <button type="button" class="btn btn-ghost btn-sm" data-hist-reschedule="${escapeHtml(b.id)}">Reagendar</button>
               <button type="button" class="btn btn-danger-ghost btn-sm" data-hist-cancel="${escapeHtml(b.id)}">Cancelar cita</button>
@@ -1657,88 +1783,90 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   $('#historyList').addEventListener('click', async (e) => {
     const icsBtn = e.target.closest('[data-hist-ics]');
     if (icsBtn) {
-      const b = loadHistoryLocal().find(x => x.id === icsBtn.dataset.histIcs);
-      if (b) downloadICS(b);
+      const bk = loadHistoryLocal().find(x => x.id === icsBtn.dataset.histIcs);
+      if (bk) downloadICS(bk);
+      return;
+    }
+
+    const rsBtn = e.target.closest('[data-hist-reschedule]');
+    if (rsBtn) {
+      const bk = loadHistoryLocal().find(x => x.id === rsBtn.dataset.histReschedule);
+      if (!bk) return;
+      activeRescheduleBooking = bk;
+      clientRsSelectedTime = '';
+      $('#clientRsError').hidden = true;
+      $('#clientRsOk').disabled = true;
+      $('#clientRsDate').value = bk.dateISO || dateToISO(new Date());
+      $('#clientRsSpec').innerHTML = state.specialistsCatalog.map(sp =>
+        `<option value="${escapeHtml(sp.id)}">${escapeHtml(sp.name)}</option>`
+      ).join('');
+      if (bk.specialist && bk.specialist.id) $('#clientRsSpec').value = bk.specialist.id;
+      $('#clientRescheduleModal').classList.add('is-open');
+      loadRescheduleModalSlots();
       return;
     }
 
     const cancelBtn = e.target.closest('[data-hist-cancel]');
     if (cancelBtn) {
       const id = cancelBtn.dataset.histCancel;
-      try { await gasPost('cancelBooking', { id, reason: 'Cancelada por el cliente' }); } catch (err) {}
-      const updated = loadHistoryLocal().map(x => x.id === id ? Object.assign({}, x, { status: 'Cancelada' }) : x);
-      saveAllHistoryLocal(updated);
-      renderHistory();
-      return;
-    }
-
-    const rsBtn = e.target.closest('[data-hist-reschedule]');
-    if (rsBtn) {
-      const b = loadHistoryLocal().find(x => x.id === rsBtn.dataset.histReschedule);
-      if (!b) return;
-      activeRescheduleBooking = b;
-      $('#clientRsDate').value = b.dateISO || dateToISO(new Date());
-      $('#clientRsSpec').innerHTML = state.specialistsCatalog.map(sp =>
-        `<option value="${escapeHtml(sp.id)}">${escapeHtml(sp.name)}</option>`
-      ).join('');
-      if (b.specialist) $('#clientRsSpec').value = b.specialist.id;
-      $('#clientRescheduleModal').classList.add('is-open');
-      loadRescheduleModalSlots();
+      cancelBtn.disabled = true;
+      cancelBtn.textContent = 'Cancelando…';
+      try {
+        await gasPost('cancelBooking', { id, reason: 'Cancelada por el cliente' });
+        const updated = loadHistoryLocal().map(x => x.id === id ? Object.assign({}, x, { status: 'Cancelada' }) : x);
+        saveAllHistoryLocal(updated);
+        await loadBackendData();
+        renderCalendar();
+        renderSlots();
+        renderSpecialists();
+        renderHistory();
+      } catch (err) {
+        cancelBtn.disabled = false;
+        cancelBtn.textContent = 'Cancelar cita';
+      }
     }
   });
 
   async function loadRescheduleModalSlots() {
     const dateVal = $('#clientRsDate').value;
-    const specId = $('#clientRsSpec').value;
-    const slotsBox = $('#clientRsSlots');
+    const specId  = $('#clientRsSpec').value;
+    const box     = $('#clientRsSlots');
     clientRsSelectedTime = '';
     $('#clientRsOk').disabled = true;
-    $('#clientRsError').hidden = true;
 
-    if (!dateVal || !specId) return;
-    const d = new Date(dateVal + 'T12:00:00');
-    const spec = state.specialistsCatalog.find(s => s.id === specId);
-    if (spec && spec.days.length && !spec.days.includes(d.getDay())) {
-      slotsBox.innerHTML = '<p class="slots-empty">Este especialista no labora el día seleccionado.</p>';
+    if (!dateVal || !specId) {
+      box.innerHTML = '<p class="slots-empty">Selecciona fecha y especialista.</p>';
       return;
     }
 
-    const daySlots = slotsFor(d);
+    const dObj = new Date(dateVal + 'T12:00:00');
+    const daySlots = slotsFor(dObj);
     if (!daySlots.length) {
-      slotsBox.innerHTML = '<p class="slots-empty">Cerrado este día. Elige otra fecha.</p>';
+      box.innerHTML = '<p class="slots-empty">Día cerrado.</p>';
       return;
     }
 
-    slotsBox.innerHTML = '<p class="slots-empty">Consultando disponibilidad…</p>';
-    let takenSet = new Set();
-    try {
-      const occupied = await gasGet('getAvailability', { date: dateVal, specialistId: specId });
-      takenSet = new Set(Array.isArray(occupied) ? occupied.map(normalizeTimeStr) : []);
-      if (activeRescheduleBooking && activeRescheduleBooking.dateISO === dateVal && activeRescheduleBooking.specialist?.id === specId) {
-        takenSet.delete(normalizeTimeStr(activeRescheduleBooking.time));
-      }
-    } catch (e) {}
+    await refreshAvailabilityForDate(dObj);
+    const taken = (state.availabilityCache[dateVal] && state.availabilityCache[dateVal][specId]) || [];
 
-    slotsBox.innerHTML = '';
-    const now = new Date();
-    const isToday = sameDay(d, now);
-
+    box.innerHTML = '';
     daySlots.forEach(t => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot';
-      btn.textContent = t;
-      if (takenSet.has(t) || (isToday && isPastTime(t, now))) {
+      const isOccupied = taken.includes(t) && !(activeRescheduleBooking && activeRescheduleBooking.dateISO === dateVal && activeRescheduleBooking.time === t);
+      btn.innerHTML = `<span>${escapeHtml(t)}</span><small class="slot-sub">${isOccupied ? 'Ocupado' : 'Disponible'}</small>`;
+      if (isOccupied) {
         btn.classList.add('is-taken');
         btn.disabled = true;
       }
       btn.addEventListener('click', () => {
-        slotsBox.querySelectorAll('.slot').forEach(s => s.classList.remove('is-selected'));
+        $$('#clientRsSlots .slot').forEach(s => s.classList.remove('is-selected'));
         btn.classList.add('is-selected');
         clientRsSelectedTime = t;
         $('#clientRsOk').disabled = false;
       });
-      slotsBox.appendChild(btn);
+      box.appendChild(btn);
     });
   }
 
@@ -1749,14 +1877,13 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   $('#clientRsOk').addEventListener('click', async () => {
     if (!activeRescheduleBooking || !clientRsSelectedTime) return;
+    const btn = $('#clientRsOk');
+    btn.disabled = true;
+    btn.textContent = 'Guardando…';
+    $('#clientRsError').hidden = true;
+
     const newDate = $('#clientRsDate').value;
     const newSpecId = $('#clientRsSpec').value;
-    const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
-    const errEl = $('#clientRsError');
-    const okBtn = $('#clientRsOk');
-    errEl.hidden = true;
-    okBtn.disabled = true;
-    okBtn.textContent = 'Guardando…';
 
     try {
       const res = await gasPost('rescheduleBooking', {
@@ -1765,63 +1892,76 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         time: clientRsSelectedTime,
         specialistId: newSpecId
       });
-      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo reagendar');
+      if (!res || res.error) throw new Error((res && res.error) || 'No se pudo reagendar.');
 
-      delete state.availabilityCache[activeRescheduleBooking.dateISO];
-      delete state.availabilityCache[newDate];
-
+      const specObj = state.specialistsCatalog.find(s => s.id === newSpecId);
       const dObj = new Date(newDate + 'T12:00:00');
-      const updated = loadHistoryLocal().map(x => x.id === activeRescheduleBooking.id ? Object.assign({}, x, {
-        dateISO: newDate,
-        dateLabel: formatDate(dObj),
-        time: clientRsSelectedTime,
-        specialist: specObj ? { id: specObj.id, name: specObj.name } : x.specialist,
-        status: 'Reagendada'
-      }) : x);
+      const updated = loadHistoryLocal().map(item => {
+        if (item.id === activeRescheduleBooking.id) {
+          return Object.assign({}, item, {
+            dateISO: newDate,
+            dateLabel: formatDate(dObj),
+            time: clientRsSelectedTime,
+            specialist: specObj ? { id: specObj.id, name: specObj.name } : item.specialist,
+            status: 'Reagendada'
+          });
+        }
+        return item;
+      });
       saveAllHistoryLocal(updated);
-      renderHistory();
       $('#clientRescheduleModal').classList.remove('is-open');
-    } catch (e) {
-      errEl.textContent = e.message;
-      errEl.hidden = false;
+      await loadBackendData();
+      renderCalendar();
+      renderSlots();
+      renderSpecialists();
+      renderHistory();
+    } catch (err) {
+      $('#clientRsError').textContent = err.message;
+      $('#clientRsError').hidden = false;
     } finally {
-      okBtn.disabled = false;
-      okBtn.textContent = 'Guardar cambio';
+      btn.disabled = false;
+      btn.textContent = 'Guardar cambio';
     }
   });
 
   /* =========================================================
-     INICIALIZACIÓN
+     ARRANQUE INICIAL
      ========================================================= */
-  async function init() {
-    $('#slots').innerHTML = '<p class="slots-empty">Sincronizando horarios con Google Sheets…</p>';
-    $('#specialistList').innerHTML = '<p class="slots-empty">Cargando especialistas desde Google Sheets…</p>';
-    $('#serviceList').innerHTML = '<li style="padding:20px;color:var(--color-slate);">Cargando catálogo de servicios…</li>';
-
-    loadClientProfile();
-    await loadBackendData();
-
-    // Seleccionar automáticamente el primer día con cupo real disponible
+  function findNextOpenDay() {
     const cursor = new Date();
-    cursor.setHours(0,0,0,0);
-    for (let i = 0; i < 60; i++) {
-      const stats = getDayAvailabilityStats(cursor);
-      if (stats.availableSlots > 0) {
-        state.date = new Date(cursor);
-        state.view = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
-        state.availabilityBySpecialist = state.availabilityCache[dateToISO(cursor)] || {};
-        break;
+    cursor.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 90; i++) {
+      if (!isClosedDay(cursor)) {
+        const stats = getDayAvailabilityStats(cursor);
+        if (state.specialistsCatalog.length === 0 || stats.availableSlots > 0) {
+          return new Date(cursor);
+        }
       }
       cursor.setDate(cursor.getDate() + 1);
+    }
+    return null;
+  }
+
+  async function init() {
+    loadSavedClientProfile();
+    renderHistory();
+
+    await loadBackendData();
+
+    const firstOpen = findNextOpenDay();
+    if (firstOpen) {
+      state.date = firstOpen;
+      state.view = new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1);
+      state.availabilityBySpecialist = state.availabilityCache[dateToISO(firstOpen)] || {};
     }
 
     renderCalendar();
     renderSlots();
-    renderSpecialistsInline();
+    renderSpecialists();
     renderServices();
     renderSummary();
+    updateStep1Banner();
     syncControls();
-    renderHistory();
   }
 
   init();
