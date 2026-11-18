@@ -1,10 +1,11 @@
+ex.html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#244d54">
-<title>Aevi Wellness — Agenda tu cita</title>
+<title>Vagabundo Barbería — Agenda tu cita</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -661,6 +662,8 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   /* =========================================================
      CONFIGURACIÓN DE CONEXIÓN AL BACKEND (CODE.GS)
      ========================================================= */
+  // === URL del backend de Google Apps Script ===
+  // Cámbiala si despliegas un nuevo web app.
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIpslooNGNBqrg6NAGwk5ElppYHDtC5sOPHU1uWoiaLu_73hs-wdQpIKjWgUe1XrTNKA/exec';
   const HISTORY_KEY = 'aevi_booking_history_v1';
   const CLIENT_PROFILE_KEY = 'aevi_client_profile_v1';
@@ -1677,6 +1680,9 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         state.availabilityCache[payload.date][state.specialist.id] = [];
       }
       state.availabilityCache[payload.date][state.specialist.id].push(payload.time);
+
+      // Refresca disponibilidad real desde el backend (race condition con otras reservas paralelas)
+      try { await refreshAvailabilityForDate(state.date); } catch (e) {}
 
       saveBookingLocal(bookingObj);
       $('#confirmModal').classList.remove('is-open');
