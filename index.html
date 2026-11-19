@@ -31,21 +31,29 @@
   --text-caption:11px;
   --text-body:16px;
   --text-heading-sm:26px;
-  --text-heading-lg:42px;
-  --text-display:58px;
+  --text-heading-lg:38px;
+  --text-display:54px;
   --spacing-4:4px; --spacing-8:8px; --spacing-12:12px; --spacing-16:16px;
   --spacing-20:20px; --spacing-24:24px; --spacing-28:28px; --spacing-32:32px;
   --spacing-40:40px; --spacing-60:60px; --spacing-80:80px;
-  --radius-md:6px; --radius-lg:10px; --radius-xl:14px; --radius-2xl:20px;
+  --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-2xl:20px;
   --radius-3xl:28px; --radius-pill:9999px;
-  --page-max-width:1240px; --section-gap:64px;
+  --page-max-width:1240px;
+  --bottom-nav-height:72px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+html{-webkit-text-size-adjust:100%;}
 body{
-  margin:0;background:var(--color-paper);color:var(--color-carbon);
-  font-family:var(--font-tight);font-size:var(--text-body);line-height:1.5;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  margin:0;
+  min-height:100dvh;
+  background:var(--color-bone);
+  color:var(--color-carbon);
+  font-family:var(--font-tight);
+  font-size:var(--text-body);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  padding-bottom:calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 16px);
 }
 h1,h2,h3,h4,p,dl,dd{margin:0;}
 a{color:inherit;text-decoration:none;}
@@ -53,75 +61,150 @@ button{font-family:inherit;cursor:pointer;}
 ul{list-style:none;margin:0;padding:0;}
 input,textarea,select{font-family:inherit;font-size:16px;}
 
-/* ============ UTILIDADES ============ */
+/* ============ UTILIDADES Y PANTALLAS ============ */
 .container{width:100%;max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);}
-.section{padding:var(--section-gap) 0;}
-.section--bone{background:var(--color-bone);}
-.eyebrow{font-size:var(--text-caption);font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-deep-teal);}
-.lead{font-size:16px;line-height:1.5;color:var(--color-slate);max-width:62ch;}
-.section-head{margin-bottom:var(--spacing-32);}
-.section-head .heading-lg{margin:var(--spacing-8) 0 var(--spacing-12);}
-.display{font-size:clamp(36px,6vw,var(--text-display));font-weight:600;line-height:1.04;letter-spacing:-0.035em;}
-.heading-lg{font-size:clamp(28px,4vw,var(--text-heading-lg));font-weight:600;line-height:1.18;letter-spacing:-0.02em;color:var(--color-ink);}
-.heading{font-size:clamp(21px,2.5vw,var(--text-heading-sm));font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:var(--color-ink);}
+.eyebrow{font-size:var(--text-caption);font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-deep-teal);}
+.lead{font-size:15.5px;line-height:1.5;color:var(--color-slate);max-width:62ch;}
+.display{font-size:clamp(34px,5.5vw,var(--text-display));font-weight:700;line-height:1.05;letter-spacing:-0.035em;}
+.heading-lg{font-size:clamp(25px,3.6vw,var(--text-heading-lg));font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--color-ink);}
+.heading{font-size:clamp(20px,2.4vw,var(--text-heading-sm));font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:var(--color-ink);}
+
+/* Sistema de pantallas separadas (sin scroll entre secciones) */
+.app-screen{
+  display:none;
+  padding:28px 0 24px;
+}
+.app-screen.is-active{
+  display:block;
+  animation:screenIn .24s ease both;
+}
+.app-screen--hero{
+  padding:0;
+}
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:none;}
+}
+
+.screen-top-bar{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-bottom:var(--spacing-24);
+}
+.screen-top-bar .heading-lg{margin:6px 0 6px;}
+.back-home-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:var(--color-deep-teal);
+  background:var(--color-paper);border:1px solid var(--color-mist);
+  padding:7px 14px;border-radius:var(--radius-pill);transition:.15s;
+}
+.back-home-btn:hover{border-color:var(--color-deep-teal);background:rgba(36,77,84,.05);}
 
 /* ============ ANNOUNCE & HEADER ============ */
-.announce{background:var(--color-mint-pulse);color:#fff;text-align:center;padding:10px var(--spacing-16);font-size:13px;font-weight:500;letter-spacing:0.04em;}
-.site-header{background:var(--color-paper);border-bottom:1px solid var(--color-mist);position:sticky;top:0;z-index:50;}
-.header-inner{max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);height:64px;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-24);}
-.wordmark{font-weight:700;font-size:20px;letter-spacing:-0.02em;color:var(--color-ink);display:flex;align-items:center;gap:8px;}
+.announce{background:var(--color-mint-pulse);color:#fff;text-align:center;padding:9px var(--spacing-16);font-size:13px;font-weight:500;letter-spacing:0.03em;}
+.announce[hidden]{display:none !important;}
+.site-header{background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-mist);position:sticky;top:0;z-index:50;}
+.header-inner{max-width:var(--page-max-width);margin:0 auto;padding:0 var(--spacing-24);height:60px;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-16);}
+.wordmark{
+  font-weight:700;font-size:19px;letter-spacing:-0.02em;color:var(--color-ink);
+  display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:0;
+}
 .wordmark span{color:var(--color-deep-teal);font-weight:500;}
 .wordmark img{height:32px;width:auto;}
-.nav{display:flex;gap:var(--spacing-4);}
-.nav a{font-size:15px;font-weight:500;padding:8px 16px;color:var(--color-carbon);border-radius:var(--radius-pill);transition:.15s;}
-.nav a:hover{color:var(--color-deep-teal);background:var(--color-bone);}
+.header-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--color-deep-teal);
+  background:rgba(46,206,160,.14);padding:6px 12px;border-radius:var(--radius-pill);
+  border:0;transition:.15s;
+}
+.header-chip:hover{background:rgba(46,206,160,.24);}
 
-/* ============ HERO ============ */
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:480px;overflow:hidden;}
-.hero-dark{background:var(--color-deep-teal);color:#fff;padding:var(--spacing-60) clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center;}
+/* ============ PANTALLA 1: HERO / INICIO ============ */
+.hero{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  min-height:calc(100dvh - 60px - var(--bottom-nav-height) - 16px);
+  overflow:hidden;
+  background:var(--color-paper);
+}
+.hero-dark{
+  background:var(--color-deep-teal);
+  color:#fff;
+  padding:clamp(36px,6vw,72px) clamp(24px,5vw,76px);
+  display:flex;flex-direction:column;justify-content:center;
+}
 .hero-dark .eyebrow{color:var(--color-soft-teal);}
 .hero-dark .display{color:#fff;margin:var(--spacing-16) 0 var(--spacing-20);max-width:13ch;}
-.hero-dark .lead{color:rgba(255,255,255,.76);margin-bottom:var(--spacing-32);font-size:17px;}
-.btn-outline-mint{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);padding:14px 36px;background:transparent;color:#fff;border:1.5px solid var(--color-mint-pulse);border-radius:var(--radius-pill);font-size:16px;font-weight:600;width:fit-content;transition:.15s;}
-.btn-outline-mint:hover{background:rgba(46,206,160,.14);}
+.hero-dark .lead{color:rgba(255,255,255,.8);margin-bottom:var(--spacing-32);font-size:16.5px;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.btn-outline-mint{
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-8);
+  padding:15px 34px;background:var(--color-mint-pulse);color:#fff;
+  border:1.5px solid var(--color-mint-pulse);border-radius:var(--radius-pill);
+  font-size:16px;font-weight:700;width:fit-content;transition:.18s;
+  box-shadow:0 8px 24px rgba(46,206,160,.28);
+}
+.btn-outline-mint:hover{filter:brightness(.95);transform:translateY(-1px);}
+.btn-hero-ghost{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 24px;background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,.32);border-radius:var(--radius-pill);
+  font-size:15px;font-weight:600;transition:.15s;
+}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);}
+
 .hero-light{
   background:radial-gradient(circle at 30% 35%,rgba(46,206,160,.32),transparent 58%),
              radial-gradient(circle at 75% 75%,rgba(109,221,189,.4),transparent 62%),var(--color-paper);
   display:flex;align-items:center;justify-content:center;padding:32px;
 }
-.hero-mark{width:min(280px,65%);aspect-ratio:1;border-radius:50%;background:var(--color-paper);border:1px solid var(--color-mist);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--spacing-8);box-shadow:0 0 0 20px rgba(255,255,255,.6);}
-.hero-mark svg{width:50px;height:50px;stroke:var(--color-deep-teal);fill:none;stroke-width:1.5;}
+.hero-mark{
+  width:min(280px,68%);aspect-ratio:1;border-radius:50%;
+  background:var(--color-paper);border:1px solid var(--color-mist);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--spacing-8);
+  box-shadow:0 0 0 20px rgba(255,255,255,.6);
+}
+.hero-mark svg{width:52px;height:52px;stroke:var(--color-deep-teal);fill:none;stroke-width:1.5;}
 .hero-mark span{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-deep-teal);}
 
-/* ============ PASOS DE RESERVA (3 PASOS) ============ */
-#reserva,#historial,#ubicacion{scroll-margin-top:80px;}
-.steps{display:flex;flex-wrap:wrap;gap:var(--spacing-12);margin:0 0 var(--spacing-24);padding:0;}
+/* ============ PANTALLA 2: PASOS DE RESERVA ============ */
+.steps{display:flex;flex-wrap:wrap;gap:var(--spacing-12);margin:0 0 var(--spacing-20);padding:0;}
 .steps li{flex:1 1 200px;}
 .steps.is-hidden{display:none;}
 .step-btn{
-  width:100%;display:flex;align-items:center;gap:12px;padding:13px 18px;
-  text-align:left;font-size:14.5px;font-weight:600;color:var(--color-slate);
+  width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;
+  text-align:left;font-size:14px;font-weight:600;color:var(--color-slate);
   background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-pill);transition:.15s;
 }
 .step-btn .step-num{width:24px;height:24px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:12px;font-weight:700;background:var(--color-bone);color:var(--color-slate);transition:.15s;}
 .step-btn:disabled{opacity:.55;cursor:not-allowed;}
 .step-btn:not(:disabled):hover{border-color:var(--color-mint-pulse);}
-.step-btn.is-active{border-color:var(--color-deep-teal);color:var(--color-deep-teal);background:rgba(36,77,84,.05);}
+.step-btn.is-active{border-color:var(--color-deep-teal);color:var(--color-deep-teal);background:rgba(36,77,84,.06);}
 .step-btn.is-active .step-num{background:var(--color-deep-teal);color:#fff;}
-.step-btn.is-done{border-color:var(--color-mint-pulse);color:var(--color-deep-teal);background:rgba(46,206,160,.08);}
+.step-btn.is-done{border-color:var(--color-mint-pulse);color:var(--color-deep-teal);background:rgba(46,206,160,.1);}
 .step-btn.is-done .step-num{background:var(--color-mint-pulse);color:#fff;}
 
-.booking-shell{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-3xl);padding:clamp(20px,3vw,40px);}
+.booking-shell{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-3xl);padding:clamp(18px,3vw,36px);}
 .step-panel{display:none;}
-.step-panel.is-active{display:block;animation:panelIn .28s ease both;}
+.step-panel.is-active{display:block;animation:panelIn .24s ease both;}
 @keyframes panelIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 .panel-head{margin-bottom:var(--spacing-24);}
 .panel-head .heading{margin:var(--spacing-8) 0;}
-.panel-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-top:var(--spacing-28);padding-top:var(--spacing-20);border-top:1px solid var(--color-mist);}
+.panel-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--spacing-12);margin-top:var(--spacing-24);padding-top:var(--spacing-20);border-top:1px solid var(--color-mist);}
 
-/* ============ PASO 1: FECHA + HORA + ESPECIALISTA INTEGRADO ============ */
-.agenda-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:var(--spacing-24);align-items:start;}
-.right-column-stack{display:flex;flex-direction:column;gap:var(--spacing-20);}
+/* PASO 1: Calendario + Horarios arriba, Especialistas en ancho completo abajo */
+.agenda-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);
+  gap:var(--spacing-20);
+  align-items:start;
+}
+.specialists-full-card{
+  grid-column:1 / -1;
+}
 .card{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-2xl);padding:var(--spacing-24);}
 .card-label{font-size:var(--text-caption);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-deep-teal);margin-bottom:var(--spacing-4);}
 .card-sub{font-size:15px;font-weight:600;color:var(--color-ink);margin-bottom:var(--spacing-16);text-transform:capitalize;}
@@ -150,7 +233,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .dot--off{background:var(--color-mist);}
 
 /* Horarios */
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:var(--spacing-8);}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:var(--spacing-8);}
 .slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px;font-size:14px;font-weight:600;color:var(--color-ink);background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-lg);transition:.15s;min-height:48px;}
 .slot-sub{font-size:10px;font-weight:600;letter-spacing:0.03em;color:var(--color-slate);line-height:1.1;}
 .slot:hover:not(:disabled):not(.is-selected){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.08);}
@@ -162,24 +245,103 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .slot.is-selected .slot-sub{color:rgba(255,255,255,.92);}
 .slots-empty{font-size:14px;color:var(--color-slate);grid-column:1 / -1;}
 
-/* Especialistas integrados en Paso 1 */
-.specialist-inline-grid{display:grid;grid-template-columns:1fr;gap:10px;}
-.specialist{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;
-  padding:14px 16px;text-align:left;background:var(--color-paper);
-  border:1.5px solid var(--color-mist);border-radius:var(--radius-xl);transition:.15s;
+/* ============ TARJETAS DE ESPECIALISTAS (2 COLS MÓVIL -> HASTA 6 COLS PC) ============ */
+.specialist-inline-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px;
 }
-.specialist:hover:not(:disabled){border-color:var(--color-mint-pulse);background:rgba(46,206,160,.04);}
-.specialist.is-selected{border-color:var(--color-deep-teal);background:rgba(36,77,84,.04);box-shadow:0 2px 10px rgba(36,77,84,.08);}
-.specialist:disabled{opacity:.5;cursor:not-allowed;background:var(--color-bone);}
-.spec-left{display:flex;align-items:center;gap:12px;min-width:0;}
-.spec-avatar{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--color-deep-teal);color:#fff;font-size:14px;font-weight:700;transition:.15s;}
-.specialist.is-selected .spec-avatar{background:var(--color-mint-pulse);}
-.spec-name{display:block;font-size:15px;font-weight:600;color:var(--color-ink);}
-.spec-role{display:block;font-size:12.5px;color:var(--color-slate);}
+@media (min-width:640px){
+  .specialist-inline-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:12px;
+  }
+}
+@media (min-width:840px){
+  .specialist-inline-grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width:1040px){
+  .specialist-inline-grid{
+    grid-template-columns:repeat(5, minmax(0, 1fr));
+  }
+}
+@media (min-width:1200px){
+  .specialist-inline-grid{
+    grid-template-columns:repeat(6, minmax(0, 1fr));
+  }
+}
+
+.specialist{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+  width:100%;
+  height:100%;
+  padding:16px 10px 14px;
+  background:var(--color-paper);
+  border:1.5px solid var(--color-mist);
+  border-radius:var(--radius-xl);
+  transition:border-color .16s, background .16s, transform .16s, box-shadow .16s;
+}
+.specialist:hover:not(:disabled){
+  border-color:var(--color-mint-pulse);
+  background:rgba(46,206,160,.04);
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(15,23,42,.06);
+}
+.specialist.is-selected{
+  border-color:var(--color-deep-teal);
+  background:linear-gradient(180deg, rgba(46,206,160,.10) 0%, rgba(36,77,84,.04) 100%);
+  box-shadow:0 8px 20px rgba(36,77,84,.12);
+}
+.specialist:disabled{
+  opacity:.52;
+  cursor:not-allowed;
+  background:var(--color-bone);
+}
+.spec-check-badge{
+  position:absolute;top:8px;right:8px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--color-mint-pulse);color:#fff;
+  display:grid;place-items:center;
+  opacity:0;transform:scale(.6);transition:.18s;
+}
+.spec-check-badge svg{width:12px;height:12px;stroke:#fff;stroke-width:2.8;fill:none;}
+.specialist.is-selected .spec-check-badge{opacity:1;transform:scale(1);}
+
+.spec-avatar{
+  width:50px;height:50px;flex-shrink:0;
+  display:grid;place-items:center;border-radius:50%;
+  background:linear-gradient(135deg, var(--color-deep-teal), #326a73);
+  color:#fff;font-size:15px;font-weight:700;letter-spacing:0.03em;
+  box-shadow:0 4px 10px rgba(36,77,84,.18);
+  transition:.16s;
+}
+.specialist.is-selected .spec-avatar{
+  background:linear-gradient(135deg, var(--color-mint-pulse), #19a67d);
+  box-shadow:0 4px 12px rgba(46,206,160,.34);
+}
+.spec-info{
+  display:flex;flex-direction:column;gap:2px;min-width:0;width:100%;
+}
+.spec-name{
+  display:block;font-size:14px;font-weight:700;color:var(--color-ink);
+  line-height:1.25;word-break:break-word;
+}
+.spec-role{
+  display:block;font-size:11.5px;color:var(--color-slate);
+  line-height:1.3;word-break:break-word;
+}
 .spec-status-pill{
-  font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
-  padding:4px 10px;border-radius:var(--radius-pill);white-space:nowrap;flex-shrink:0;
+  margin-top:auto;
+  font-size:10px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;
+  padding:4px 9px;border-radius:var(--radius-pill);
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .spec-status-pill.available{background:rgba(46,206,160,.16);color:#0f7a5b;}
 .spec-status-pill.busy{background:rgba(192,57,43,.12);color:var(--color-danger);}
@@ -201,18 +363,18 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
 .service-list{border-top:1px solid var(--color-mist);}
 .service-item{border-bottom:1px solid var(--color-mist);}
-.service{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:var(--spacing-20);width:100%;padding:20px 16px;text-align:left;background:transparent;border:0;border-radius:var(--radius-xl);transition:.15s;}
+.service{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:var(--spacing-20);width:100%;padding:18px 14px;text-align:left;background:transparent;border:0;border-radius:var(--radius-xl);transition:.15s;}
 .service:hover,.service.is-selected{background:var(--color-bone);}
-.service-name{display:block;font-size:17px;font-weight:600;color:var(--color-ink);}
+.service-name{display:block;font-size:16.5px;font-weight:600;color:var(--color-ink);}
 .service-desc{display:block;margin-top:3px;font-size:13.5px;color:var(--color-slate);}
 .service-dur{font-size:13px;font-weight:600;color:var(--color-slate);white-space:nowrap;}
-.service-price{font-size:17px;font-weight:600;color:var(--color-deep-teal);white-space:nowrap;}
+.service-price{font-size:16.5px;font-weight:600;color:var(--color-deep-teal);white-space:nowrap;}
 .service-check{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--color-fog);display:inline-flex;align-items:center;justify-content:center;transition:.15s;}
 .service-check svg{width:13px;height:13px;stroke:#fff;stroke-width:2.5;fill:none;opacity:0;}
 .service.is-selected .service-check{background:var(--color-mint-pulse);border-color:var(--color-mint-pulse);}
 .service.is-selected .service-check svg{opacity:1;}
 
-/* ============ PASO 3: RESUMEN + DATOS + GOOGLE CALENDAR OPCIONAL ============ */
+/* ============ PASO 3: RESUMEN + DATOS + GOOGLE CALENDAR ============ */
 .reserva-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--spacing-24);align-items:start;}
 .summary > div{display:flex;justify-content:space-between;align-items:baseline;gap:var(--spacing-16);padding:12px 0;border-bottom:1px solid var(--color-mist);}
 .summary > div:last-child{border-bottom:0;padding-bottom:0;}
@@ -229,7 +391,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .field-error{display:block;margin-top:5px;font-size:12px;font-weight:600;color:var(--color-danger);}
 .field-error[hidden]{display:none;}
 
-/* Tarjeta Opcional Google Calendar */
 .gcal-opt-box{
   display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin:18px 0;
   background:#f0fdf9;border:1.5px solid #99f6e4;border-radius:var(--radius-xl);cursor:pointer;transition:.15s;
@@ -239,7 +400,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .gcal-opt-title{font-size:14px;font-weight:700;color:var(--color-deep-teal);display:flex;align-items:center;gap:6px;}
 .gcal-opt-sub{font-size:12.5px;color:var(--color-graphite);margin-top:2px;line-height:1.4;}
 
-/* Aviso de datos recordados en el dispositivo */
 .saved-profile-banner{
   display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
   padding:10px 14px;margin-bottom:16px;border-radius:var(--radius-lg);
@@ -254,83 +414,202 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 .saved-profile-clear:hover{color:var(--color-danger);}
 
 /* Botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600;min-height:46px;padding:12px 28px;border:1.5px solid transparent;border-radius:var(--radius-pill);transition:.15s;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:600;min-height:46px;padding:11px 26px;border:1.5px solid transparent;border-radius:var(--radius-pill);transition:.15s;}
 .btn:disabled{opacity:.45;cursor:not-allowed;}
 .btn-pill{background:var(--color-mint-pulse);color:#fff;border-color:var(--color-mint-pulse);}
 .btn-pill:hover:not(:disabled){filter:brightness(0.95);}
 .btn-ghost{background:transparent;color:var(--color-deep-teal);border-color:var(--color-deep-teal);}
 .btn-ghost:hover:not(:disabled){background:var(--color-deep-teal);color:#fff;}
+.btn-danger{background:var(--color-danger);color:#fff;border-color:var(--color-danger);}
+.btn-danger:hover:not(:disabled){filter:brightness(0.92);}
 .btn-danger-ghost{background:transparent;color:var(--color-danger);border-color:rgba(192,57,43,.4);}
 .btn-danger-ghost:hover:not(:disabled){background:var(--color-danger);color:#fff;}
 .btn-gcal{background:#fff;color:#1a73e8;border-color:#dadce0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .btn-gcal:hover{background:#f8fbff;border-color:#1a73e8;}
-.btn-sm{min-height:36px;padding:7px 16px;font-size:13px;}
+.btn-sm{min-height:36px;padding:7px 15px;font-size:13px;}
 
-/* Historial y Mapa */
+/* ============ PANTALLA 3: HISTORIAL ============ */
 .history-list{display:grid;gap:var(--spacing-16);}
 .history-card{padding:var(--spacing-20) var(--spacing-24);}
-.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px;}
-.history-badge{font-size:10.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.18);padding:5px 11px;border-radius:var(--radius-pill);}
+.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:10px;}
+.history-badge{font-size:10.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-deep-teal);background:rgba(46,206,160,.18);padding:5px 11px;border-radius:var(--radius-pill);white-space:nowrap;}
 .history-badge.is-cancelled{color:var(--color-danger);background:rgba(192,57,43,.12);}
 .history-badge.is-rescheduled{color:#92400e;background:#fef3c7;}
 .history-card-footer{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--color-mist);}
 
-.map-card{position:relative;display:block;height:380px;border:1px solid var(--color-mist);border-radius:var(--radius-2xl);overflow:hidden;}
-.map-card iframe{width:100%;height:100%;border:0;filter:grayscale(1);pointer-events:none;}
-.map-cta{position:absolute;left:16px;bottom:16px;padding:10px 18px;font-size:14px;font-weight:600;color:var(--color-deep-teal);background:#fff;border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);}
-.location-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px;}
+/* ============ PANTALLA 4: UBICACIÓN ============ */
+.map-card{position:relative;display:block;height:380px;border:1px solid var(--color-mist);border-radius:var(--radius-2xl);overflow:hidden;background:var(--color-paper);}
+.map-card iframe{width:100%;height:100%;border:0;filter:grayscale(.75);pointer-events:none;}
+.map-cta{position:absolute;left:16px;bottom:16px;padding:10px 18px;font-size:14px;font-weight:600;color:var(--color-deep-teal);background:#fff;border:1px solid var(--color-deep-teal);border-radius:var(--radius-pill);box-shadow:0 4px 14px rgba(0,0,0,.12);}
+.location-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
+.location-meta > div{background:var(--color-paper);border:1px solid var(--color-mist);border-radius:var(--radius-xl);padding:18px 20px;}
+.location-meta dd{margin-top:6px;font-size:14.5px;color:var(--color-ink);line-height:1.5;}
 
-/* Modales */
-.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.55);}
-.modal.is-open{display:flex;}
-.modal-panel{width:100%;max-width:480px;max-height:88vh;overflow:auto;padding:28px;background:#fff;border-radius:var(--radius-2xl);border:1px solid var(--color-mist);}
-.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
-.modal-close{width:34px;height:34px;border-radius:50%;border:0;background:var(--color-bone);font-size:20px;}
+/* ============ PANTALLA 5: INFO (HORARIOS, CONTACTO, REDES) ============ */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:var(--spacing-20);
+}
+.info-card{
+  background:var(--color-paper);
+  border:1px solid var(--color-mist);
+  border-radius:var(--radius-2xl);
+  padding:var(--spacing-24);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.info-card-head{
+  display:flex;align-items:center;gap:12px;
+}
+.info-icon{
+  width:42px;height:42px;border-radius:12px;
+  background:rgba(36,77,84,.08);color:var(--color-deep-teal);
+  display:grid;place-items:center;flex-shrink:0;
+}
+.info-icon svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;}
+.info-schedule-list{display:flex;flex-direction:column;gap:8px;}
+.info-schedule-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;border-radius:var(--radius-md);background:var(--color-bone);
+  font-size:14px;
+}
+.info-schedule-row strong{color:var(--color-ink);text-transform:capitalize;}
+.info-schedule-row span{color:var(--color-deep-teal);font-weight:600;}
+.info-schedule-row.is-closed span{color:var(--color-fog);font-weight:500;}
+
+.info-contact-list{display:flex;flex-direction:column;gap:12px;}
+.info-contact-item{display:flex;flex-direction:column;gap:2px;}
+.info-contact-item small{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-slate);}
+.info-contact-item p,.info-contact-item a{font-size:15px;font-weight:600;color:var(--color-ink);}
+
+.social-links-grid{display:flex;flex-direction:column;gap:10px;}
+.social-link-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 16px;border-radius:var(--radius-lg);
+  background:var(--color-bone);border:1px solid transparent;
+  font-size:14.5px;font-weight:600;color:var(--color-deep-teal);transition:.15s;
+}
+.social-link-row:hover{border-color:var(--color-mint-pulse);background:rgba(46,206,160,.1);}
+
+/* ============ MENÚ INFERIOR FIJO ESTILO APP ============ */
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:80;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(14px);
+  border-top:1px solid var(--color-mist);
+  box-shadow:0 -4px 20px rgba(15,23,42,.06);
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+}
+.bottom-nav-inner{
+  max-width:680px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:4px;
+}
+.bottom-nav-btn{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:6px 4px;
+  background:transparent;
+  border:0;
+  border-radius:14px;
+  color:var(--color-slate);
+  transition:color .16s, background .16s;
+}
+.bottom-nav-btn:hover{color:var(--color-deep-teal);}
+.bn-icon-wrap{
+  position:relative;
+  width:46px;height:28px;
+  border-radius:var(--radius-pill);
+  display:grid;place-items:center;
+  transition:background .18s, transform .18s;
+}
+.bn-icon-wrap svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.bn-label{
+  font-size:11px;font-weight:600;line-height:1.1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+}
+.bottom-nav-btn.is-active{
+  color:var(--color-deep-teal);
+}
+.bottom-nav-btn.is-active .bn-icon-wrap{
+  background:rgba(46,206,160,.2);
+  color:var(--color-deep-teal);
+}
+.bottom-nav-btn.is-active .bn-label{
+  font-weight:700;
+}
+.bn-badge{
+  position:absolute;top:-2px;right:4px;
+  min-width:17px;height:17px;padding:0 4px;
+  border-radius:var(--radius-pill);
+  background:var(--color-mint-pulse);color:#fff;
+  font-size:10px;font-weight:700;
+  display:grid;place-items:center;
+  box-shadow:0 0 0 2px #fff;
+}
+.bn-badge[hidden]{display:none !important;}
+
+/* ============ MODALES ============ */
+.modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);}
+.modal.is-open{display:flex;animation:modalFade .18s ease;}
+.modal--confirm-alert{z-index:220;}
+@keyframes modalFade{from{opacity:0;}to{opacity:1;}}
+.modal-panel{width:100%;max-width:480px;max-height:88vh;overflow:auto;padding:26px;background:#fff;border-radius:var(--radius-2xl);border:1px solid var(--color-mist);box-shadow:0 20px 50px rgba(15,23,42,.22);}
+.modal-panel--sm{max-width:420px;}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;}
+.modal-close{width:34px;height:34px;border-radius:50%;border:0;background:var(--color-bone);font-size:20px;color:var(--color-ink);display:grid;place-items:center;}
+.modal-close:hover{background:var(--color-mist);}
 .modal-actions{display:flex;gap:12px;margin-top:22px;}
 .modal-actions .btn{flex:1;}
 
-.site-footer{background:var(--color-deep-teal);color:#fff;padding:48px 0 28px;}
-.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.14);}
-.footer-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-soft-teal);margin-bottom:12px;}
+.alert-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(192,57,43,.12);color:var(--color-danger);
+  display:grid;place-items:center;margin-bottom:14px;
+}
+.alert-icon svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;}
 
-/* ============ ADAPTACIÓN COMPLETA A CUALQUIER PANTALLA ============ */
-@media (max-width:1024px){
-  .agenda-grid,.reserva-grid{grid-template-columns:1fr;}
+/* ============ ADAPTACIÓN RESPONSIVA ============ */
+@media (max-width:960px){
+  .agenda-grid,.reserva-grid,.info-grid{grid-template-columns:1fr;}
   .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-dark{padding:48px 24px;}
+  .hero-dark{padding:44px 24px;}
   .hero-light{min-height:220px;padding:24px;}
+  .location-meta{grid-template-columns:1fr;}
 }
 
 @media (max-width:768px){
-  :root{--section-gap:44px;}
   .container{padding:0 16px;}
-  .header-inner{
-    padding:10px 16px;height:auto;min-height:60px;
-    flex-wrap:wrap;justify-content:space-between;gap:10px;
-  }
-  .nav{
-    width:100%;justify-content:space-between;gap:4px;
-    background:var(--color-bone);padding:4px;border-radius:var(--radius-pill);
-    overflow-x:auto;
-  }
-  .nav a{flex:1;text-align:center;font-size:13px;padding:7px 10px;white-space:nowrap;}
+  .header-inner{padding:0 16px;height:56px;}
+  .app-screen{padding:20px 0 18px;}
+  .app-screen--hero{padding:0;}
   .steps{gap:8px;}
   .steps li{flex:1 1 100%;}
   .step-btn{padding:11px 14px;font-size:13.5px;}
-  .booking-shell{padding:18px 16px;border-radius:var(--radius-2xl);}
-  .card{padding:18px 16px;border-radius:var(--radius-xl);}
-  .service{
-    grid-template-columns:1fr auto;
-    gap:8px 12px;padding:16px 12px;
-  }
+  .booking-shell{padding:16px 14px;border-radius:var(--radius-2xl);}
+  .card{padding:16px 14px;border-radius:var(--radius-xl);}
+  .service{grid-template-columns:1fr auto;gap:8px 12px;padding:15px 10px;}
   .service-dur{grid-column:1;font-size:12.5px;}
   .service-price{grid-column:1;font-size:16px;}
   .service-check{grid-column:2;grid-row:1 / span 3;}
   .panel-foot{flex-direction:column-reverse;align-items:stretch;}
   .panel-foot > span:empty{display:none;}
   .panel-foot .btn{width:100%;}
-  .location-meta,.footer-grid{grid-template-columns:1fr;gap:20px;}
-  .map-card{height:300px;}
+  .map-card{height:290px;}
   .history-head{flex-direction:column;align-items:flex-start;gap:8px;}
   .history-card-footer{justify-content:stretch;}
   .history-card-footer .btn{flex:1 1 calc(50% - 8px);text-align:center;}
@@ -344,9 +623,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   .cal-grid{gap:4px;}
   .day{min-height:34px;font-size:13px;border-radius:8px;}
   .slots{grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px;}
-  .slot{font-size:13px;padding:8px 6px;min-height:38px;}
-  .specialist{flex-direction:column;align-items:flex-start;gap:10px;padding:12px;}
-  .spec-status-pill{align-self:flex-start;}
+  .slot{font-size:13px;padding:7px 5px;min-height:42px;}
+  .specialist{padding:13px 8px 12px;gap:8px;}
+  .spec-avatar{width:44px;height:44px;font-size:13.5px;}
+  .spec-name{font-size:13px;}
+  .spec-role{font-size:11px;}
+  .spec-status-pill{font-size:9.5px;padding:3px 7px;}
   .currency-bar{width:100%;justify-content:space-between;}
   .summary > div{flex-direction:column;gap:4px;align-items:flex-start;}
   .summary dd{text-align:left;}
@@ -360,73 +642,85 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 </head>
 <body>
 
-<div class="announce" id="announceBar">
-  <strong></strong> <strong></strong>
-</div>
+<div class="announce" id="announceBar" hidden></div>
 
 <header class="site-header">
   <div class="header-inner">
-    <a href="#top" class="wordmark" id="wordmark"> <span> </span></a>
-    <nav class="nav">
-      <a href="#reserva">Agendar Cita</a>
-      <a href="#historial">Mis Reservas</a>
-      <a href="#ubicacion">Ubicación</a>
-    </nav>
+    <button type="button" class="wordmark" id="wordmark" data-nav="home" aria-label="Ir al inicio">
+      Vagabundo <span>Barbería</span>
+    </button>
+    <button type="button" class="header-chip" id="headerQuickBook" data-nav="reserva">
+      + Nueva cita
+    </button>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="hero-dark">
-      <p class="eyebrow" id="heroEyebrow">Reservas · Aevi Wellness</p>
-      <h1 class="display">Agenda tu ritual</h1>
-      <p class="lead">Tres pasos claros: elige fecha, hora y especialista disponible en tiempo real, selecciona tus tratamientos y confirma con opción de Google Calendar.</p>
-      <div>
-        <a href="#reserva" class="btn-outline-mint">Ver disponibilidad &#8594;</a>
+<main id="appScreens">
+
+  <!-- =========================================================
+       PANTALLA 1: INICIO / BIENVENIDA (HERO)
+       ========================================================= -->
+  <section id="screen-home" class="app-screen app-screen--hero is-active" data-screen="home">
+    <div class="hero">
+      <div class="hero-dark">
+        <p class="eyebrow" id="heroEyebrow">Reservas · Vagabundo Barbería</p>
+        <h1 class="display">Agenda tu ritual</h1>
+        <p class="lead">Tres pasos claros: elige fecha, hora y especialista disponible en tiempo real, selecciona tus servicios y confirma con opción de Google Calendar.</p>
+        <div class="hero-actions">
+          <button type="button" class="btn-outline-mint" id="btnStartBooking" data-nav="reserva">
+            Ver disponibilidad &#8594;
+          </button>
+          <button type="button" class="btn-hero-ghost" data-nav="historial">
+            Mis reservas
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="hero-light" aria-hidden="true">
-      <div class="hero-mark">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="4.5" width="18" height="16" rx="2"/>
-          <path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>
-          <circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>
-        </svg>
-        <span>Reserva Online</span>
+      <div class="hero-light" aria-hidden="true">
+        <div class="hero-mark">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="4.5" width="18" height="16" rx="2"/>
+            <path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>
+            <circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>
+          </svg>
+          <span>Reserva Online</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="reserva" class="section section--bone">
+  <!-- =========================================================
+       PANTALLA 2: RESERVAS (AGENDAR EN 3 PASOS)
+       ========================================================= -->
+  <section id="screen-reserva" class="app-screen" data-screen="reserva">
     <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">01 — Reservas</p>
-        <h2 class="heading-lg">Agenda en 3 pasos</h2>
-        <p class="lead">Elige el día, la hora y visualiza al instante qué especialista está disponible para atenderte.</p>
-        <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;font-weight:600;" hidden></p>
+      <div class="screen-top-bar">
+        <div>
+          <p class="eyebrow">Reservas</p>
+          <h2 class="heading-lg">Agenda en 3 pasos</h2>
+          <p class="lead">Elige el día, la hora y visualiza al instante qué especialista está disponible para atenderte.</p>
+          <p id="backendStatus" class="lead" style="color:#c0392b;font-size:14px;margin-top:8px;font-weight:600;" hidden></p>
+        </div>
+        <button type="button" class="back-home-btn" data-nav="home">&#8592; Inicio</button>
       </div>
 
-      <!-- Barra de 3 Pasos (Especialista integrado en el Paso 1) -->
-<ul class="steps" id="stepsNav">
-  <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Fecha, hora y especialista</button></li>
-  <li><button class="step-btn" type="button" data-goto="2" disabled><span class="step-num">2</span> Servicios</button></li>
-  <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Tu reserva</button></li>
-</ul>
+      <ul class="steps" id="stepsNav">
+        <li><button class="step-btn is-active" type="button" data-goto="1"><span class="step-num">1</span> Fecha, hora y especialista</button></li>
+        <li><button class="step-btn" type="button" data-goto="2" disabled><span class="step-num">2</span> Servicios</button></li>
+        <li><button class="step-btn" type="button" data-goto="3" disabled><span class="step-num">3</span> Tu reserva</button></li>
+      </ul>
 
       <div class="booking-shell">
 
-        <!-- =========================================================
-             PASO 1: FECHA + HORA + ESPECIALISTA EN EL MISMO LUGAR
-             ========================================================= -->
+        <!-- PASO 1 -->
         <div class="step-panel is-active" data-step="1">
           <div class="panel-head">
             <p class="eyebrow">Paso 1 de 3</p>
             <h3 class="heading">Elige día, horario y tu especialista</h3>
-            <p class="lead">Al tocar un día y un horario verás en tiempo real la disponibilidad de cada especialista para seleccionarlo desde aquí.</p>
+            <p class="lead">Al tocar un día y un horario verás en tiempo real la disponibilidad de cada especialista.</p>
           </div>
 
           <div class="agenda-grid">
-            <!-- Columna Izquierda: Calendario -->
+            <!-- Calendario -->
             <div class="card">
               <div class="cal-head">
                 <button class="cal-nav" id="prevMonth" type="button" aria-label="Mes anterior">&#8592;</button>
@@ -442,19 +736,18 @@ input,textarea,select{font-family:inherit;font-size:16px;}
               </div>
             </div>
 
-            <!-- Columna Derecha: 1) Horarios + 2) Especialistas Disponibles -->
-            <div class="right-column-stack">
-              <div class="card">
-                <p class="card-label">1. Horarios disponibles</p>
-                <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
-                <div class="slots" id="slots"></div>
-              </div>
+            <!-- Horarios -->
+            <div class="card">
+              <p class="card-label">1. Horarios disponibles</p>
+              <p class="card-sub empty" id="slotsDate">Selecciona un día</p>
+              <div class="slots" id="slots"></div>
+            </div>
 
-              <div class="card">
-                <p class="card-label">2. Elige a tu especialista</p>
-                <p class="card-sub empty" id="specSubLabel">Selecciona un horario para verificar disponibilidad</p>
-                <div class="specialist-inline-grid" id="specialistList"></div>
-              </div>
+            <!-- Especialistas (Ancho completo: 2 cols móvil hasta 6 cols PC) -->
+            <div class="card specialists-full-card">
+              <p class="card-label">2. Elige a tu especialista</p>
+              <p class="card-sub empty" id="specSubLabel">Selecciona un horario para verificar disponibilidad</p>
+              <div class="specialist-inline-grid" id="specialistList"></div>
             </div>
           </div>
 
@@ -468,9 +761,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
           </div>
         </div>
 
-        <!-- =========================================================
-             PASO 2: SERVICIOS
-             ========================================================= -->
+        <!-- PASO 2 -->
         <div class="step-panel" data-step="2">
           <div class="panel-head">
             <p class="eyebrow">Paso 2 de 3</p>
@@ -492,9 +783,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
           </div>
         </div>
 
-        <!-- =========================================================
-             PASO 3: RESUMEN + DATOS + GOOGLE CALENDAR OPCIONAL
-             ========================================================= -->
+        <!-- PASO 3 -->
         <div class="step-panel" data-step="3" id="summaryPanel">
           <div class="panel-head">
             <p class="eyebrow">Paso 3 de 3</p>
@@ -518,7 +807,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
               <p class="card-label">Tus datos</p>
               <div class="saved-profile-banner" id="savedProfileBanner" hidden>
                 <span>✨ Datos autocompletados de tu dispositivo</span>
-                <button type="button" class="saved-profile-clear" id="btnClearSavedProfile">Olvidar mis datos</button>
+                <button type="button" class="saved-profile-clear" id="btnClearSavedProfile">Borrar mis datos</button>
               </div>
               <label class="field">
                 <span class="field-label">Nombre completo <em class="field-req">Requerido</em></span>
@@ -535,7 +824,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
                 <input type="tel" id="fPhone" placeholder="+52 55 1234 5678" autocomplete="tel">
               </label>
 
-              <!-- Opción de Google Calendar para el cliente -->
               <label class="gcal-opt-box">
                 <input type="checkbox" id="chkAddGoogleCal">
                 <div>
@@ -552,65 +840,216 @@ input,textarea,select{font-family:inherit;font-size:16px;}
           </div>
         </div>
 
+        <!-- PASO 4: ÉXITO -->
+        <div class="step-panel" data-step="4" id="successPanel"></div>
+
       </div>
     </div>
   </section>
 
-  <!-- HISTORIAL DEL CLIENTE -->
-  <section id="historial" class="section">
+  <!-- =========================================================
+       PANTALLA 3: MIS RESERVAS / HISTORIAL
+       ========================================================= -->
+  <section id="screen-historial" class="app-screen" data-screen="historial">
     <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">02 — Historial</p>
-        <h2 class="heading-lg">Tus reservas</h2>
-        <p class="lead">Agrega tus citas a Google Calendar, descarga el archivo .ICS o reagenda/cancela si tus planes cambian.</p>
+      <div class="screen-top-bar">
+        <div>
+          <p class="eyebrow">Historial</p>
+          <h2 class="heading-lg">Mis reservas</h2>
+          <p class="lead">Agrega tus citas a Google Calendar, descarga el archivo .ICS o reagenda/cancela si tus planes cambian.</p>
+        </div>
+        <button type="button" class="btn btn-danger-ghost btn-sm" id="btnClearAllHistory" hidden>
+          Borrar historial
+        </button>
       </div>
       <div class="history-list" id="historyList"></div>
     </div>
   </section>
 
-  <!-- UBICACIÓN -->
-  <section id="ubicacion" class="section section--bone">
+  <!-- =========================================================
+       PANTALLA 4: UBICACIÓN
+       ========================================================= -->
+  <section id="screen-ubicacion" class="app-screen" data-screen="ubicacion">
     <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">03 — Ubicación</p>
-        <h2 class="heading-lg">Cómo llegar</h2>
+      <div class="screen-top-bar">
+        <div>
+          <p class="eyebrow">Ubicación</p>
+          <h2 class="heading-lg">Cómo llegar</h2>
+          <p class="lead">Toca el mapa para abrir la ruta directa en Google Maps.</p>
+        </div>
       </div>
+
       <a class="map-card" id="mapCard" href="https://www.google.com/maps/dir/?api=1&destination=CDMX" target="_blank" rel="noopener">
         <iframe id="mapIframe" src="https://www.openstreetmap.org/export/embed.html?bbox=-99.2050%2C19.4250%2C-99.1850%2C19.4400&layer=mapnik&marker=19.4326%2C-99.1950" title="Mapa de ubicación" loading="lazy"></iframe>
         <span class="map-cta">Abrir en Google Maps &#8594;</span>
       </a>
+
       <dl class="location-meta">
-        <div><dt class="card-label">Dirección</dt><dd id="locAddress">Av. Presidente Masaryk 123, Polanco, CDMX</dd></div>
-        <div><dt class="card-label">Horario</dt><dd id="locSchedule">Lun – Vie · 08:00 – 17:00<br>Sáb · 09:00 – 14:00</dd></div>
-        <div><dt class="card-label">Contacto / Estacionamiento</dt><dd id="locPhone">+52 55 1234 5678</dd></div>
+        <div>
+          <dt class="card-label">Dirección</dt>
+          <dd id="locAddress">Av. Presidente Masaryk 123, Polanco, CDMX</dd>
+        </div>
+        <div>
+          <dt class="card-label">Horario</dt>
+          <dd id="locSchedule">Lun – Vie · 09:00 – 18:00<br>Sáb · 09:00 – 13:00</dd>
+        </div>
+        <div>
+          <dt class="card-label">Contacto / Estacionamiento</dt>
+          <dd id="locPhone">+52 55 1234 5678</dd>
+        </div>
       </dl>
     </div>
   </section>
-</main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <p class="footer-title" id="footerBusinessName">Aevi Wellness</p>
-        <p id="footerAddress">Ciudad de México</p>
-      </div>
-      <div>
-        <p class="footer-title">Contacto</p>
-        <p id="footerEmail">hola@aeviwellness.com</p>
-        <p id="footerWhatsappWrap" style="margin-top:6px;"></p>
-      </div>
-      <div>
-        <p class="footer-title">Redes Sociales y Enlaces</p>
-        <div id="footerSocialLinks" style="display:flex;flex-direction:column;gap:6px;font-size:14px;">
-          <span>Atención con cita previa</span>
+  <!-- =========================================================
+       PANTALLA 5: INFO (HORARIOS, CONTACTO, REDES)
+       ========================================================= -->
+  <section id="screen-info" class="app-screen" data-screen="info">
+    <div class="container">
+      <div class="screen-top-bar">
+        <div>
+          <p class="eyebrow">Información</p>
+          <h2 class="heading-lg" id="infoBusinessName">Vagabundo Barbería</h2>
+          <p class="lead">Horarios de atención, canales de contacto directo y redes sociales oficiales.</p>
         </div>
       </div>
-    </div>
-  </div>
-</footer>
 
-<!-- Modal Confirmación -->
+      <div class="info-grid">
+        <!-- Horarios -->
+        <article class="info-card">
+          <div class="info-card-head">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </div>
+            <div>
+              <p class="card-label" style="margin:0;">Horarios</p>
+              <h3 class="heading" style="font-size:19px;">Días de atención</h3>
+            </div>
+          </div>
+          <div class="info-schedule-list" id="infoScheduleList"></div>
+        </article>
+
+        <!-- Contacto -->
+        <article class="info-card">
+          <div class="info-card-head">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="card-label" style="margin:0;">Contacto</p>
+              <h3 class="heading" style="font-size:19px;">Comunícate con nosotros</h3>
+            </div>
+          </div>
+          <div class="info-contact-list">
+            <div class="info-contact-item">
+              <small>Teléfono</small>
+              <p id="infoPhone">+52 55 1234 5678</p>
+            </div>
+            <div class="info-contact-item">
+              <small>Correo electrónico</small>
+              <p id="infoEmail">hola@aeviwellness.com</p>
+            </div>
+            <div class="info-contact-item">
+              <small>Dirección</small>
+              <p id="infoAddress">Ciudad de México</p>
+            </div>
+            <div class="info-contact-item" id="infoParkingWrap" hidden>
+              <small>Estacionamiento / Notas</small>
+              <p id="infoParking"></p>
+            </div>
+          </div>
+          <div id="infoWhatsappWrap" style="margin-top:4px;"></div>
+        </article>
+
+        <!-- Redes Sociales -->
+        <article class="info-card">
+          <div class="info-card-head">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+            </div>
+            <div>
+              <p class="card-label" style="margin:0;">Comunidad</p>
+              <h3 class="heading" style="font-size:19px;">Redes sociales y enlaces</h3>
+            </div>
+          </div>
+          <div class="social-links-grid" id="infoSocialLinks">
+            <p class="lead" style="font-size:14px;">Atención con cita previa.</p>
+          </div>
+        </article>
+
+        <!-- Accesos rápidos -->
+        <article class="info-card" style="justify-content:space-between;">
+          <div class="info-card-head">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div>
+              <p class="card-label" style="margin:0;">Accesos rápidos</p>
+              <h3 class="heading" style="font-size:19px;">¿Listo para visitarnos?</h3>
+            </div>
+          </div>
+          <p class="lead" style="font-size:14.5px;">Consulta horarios disponibles en tiempo real o revisa cómo llegar al establecimiento.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
+            <button type="button" class="btn btn-pill btn-sm" data-nav="reserva">Agendar cita &#8594;</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-nav="ubicacion">Ver mapa</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- =========================================================
+     MENÚ DE NAVEGACIÓN INFERIOR FIJO (ESTILO APP)
+     ========================================================= -->
+<nav class="bottom-nav" aria-label="Menú principal">
+  <div class="bottom-nav-inner">
+    <button type="button" class="bottom-nav-btn" data-nav="reserva">
+      <span class="bn-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="17" rx="2"/>
+          <path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/>
+        </svg>
+      </span>
+      <span class="bn-label">Agendar</span>
+    </button>
+
+    <button type="button" class="bottom-nav-btn" data-nav="historial">
+      <span class="bn-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 12h6M9 16h4"/>
+        </svg>
+        <span class="bn-badge" id="navHistoryBadge" hidden>0</span>
+      </span>
+      <span class="bn-label">Mis Reservas</span>
+    </button>
+
+    <button type="button" class="bottom-nav-btn" data-nav="ubicacion">
+      <span class="bn-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </span>
+      <span class="bn-label">Ubicación</span>
+    </button>
+
+    <button type="button" class="bottom-nav-btn" data-nav="info">
+      <span class="bn-icon-wrap">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+      </span>
+      <span class="bn-label">Info</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Modal Confirmación de Reserva -->
 <div class="modal" id="confirmModal" role="dialog" aria-modal="true">
   <div class="modal-panel">
     <div class="modal-head">
@@ -653,16 +1092,32 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   </div>
 </div>
 
+<!-- Modal Emergente de Confirmación para Cancelar / Borrar -->
+<div class="modal modal--confirm-alert" id="actionConfirmModal" role="alertdialog" aria-modal="true" aria-labelledby="actionConfirmTitle">
+  <div class="modal-panel modal-panel--sm">
+    <div class="alert-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <h3 class="heading" id="actionConfirmTitle" style="margin-bottom:8px;">¿Estás seguro?</h3>
+    <p class="lead" id="actionConfirmMessage" style="font-size:14.5px;">Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" id="actionConfirmNo">No, volver</button>
+      <button class="btn btn-danger" type="button" id="actionConfirmYes">Sí, continuar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
-  console.log('[Aevi Reservas] Script iniciado');
 
   /* =========================================================
      CONFIGURACIÓN DE CONEXIÓN AL BACKEND (CODE.GS)
      ========================================================= */
-  // === URL del backend de Google Apps Script ===
-  // Cámbiala si despliegas un nuevo web app.
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIpslooNGNBqrg6NAGwk5ElppYHDtC5sOPHU1uWoiaLu_73hs-wdQpIKjWgUe1XrTNKA/exec';
   const HISTORY_KEY = 'aevi_booking_history_v1';
   const CLIENT_PROFILE_KEY = 'aevi_client_profile_v1';
@@ -673,9 +1128,8 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     EUR: { code:'EUR', mxnPerUnit:19.2, decimals:2 }
   };
 
-  const MONTHS   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const WEEKDAYS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  const DAY_SHORT = ['dom','lun','mar','mié','jue','vie','sáb'];
+  const MONTHS     = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const WEEKDAYS   = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const DOW_LABELS = ['L','M','M','J','V','S','D'];
 
   const DEFAULT_SLOTS_BY_WEEKDAY = {
@@ -692,6 +1146,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
   const state = {
+    screen: 'home',
     view: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     date: null,
     time: null,
@@ -712,6 +1167,78 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   let activeRescheduleBooking = null;
   let clientRsSelectedTime = '';
+
+  /* =========================================================
+     NAVEGACIÓN POR PANTALLAS INDEPENDIENTES
+     ========================================================= */
+  function navigateTo(screenName) {
+    const valid = ['home', 'reserva', 'historial', 'ubicacion', 'info'];
+    const target = valid.includes(screenName) ? screenName : 'home';
+    state.screen = target;
+
+    $$('.app-screen').forEach(sec => {
+      sec.classList.toggle('is-active', sec.dataset.screen === target);
+    });
+
+    $$('.bottom-nav-btn').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.nav === target);
+    });
+
+    // Oculta el botón rápido del header cuando ya estás agendando
+    const quickBtn = $('#headerQuickBook');
+    if (quickBtn) quickBtn.style.visibility = (target === 'reserva') ? 'hidden' : 'visible';
+
+    if (target === 'historial') renderHistory();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  document.addEventListener('click', (e) => {
+    const navTrigger = e.target.closest('[data-nav]');
+    if (!navTrigger) return;
+    e.preventDefault();
+    const dest = navTrigger.dataset.nav;
+    // Si vuelve a Agendar después de haber finalizado una cita, reinicia al paso 1
+    if (dest === 'reserva' && state.step === 4) {
+      resetBookingFlow();
+    }
+    navigateTo(dest);
+  });
+
+  /* =========================================================
+     VENTANA EMERGENTE DE CONFIRMACIÓN (CANCELAR / BORRAR)
+     ========================================================= */
+  let confirmResolver = null;
+
+  function askConfirmation({ title, message, confirmLabel = 'Sí, confirmar', cancelLabel = 'No, volver' }) {
+    return new Promise((resolve) => {
+      confirmResolver = resolve;
+      $('#actionConfirmTitle').textContent = title || '¿Estás seguro?';
+      $('#actionConfirmMessage').textContent = message || 'Esta acción no se puede deshacer.';
+      $('#actionConfirmYes').textContent = confirmLabel;
+      $('#actionConfirmNo').textContent = cancelLabel;
+      $('#actionConfirmModal').classList.add('is-open');
+    });
+  }
+
+  function closeActionConfirm(result) {
+    $('#actionConfirmModal').classList.remove('is-open');
+    if (confirmResolver) {
+      const fn = confirmResolver;
+      confirmResolver = null;
+      fn(result);
+    }
+  }
+
+  $('#actionConfirmYes').addEventListener('click', () => closeActionConfirm(true));
+  $('#actionConfirmNo').addEventListener('click', () => closeActionConfirm(false));
+  $('#actionConfirmModal').addEventListener('click', (e) => {
+    if (e.target === $('#actionConfirmModal')) closeActionConfirm(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $('#actionConfirmModal').classList.contains('is-open')) {
+      closeActionConfirm(false);
+    }
+  });
 
   /* =========================================================
      UTILIDADES Y NORMALIZADORES DE SHEETS
@@ -758,10 +1285,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     return str;
   }
 
-  /**
-   * Construye el mapa global de horarios ocupados { 'YYYY-MM-DD': { 'specId': ['09:00', ...] } }
-   * directamente a partir de todas las reservas activas de Google Sheets.
-   */
   function rebuildAvailabilityMapFromBookings(bookingsRows) {
     const map = {};
     (Array.isArray(bookingsRows) ? bookingsRows : []).forEach(r => {
@@ -773,7 +1296,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       const rawSpec = String(r.EspecialistaID ?? r.EspecialistaId ?? r.especialistaId ?? r.specialistId ?? '').trim();
       if (!dISO || !tHM || !rawSpec) return;
 
-      // Resolver ID del especialista tanto por ID exacto como por Nombre
       const matchedSpec = state.specialistsCatalog.find(
         sp => sp.id === rawSpec || sp.name.toLowerCase() === rawSpec.toLowerCase()
       );
@@ -801,10 +1323,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     return busyList.includes(normalizeTimeStr(timeHM));
   }
 
-  /**
-   * Calcula cuántos turnos libres quedan en total en un día del calendario
-   * considerando todos los horarios configurados y los especialistas que trabajan ese día.
-   */
   function getDayAvailabilityStats(date) {
     const daySlots = slotsFor(date);
     if (!daySlots.length) return { totalSlots: 0, availableSlots: 0, bookedCount: 0 };
@@ -828,16 +1346,10 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         if (isTaken) bookedCount++;
         return !isTaken;
       });
-      if (freeSpecsForSlot.length > 0) {
-        availableSlots++;
-      }
+      if (freeSpecsForSlot.length > 0) availableSlots++;
     });
 
-    return {
-      totalSlots: daySlots.length,
-      availableSlots,
-      bookedCount
-    };
+    return { totalSlots: daySlots.length, availableSlots, bookedCount };
   }
 
   function revalidateStep1Selection() {
@@ -853,12 +1365,10 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       const workingSpecs = state.specialistsCatalog.filter(sp => sp.days.includes(wd));
       const freeSpecsAtTime = workingSpecs.filter(sp => !isSpecialistBusyAt(state.date, state.time, sp.id));
 
-      // Si ya no queda ningún especialista libre en esa hora, deseleccionar la hora
       if (freeSpecsAtTime.length === 0) {
         state.time = null;
         state.specialist = null;
       } else if (state.specialist && isSpecialistBusyAt(state.date, state.time, state.specialist.id)) {
-        // Si el especialista seleccionado está ocupado en esa hora, cambiar al primer especialista libre
         state.specialist = freeSpecsAtTime[0] || null;
       }
     }
@@ -947,14 +1457,14 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
     const serviceNames = Array.isArray(booking.services)
       ? booking.services.map(s => s.name || s).join(', ')
-      : String(booking.services || 'Tratamiento');
+      : String(booking.services || 'Servicio');
     const specName = booking.specialist ? booking.specialist.name : '';
 
     const url = new URL('https://calendar.google.com/calendar/render');
     url.searchParams.set('action', 'TEMPLATE');
-    url.searchParams.set('text', `Cita en ${state.config.businessName || 'Aevi Wellness'}: ${serviceNames}`);
+    url.searchParams.set('text', `Cita en ${state.config.businessName || 'Vagabundo Barbería'}: ${serviceNames}`);
     url.searchParams.set('dates', `${dateClean}T${startHHMM}/${dateClean}T${endHHMM}`);
-    url.searchParams.set('details', `Tratamientos: ${serviceNames}\nEspecialista: ${specName}\nCliente: ${booking.name}`);
+    url.searchParams.set('details', `Servicios: ${serviceNames}\nEspecialista: ${specName}\nCliente: ${booking.name}`);
     url.searchParams.set('location', state.config.address || '');
     return url.toString();
   }
@@ -971,13 +1481,13 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Aevi Wellness//Reservas//ES',
+      'PRODID:-//Reservas Online//ES',
       'BEGIN:VEVENT',
-      `UID:${booking.id || Date.now()}@aeviwellness.com`,
+      `UID:${booking.id || Date.now()}@reservas`,
       `DTSTAMP:${dateClean}T${startHHMM}Z`,
       `DTSTART:${dateClean}T${startHHMM}`,
       `DTEND:${dateClean}T${endHHMM}`,
-      `SUMMARY:Cita ${state.config.businessName || 'Aevi Wellness'} - ${serviceNames}`,
+      `SUMMARY:Cita ${state.config.businessName || 'Vagabundo Barbería'} - ${serviceNames}`,
       `DESCRIPTION:Especialista: ${specName} | Cliente: ${booking.name}`,
       `LOCATION:${state.config.address || ''}`,
       'END:VEVENT',
@@ -987,14 +1497,14 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `cita-aevi-${booking.dateISO || 'reserva'}.ics`;
+    a.download = `cita-${booking.dateISO || 'reserva'}.ics`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
 
   /* =========================================================
-     API & CARGA REAL DESDE GOOGLE SHEETS (GAS_URL)
+     API & CARGA DESDE GOOGLE SHEETS (GAS_URL)
      ========================================================= */
   async function gasGet(action, params) {
     const url = new URL(GAS_URL);
@@ -1032,45 +1542,58 @@ input,textarea,select{font-family:inherit;font-size:16px;}
             : escapeHtml(c.businessName);
         }
       }
-      if ($('#footerBusinessName')) $('#footerBusinessName').textContent = c.businessName;
+      if ($('#infoBusinessName')) $('#infoBusinessName').textContent = c.businessName;
       if ($('#heroEyebrow')) $('#heroEyebrow').textContent = 'Reservas · ' + c.businessName;
     }
-    if (c.announceText && $('#announceBar')) {
-      $('#announceBar').innerHTML = escapeHtml(c.announceText);
+
+    const ann = $('#announceBar');
+    if (ann) {
+      if (c.announceText) {
+        ann.textContent = c.announceText;
+        ann.hidden = false;
+      } else {
+        ann.hidden = true;
+      }
     }
+
     if (c.address) {
       if ($('#locAddress')) $('#locAddress').innerHTML = escapeHtml(c.address).replace(/\n/g, '<br>');
-      if ($('#footerAddress')) $('#footerAddress').textContent = c.address;
+      if ($('#infoAddress')) $('#infoAddress').textContent = c.address;
       if ($('#mapCard') && !c.mapLink) {
         $('#mapCard').href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(c.address);
       }
     }
-    if (c.mapLink && $('#mapCard')) {
-      $('#mapCard').href = c.mapLink;
-    }
-    if (c.mapEmbed && $('#mapIframe')) {
-      $('#mapIframe').src = c.mapEmbed;
+    if (c.mapLink && $('#mapCard')) $('#mapCard').href = c.mapLink;
+    if (c.mapEmbed && $('#mapIframe')) $('#mapIframe').src = c.mapEmbed;
+
+    if (c.phone && $('#infoPhone')) $('#infoPhone').textContent = c.phone;
+    if (c.parking && $('#infoParking') && $('#infoParkingWrap')) {
+      $('#infoParking').textContent = c.parking;
+      $('#infoParkingWrap').hidden = false;
     }
     if ($('#locPhone')) {
       const parts = [c.phone, c.parking].filter(Boolean);
       if (parts.length) $('#locPhone').innerHTML = parts.map(escapeHtml).join('<br>');
     }
-    if (c.email && $('#footerEmail')) $('#footerEmail').textContent = c.email;
+    if (c.email && $('#infoEmail')) $('#infoEmail').textContent = c.email;
 
-    if (c.whatsapp && $('#footerWhatsappWrap')) {
+    if (c.whatsapp && $('#infoWhatsappWrap')) {
       const digits = String(c.whatsapp).replace(/\D/g, '');
       if (digits) {
-        $('#footerWhatsappWrap').innerHTML = `<a href="https://wa.me/${escapeHtml(digits)}" target="_blank" rel="noopener" style="color:var(--color-soft-teal);font-weight:600;">💬 WhatsApp directo</a>`;
+        $('#infoWhatsappWrap').innerHTML = `
+          <a href="https://wa.me/${escapeHtml(digits)}" target="_blank" rel="noopener" class="btn btn-pill btn-sm">
+            💬 Enviar WhatsApp directo
+          </a>`;
       }
     }
 
-    const socialBox = $('#footerSocialLinks');
+    const socialBox = $('#infoSocialLinks');
     if (socialBox) {
       const links = [];
-      if (c.instagram) links.push(`<a href="${escapeHtml(c.instagram)}" target="_blank" rel="noopener">Instagram ↗</a>`);
-      if (c.facebook)  links.push(`<a href="${escapeHtml(c.facebook)}" target="_blank" rel="noopener">Facebook ↗</a>`);
-      if (c.tiktok)    links.push(`<a href="${escapeHtml(c.tiktok)}" target="_blank" rel="noopener">TikTok ↗</a>`);
-      if (c.website)   links.push(`<a href="${escapeHtml(c.website)}" target="_blank" rel="noopener">Sitio Web ↗</a>`);
+      if (c.instagram) links.push(`<a class="social-link-row" href="${escapeHtml(c.instagram)}" target="_blank" rel="noopener"><span>Instagram</span><span>↗</span></a>`);
+      if (c.facebook)  links.push(`<a class="social-link-row" href="${escapeHtml(c.facebook)}" target="_blank" rel="noopener"><span>Facebook</span><span>↗</span></a>`);
+      if (c.tiktok)    links.push(`<a class="social-link-row" href="${escapeHtml(c.tiktok)}" target="_blank" rel="noopener"><span>TikTok</span><span>↗</span></a>`);
+      if (c.website)   links.push(`<a class="social-link-row" href="${escapeHtml(c.website)}" target="_blank" rel="noopener"><span>Sitio Web</span><span>↗</span></a>`);
       if (links.length) socialBox.innerHTML = links.join('');
     }
 
@@ -1079,17 +1602,23 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       $$('.currency-btn').forEach(b => b.classList.toggle('is-active', b.dataset.currency === state.currency));
     }
 
-    const ls = $('#locSchedule');
-    if (ls) {
-      const lines = [];
-      for (let d = 1; d <= 6; d++) {
-        const sched = slotsFor({ getDay: () => d, _skipException: true });
-        if (sched.length > 0) {
-          lines.push(WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1) + ' · ' + sched[0] + ' – ' + sched[sched.length - 1]);
-        }
+    // Horarios para Ubicación e Info
+    const orderedDays = [1, 2, 3, 4, 5, 6, 0];
+    const locLines = [];
+    const infoRows = [];
+    orderedDays.forEach(d => {
+      const sched = slotsFor({ getDay: () => d, _skipException: true });
+      const dayLabel = WEEKDAYS[d].charAt(0).toUpperCase() + WEEKDAYS[d].slice(1);
+      if (sched.length > 0) {
+        const range = `${sched[0]} – ${sched[sched.length - 1]}`;
+        locLines.push(`${dayLabel} · ${range}`);
+        infoRows.push(`<div class="info-schedule-row"><strong>${escapeHtml(dayLabel)}</strong><span>${escapeHtml(range)}</span></div>`);
+      } else {
+        infoRows.push(`<div class="info-schedule-row is-closed"><strong>${escapeHtml(dayLabel)}</strong><span>Cerrado</span></div>`);
       }
-      if (lines.length) ls.innerHTML = lines.join('<br>');
-    }
+    });
+    if ($('#locSchedule') && locLines.length) $('#locSchedule').innerHTML = locLines.join('<br>');
+    if ($('#infoScheduleList')) $('#infoScheduleList').innerHTML = infoRows.join('');
   }
 
   function isExceptionDate(date) {
@@ -1149,6 +1678,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       return true;
     } catch (e) {
       state.backendReady = false;
+      applyConfigToDOM();
       if (statusEl) {
         statusEl.textContent = '⚠ No se pudo conectar con el servidor de reservas: ' + e.message;
         statusEl.hidden = false;
@@ -1176,7 +1706,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         state.availabilityBySpecialist = normalizedDayMap;
       }
     } catch (e) {
-      // Mantiene el caché pre-cargado de getBookings
     } finally {
       state.loadingAvailability = false;
     }
@@ -1221,7 +1750,14 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     } catch (e) {}
   }
 
-  $('#btnClearSavedProfile').addEventListener('click', () => {
+  $('#btnClearSavedProfile').addEventListener('click', async () => {
+    const ok = await askConfirmation({
+      title: '¿Borrar tus datos guardados?',
+      message: '¿Estás seguro de que quieres borrar tu nombre, correo y teléfono guardados en este dispositivo?',
+      confirmLabel: 'Sí, borrar datos',
+      cancelLabel: 'No, conservar'
+    });
+    if (!ok) return;
     try { localStorage.removeItem(CLIENT_PROFILE_KEY); } catch (e) {}
     $('#fName').value = '';
     $('#fEmail').value = '';
@@ -1237,7 +1773,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   });
 
   /* =========================================================
-     PASO 1: CALENDARIO + HORARIOS + ESPECIALISTA INTEGRADO
+     PASO 1: CALENDARIO + HORARIOS + ESPECIALISTAS (GRID 2-6 COLS)
      ========================================================= */
   function renderCalendar() {
     const year  = state.view.getFullYear();
@@ -1375,9 +1911,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         btn.classList.add('is-taken');
         btn.disabled = true;
       }
-      if (state.time === time) {
-        btn.classList.add('is-selected');
-      }
+      if (state.time === time) btn.classList.add('is-selected');
 
       btn.addEventListener('click', () => {
         state.time = time;
@@ -1396,6 +1930,8 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       slotsEl.appendChild(btn);
     });
   }
+
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
 
   function renderSpecialists() {
     const container = $('#specialistList');
@@ -1430,16 +1966,16 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       let statusText = 'Disponible';
       let statusClass = 'available';
       if (!worksToday) {
-        statusText = 'No labora este día';
+        statusText = 'No labora';
         statusClass = 'off';
       } else if (busyAtTime) {
-        statusText = `Ocupado (${state.time})`;
+        statusText = `Ocupado ${state.time}`;
         statusClass = 'busy';
       } else if (state.time) {
-        statusText = `Disponible (${state.time})`;
+        statusText = `Disponible`;
         statusClass = 'available';
       } else {
-        statusText = 'Labora este día';
+        statusText = 'Labora hoy';
         statusClass = 'available';
       }
 
@@ -1449,12 +1985,11 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       btn.disabled = !canSelect;
 
       btn.innerHTML = `
-        <div class="spec-left">
-          <span class="spec-avatar">${escapeHtml(initials(spec.name))}</span>
-          <div>
-            <span class="spec-name">${escapeHtml(spec.name)}</span>
-            <span class="spec-role">${escapeHtml(spec.role || 'Especialista')}</span>
-          </div>
+        <span class="spec-check-badge" aria-hidden="true">${CHECK_SVG}</span>
+        <span class="spec-avatar">${escapeHtml(initials(spec.name))}</span>
+        <div class="spec-info">
+          <span class="spec-name">${escapeHtml(spec.name)}</span>
+          <span class="spec-role">${escapeHtml(spec.role || 'Especialista')}</span>
         </div>
         <span class="spec-status-pill ${statusClass}">${escapeHtml(statusText)}</span>
       `;
@@ -1489,7 +2024,6 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   /* =========================================================
      PASO 2: SERVICIOS Y MONEDA
      ========================================================= */
-  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
   const isServiceSelected = (id) => state.services.some(s => s.id === id);
   const totalPrice = () => state.services.reduce((acc, s) => acc + (Number(s.price) || 0), 0);
   const totalDuration = () => state.services.reduce((acc, s) => acc + (Number(s.duration) || 60), 0);
@@ -1593,11 +2127,25 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   function goToStep(n) {
     state.step = n;
+    $('#stepsNav').classList.toggle('is-hidden', n === 4);
     $$('.step-panel').forEach(p => p.classList.toggle('is-active', Number(p.dataset.step) === n));
     renderSummary();
     syncControls();
-    const sec = $('#reserva');
-    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function resetBookingFlow() {
+    state.time = null;
+    state.specialist = null;
+    state.services = [];
+    $('#servicesHint').textContent = 'Selecciona uno o más tratamientos para tu cita.';
+    renderCalendar();
+    renderSlots();
+    renderSpecialists();
+    renderServices();
+    renderSummary();
+    updateStep1Banner();
+    goToStep(1);
   }
 
   $('#next1').addEventListener('click', () => { if (isStepComplete(1)) goToStep(2); });
@@ -1673,14 +2221,12 @@ input,textarea,select{font-family:inherit;font-size:16px;}
         currency: state.currency
       };
 
-      // Actualizar caché en memoria inmediatamente
       if (!state.availabilityCache[payload.date]) state.availabilityCache[payload.date] = {};
       if (!state.availabilityCache[payload.date][state.specialist.id]) {
         state.availabilityCache[payload.date][state.specialist.id] = [];
       }
       state.availabilityCache[payload.date][state.specialist.id].push(payload.time);
 
-      // Refresca disponibilidad real desde el backend (race condition con otras reservas paralelas)
       try { await refreshAvailabilityForDate(state.date); } catch (e) {}
 
       saveBookingLocal(bookingObj);
@@ -1702,10 +2248,9 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   });
 
   function renderSuccessScreen(booking) {
-    $('#stepsNav').classList.add('is-hidden');
     const gcalUrl = buildGoogleCalendarUrl(booking);
 
-    $('#summaryPanel').innerHTML = `
+    $('#successPanel').innerHTML = `
       <div style="max-width:540px;margin:0 auto;text-align:center;padding:16px 0;">
         <div style="width:68px;height:68px;border-radius:50%;background:rgba(46,206,160,.16);color:var(--color-mint-pulse);display:grid;place-items:center;margin:0 auto 16px;font-size:30px;">✓</div>
         <p class="eyebrow">Reserva confirmada</p>
@@ -1716,18 +2261,23 @@ input,textarea,select{font-family:inherit;font-size:16px;}
           <button type="button" class="btn btn-ghost" id="btnDownloadSuccessIcs">📥 Descargar .ICS</button>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-          <a href="#historial" class="btn btn-pill">Ver mis reservas</a>
+          <button type="button" class="btn btn-pill" id="btnGoHistory">Ver mis reservas</button>
           <button type="button" class="btn btn-ghost" id="btnBookAnother">Agendar otra cita</button>
         </div>
       </div>
     `;
 
+    goToStep(4);
     $('#btnDownloadSuccessIcs').addEventListener('click', () => downloadICS(booking));
-    $('#btnBookAnother').addEventListener('click', () => window.location.reload());
+    $('#btnGoHistory').addEventListener('click', () => {
+      resetBookingFlow();
+      navigateTo('historial');
+    });
+    $('#btnBookAnother').addEventListener('click', () => resetBookingFlow());
   }
 
   /* =========================================================
-     HISTORIAL DEL CLIENTE + GOOGLE CALENDAR + REAGENDAR/CANCELAR
+     HISTORIAL DEL CLIENTE + CONFIRMACIONES DE CANCELAR / BORRAR
      ========================================================= */
   function loadHistoryLocal() {
     try {
@@ -1739,6 +2289,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
 
   function saveAllHistoryLocal(list) {
     try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 40))); } catch (e) {}
+    updateHistoryBadge();
   }
 
   function saveBookingLocal(bk) {
@@ -1747,11 +2298,31 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     saveAllHistoryLocal(list);
   }
 
+  function updateHistoryBadge() {
+    const badge = $('#navHistoryBadge');
+    if (!badge) return;
+    const activeCount = loadHistoryLocal().filter(b => !String(b.status || '').toLowerCase().includes('cancel')).length;
+    if (activeCount > 0) {
+      badge.textContent = activeCount > 9 ? '9+' : String(activeCount);
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
+  }
+
   function renderHistory() {
     const list = loadHistoryLocal();
     const container = $('#historyList');
+    const clearAllBtn = $('#btnClearAllHistory');
+    if (clearAllBtn) clearAllBtn.hidden = list.length === 0;
+    updateHistoryBadge();
+
     if (!list.length) {
-      container.innerHTML = `<div class="card" style="text-align:center;color:var(--color-slate);">Aún no tienes reservas guardadas en este dispositivo.</div>`;
+      container.innerHTML = `
+        <div class="card" style="text-align:center;padding:36px 20px;">
+          <p class="lead" style="margin:0 auto 18px;">Aún no tienes reservas guardadas en este dispositivo.</p>
+          <button type="button" class="btn btn-pill" data-nav="reserva">Agendar mi primera cita &#8594;</button>
+        </div>`;
       return;
     }
 
@@ -1773,18 +2344,32 @@ input,textarea,select{font-family:inherit;font-size:16px;}
             </div>
             <span class="history-badge ${badgeClass}">${escapeHtml(status)}</span>
           </div>
-          ${!isCancelled ? `
-            <div class="history-card-footer">
+          <div class="history-card-footer">
+            ${!isCancelled ? `
               <a href="${escapeHtml(gcalUrl)}" target="_blank" rel="noopener" class="btn btn-gcal btn-sm">📅 Google Calendar</a>
               <button type="button" class="btn btn-ghost btn-sm" data-hist-ics="${escapeHtml(b.id)}">📥 .ICS</button>
               <button type="button" class="btn btn-ghost btn-sm" data-hist-reschedule="${escapeHtml(b.id)}">Reagendar</button>
               <button type="button" class="btn btn-danger-ghost btn-sm" data-hist-cancel="${escapeHtml(b.id)}">Cancelar cita</button>
-            </div>
-          ` : ''}
+            ` : `
+              <button type="button" class="btn btn-danger-ghost btn-sm" data-hist-delete="${escapeHtml(b.id)}">Borrar del historial</button>
+            `}
+          </div>
         </article>
       `;
     }).join('');
   }
+
+  $('#btnClearAllHistory').addEventListener('click', async () => {
+    const ok = await askConfirmation({
+      title: '¿Borrar todo el historial?',
+      message: '¿Estás seguro de que quieres borrar todas las reservas guardadas en este dispositivo? (Esto no cancela citas activas en el negocio).',
+      confirmLabel: 'Sí, borrar historial',
+      cancelLabel: 'No, volver'
+    });
+    if (!ok) return;
+    saveAllHistoryLocal([]);
+    renderHistory();
+  });
 
   $('#historyList').addEventListener('click', async (e) => {
     const icsBtn = e.target.closest('[data-hist-ics]');
@@ -1812,9 +2397,38 @@ input,textarea,select{font-family:inherit;font-size:16px;}
       return;
     }
 
+    // Borrar reserva individual del historial
+    const delBtn = e.target.closest('[data-hist-delete]');
+    if (delBtn) {
+      const id = delBtn.dataset.histDelete;
+      const ok = await askConfirmation({
+        title: '¿Borrar del historial?',
+        message: '¿Estás seguro de que quieres borrar esta reserva de tu historial?',
+        confirmLabel: 'Sí, borrar',
+        cancelLabel: 'No, volver'
+      });
+      if (!ok) return;
+      const updated = loadHistoryLocal().filter(x => x.id !== id);
+      saveAllHistoryLocal(updated);
+      renderHistory();
+      return;
+    }
+
+    // Cancelar cita activa
     const cancelBtn = e.target.closest('[data-hist-cancel]');
     if (cancelBtn) {
       const id = cancelBtn.dataset.histCancel;
+      const bk = loadHistoryLocal().find(x => x.id === id);
+      const detail = bk ? ` del ${bk.dateLabel || bk.dateISO} a las ${bk.time}` : '';
+
+      const ok = await askConfirmation({
+        title: '¿Cancelar esta cita?',
+        message: `¿Estás seguro de que quieres cancelar tu cita${detail}? Se liberará el horario en la agenda.`,
+        confirmLabel: 'Sí, cancelar cita',
+        cancelLabel: 'No, mantener cita'
+      });
+      if (!ok) return;
+
       cancelBtn.disabled = true;
       cancelBtn.textContent = 'Cancelando…';
       try {
@@ -1879,7 +2493,16 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   $('#clientRsDate').addEventListener('change', loadRescheduleModalSlots);
   $('#clientRsSpec').addEventListener('change', loadRescheduleModalSlots);
   $('#clientRsClose').addEventListener('click', () => $('#clientRescheduleModal').classList.remove('is-open'));
-  $('#clientRsBack').addEventListener('click', () => $('#clientRescheduleModal').classList.remove('is-open'));
+
+  $('#clientRsBack').addEventListener('click', async () => {
+    const ok = await askConfirmation({
+      title: '¿Cancelar reagendamiento?',
+      message: '¿Estás seguro de que quieres cancelar el cambio de cita? Tu horario actual se mantendrá igual.',
+      confirmLabel: 'Sí, cancelar',
+      cancelLabel: 'Seguir editando'
+    });
+    if (ok) $('#clientRescheduleModal').classList.remove('is-open');
+  });
 
   $('#clientRsOk').addEventListener('click', async () => {
     if (!activeRescheduleBooking || !clientRsSelectedTime) return;
@@ -1951,6 +2574,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
   async function init() {
     loadSavedClientProfile();
     renderHistory();
+    applyConfigToDOM();
 
     await loadBackendData();
 
@@ -1968,7 +2592,7 @@ input,textarea,select{font-family:inherit;font-size:16px;}
     renderSummary();
     updateStep1Banner();
     syncControls();
-    console.log('[Aevi Reservas] Inicialización completada');
+    navigateTo('home');
   }
 
   init();
