@@ -286,7 +286,6 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
 /* Signature Animated Conic-Gradient Border (1 per page) */
 .hero-actions{
   display:flex;flex-wrap:wrap;align-items:center;gap:12px;
-  margin-bottom:var(--spacing-24);
 }
 .conic-cta-wrap{
   position:relative;
@@ -320,22 +319,6 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
 }
 .conic-cta-inner:hover{background:#2d2d2d;}
 
-.hero-tags{
-  display:flex;flex-wrap:wrap;gap:8px;
-}
-.feature-tag-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 14px;
-  border-radius:var(--radius-pill);
-  background:var(--color-mist);
-  border:1px solid var(--color-bone);
-  font-family:var(--font-display);
-  font-size:13px;font-weight:700;color:var(--color-ink-black);
-  transition:.15s;
-}
-.feature-tag-pill.is-blue{color:var(--color-signal-blue);border-color:rgba(0,145,255,.3);background:#f3f9ff;}
-.feature-tag-pill:hover{border-color:var(--color-cloud);}
-
 /* Hero Product UI Preview Card (ClickUp style) */
 .hero-ui-card{
   background:var(--color-signal-white);
@@ -350,11 +333,6 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
   background:var(--color-mist);
   border-bottom:1px solid var(--color-bone);
 }
-.hero-ui-dots{display:flex;gap:6px;}
-.hero-ui-dots i{width:9px;height:9px;border-radius:50%;background:var(--color-cloud);display:block;}
-.hero-ui-dots i:first-child{background:#fc6d7b;}
-.hero-ui-dots i:nth-child(2){background:#fd9a46;}
-.hero-ui-dots i:nth-child(3){background:#16c0a4;}
 .hero-ui-title{
   font-family:var(--font-mono);font-size:11px;color:var(--color-ash);
   letter-spacing:0.06em;text-transform:uppercase;
@@ -941,22 +919,12 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
                 Ver disponibilidad &#8594;
               </button>
             </span>
-            <button type="button" class="btn btn-ghost" data-nav="historial">
-              Mis reservas
-            </button>
-          </div>
-
-          <div class="hero-tags">
-            <button type="button" class="feature-tag-pill is-blue" data-nav="reserva">Agenda en vivo</button>
-            <button type="button" class="feature-tag-pill" data-nav="ubicacion">Ubicación</button>
-            <button type="button" class="feature-tag-pill" data-nav="info">Horarios &amp; Contacto</button>
           </div>
         </div>
 
         <!-- Product UI Preview Card (ClickUp style) -->
         <div class="hero-ui-card" aria-hidden="true">
           <div class="hero-ui-topbar">
-            <div class="hero-ui-dots"><i></i><i></i><i></i></div>
             <span class="hero-ui-title">Agenda en tiempo real</span>
           </div>
           <div class="hero-ui-body">
