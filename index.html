@@ -283,7 +283,7 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
   color:var(--color-ink-black);font-weight:700;
 }
 
-/* Signature Animated Conic-Gradient Border (1 per page) */
+/* Signature Animated Conic-Gradient Border (Botón blanco + letras negras) */
 .hero-actions{
   display:flex;flex-wrap:wrap;align-items:center;gap:12px;
 }
@@ -294,30 +294,60 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
   border-radius:var(--radius-pill);
   overflow:hidden;
   isolation:isolate;
+  box-shadow:0 3px 14px rgba(102, 71, 240, 0.14);
+  transition:opacity .15s, box-shadow .15s;
+}
+.conic-cta-wrap--full{
+  display:flex;
+  width:100%;
 }
 .conic-cta-wrap::before{
   content:'';
   position:absolute;
-  inset:-120%;
+  top:50%;
+  left:50%;
+  width:max(260%, 620px);
+  aspect-ratio:1 / 1;
   background:var(--gradient-rainbow-conic);
+  transform:translate(-50%, -50%) rotate(0deg);
   animation:conicSpin 2.6s linear infinite;
   z-index:-1;
 }
 @keyframes conicSpin{
-  to{transform:rotate(360deg);}
+  from{transform:translate(-50%, -50%) rotate(0deg);}
+  to{transform:translate(-50%, -50%) rotate(360deg);}
 }
 .conic-cta-inner{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:12px 26px;
-  background:var(--color-ink-black);
-  color:var(--color-signal-white);
+  min-height:42px;
+  padding:11px 26px;
+  background:var(--color-signal-white);
+  color:var(--color-ink-black);
   border:0;
   border-radius:var(--radius-pill);
   font-family:var(--font-display);
   font-size:14.5px;font-weight:700;
-  transition:background .15s;
+  white-space:nowrap;
+  transition:background .15s, color .15s;
 }
-.conic-cta-inner:hover{background:#2d2d2d;}
+.conic-cta-wrap--full .conic-cta-inner{
+  width:100%;
+}
+.conic-cta-inner:hover:not(:disabled){
+  background:var(--color-mist);
+}
+.conic-cta-inner:disabled{
+  cursor:not-allowed;
+}
+.conic-cta-wrap.is-disabled,
+.conic-cta-wrap:has(button:disabled){
+  opacity:.46;
+  box-shadow:none;
+}
+.conic-cta-wrap.is-disabled::before,
+.conic-cta-wrap:has(button:disabled)::before{
+  animation-play-state:paused;
+}
 
 /* Hero Product UI Preview Card (ClickUp style) */
 .hero-ui-card{
@@ -891,7 +921,9 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
   .service-check{grid-column:2;grid-row:1 / span 3;}
   .panel-foot{flex-direction:column-reverse;align-items:stretch;}
   .panel-foot > span:empty{display:none;}
-  .panel-foot .btn{width:100%;}
+  .panel-foot .btn,
+  .panel-foot .conic-cta-wrap,
+  .panel-foot .conic-cta-inner{width:100%;}
   .map-card{height:280px;}
   .history-head{flex-direction:column;align-items:flex-start;gap:6px;}
 }
@@ -1088,7 +1120,9 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
 
           <div class="panel-foot">
             <span></span>
-            <button class="btn btn-pill" type="button" id="next1" disabled>Continuar a servicios &#8594;</button>
+            <span class="conic-cta-wrap is-disabled" id="next1Wrap">
+              <button class="conic-cta-inner" type="button" id="next1" disabled>Continuar a servicios &#8594;</button>
+            </span>
           </div>
         </div>
 
@@ -1110,7 +1144,9 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
           <ul class="service-list" id="serviceList"></ul>
           <div class="panel-foot">
             <button class="btn btn-ghost" type="button" data-back="1">&#8592; Cambiar fecha o especialista</button>
-            <button class="btn btn-pill" type="button" id="next2" disabled>Continuar al resumen &#8594;</button>
+            <span class="conic-cta-wrap is-disabled" id="next2Wrap">
+              <button class="conic-cta-inner" type="button" id="next2" disabled>Continuar al resumen &#8594;</button>
+            </span>
           </div>
         </div>
 
@@ -1163,7 +1199,9 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
                 </div>
               </label>
 
-              <button class="btn btn-pill" type="submit" style="width:100%;">Revisar y confirmar reserva</button>
+              <span class="conic-cta-wrap conic-cta-wrap--full">
+                <button class="conic-cta-inner" type="submit">Revisar y confirmar reserva</button>
+              </span>
             </form>
           </div>
           <div class="panel-foot">
@@ -2539,8 +2577,14 @@ input,textarea,select{font-family:var(--font-body);font-size:15px;}
   }
 
   function syncControls() {
-    $('#next1').disabled = !isStepComplete(1);
-    $('#next2').disabled = !isStepComplete(2);
+    const next1Disabled = !isStepComplete(1);
+    const next2Disabled = !isStepComplete(2);
+    $('#next1').disabled = next1Disabled;
+    $('#next2').disabled = next2Disabled;
+    const next1Wrap = $('#next1Wrap');
+    const next2Wrap = $('#next2Wrap');
+    if (next1Wrap) next1Wrap.classList.toggle('is-disabled', next1Disabled);
+    if (next2Wrap) next2Wrap.classList.toggle('is-disabled', next2Disabled);
     const pill = $('#stepCounterPill');
     if (pill) {
       pill.textContent = state.step === 4 ? 'COMPLETADO' : `PASO ${state.step} DE 3`;
